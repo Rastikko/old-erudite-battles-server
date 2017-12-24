@@ -17,15 +17,15 @@ public class UserMapperTest {
     @Test
     public void userToUserDTO() throws Exception {
         //given
-//        User user = new User();
-//        user.setId(ID);
-//        user.setName(NAME);
-//
-//        //when
-//        UserDTO userDTO = userMapper.userToUserDTO(user);
-//
-//        //then
-//        assertEquals(Long.valueOf(ID), userDTO.getId());
-//        assertEquals(NAME, userDTO.getName());
+        User user = new User();
+        user.setId(ID);
+        user.setName(NAME);
+
+        //when
+        UserDTO userDTO = userMapper.userToUserDTO(user);
+
+        //then
+        assertEquals(Long.valueOf(ID), userDTO.getId());
+        assertEquals(NAME, userDTO.getName());
     }
 }
