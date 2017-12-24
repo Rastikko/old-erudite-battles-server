@@ -5,6 +5,9 @@ import com.eb.server.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 
 public class Boostrap implements CommandLineRunner {
+
+    public static final String BOT_NAME = "Bot";
+
     private final UserRepository userRepository;
 
     public Boostrap(UserRepository userRepository) {
@@ -18,7 +21,7 @@ public class Boostrap implements CommandLineRunner {
 
     private void loadBots() {
         User bot = new User();
-        bot.setName("Bot");
+        bot.setName(BOT_NAME);
         userRepository.save(bot);
 
         System.out.println("Bots loaded: " + userRepository.count());
