@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -43,5 +44,37 @@ public class UserServiceImplTest {
 
         assertEquals(ID, userDTO.getId());
         assertEquals(NAME, userDTO.getName());
+    }
+
+    /*
+
+            //given
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setFirstname("Jim");
+        Customer savedCustomer = new Customer();
+        savedCustomer.setFirstname(customerDTO.getFirstname());
+        savedCustomer.setLastname(customerDTO.getLastname());
+        savedCustomer.setId(1l);
+        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+        //when
+        CustomerDTO savedDto = customerService.createNewCustomer(customerDTO);
+        //then
+        assertEquals(customerDTO.getFirstname(), savedDto.getFirstname());
+        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
+
+     */
+    @Test
+    public void createNewUser() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setName("Rastikko");
+
+        User savedUser = new User();
+        savedUser.setName(userDTO.getName());
+        savedUser.setId(1L);
+
+        when(userRepository.save(any(User.class))).thenReturn(savedUser);
+
+        UserDTO savedDto = userService.createNewUser(userDTO);
+        assertEquals(userDTO.getName(), savedDto.getName());
     }
 }

@@ -2,6 +2,7 @@ package com.eb.server.services;
 
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.UserDTO;
+import com.eb.server.domain.User;
 import com.eb.server.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createNewUser(UserDTO user) {
-        return null;
+        return saveAndReturnDTO(userMapper.userDTOToUser(user));
+    }
+
+    private UserDTO saveAndReturnDTO(User user) {
+        User savedUser = userRepository.save(user);
+        UserDTO returnDto = userMapper.userToUserDTO(savedUser);
+        return returnDto;
     }
 
 }

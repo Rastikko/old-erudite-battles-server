@@ -17,10 +17,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class UserControllerTest {
+public class UserControllerTest extends AbstractRestControllerTest {
 
     public static final String NAME = "Johan";
 
@@ -52,5 +53,25 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)));
+    }
+
+    @Test
+    public void createNewUser() throws Exception {
+        UserDTO user = new UserDTO();
+        user.setName(NAME);
+
+        UserDTO returnDTO = new UserDTO();
+        returnDTO.setName(user.getName());
+        returnDTO.setId(2L);
+
+        when(userService.createNewUser(user)).thenReturn(returnDTO);
+
+        mockMvc.perform(post(UserController.BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(user)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", equalTo(NAME)))
+                .andExpect(jsonPath("$.id", equalTo(2)));
+
     }
 }
