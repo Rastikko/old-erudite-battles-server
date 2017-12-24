@@ -1,4 +1,7 @@
 package com.eb.server.repositories;
 
-public interface UserRepository {
+import com.eb.server.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
 }
