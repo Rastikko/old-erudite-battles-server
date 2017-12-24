@@ -21,4 +21,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDTO(userRepository.findOne(id));
     }
 
+    @Override
+    public UserDTO createNewUser(UserDTO user) {
+        return null;
+    }
+
 }

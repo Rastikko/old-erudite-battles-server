@@ -3,7 +3,9 @@ package com.eb.server.boostrap;
 import com.eb.server.domain.User;
 import com.eb.server.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Boostrap implements CommandLineRunner {
 
     public static final String BOT_NAME = "Bot";
