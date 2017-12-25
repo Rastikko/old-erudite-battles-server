@@ -13,7 +13,7 @@ public interface UserMapper {
 
     @Mappings({
             @Mapping(target = "deck", expression = "java(user::getDeckList)"),
-})
+    })
     UserDTO userToUserDTO(User user);
 
     @Mappings({
