@@ -19,6 +19,5 @@ public class GameMapperTest {
         GameDTO gameDTO = gameMapper.gameToGameDTO(game);
 
         assertEquals(ID, gameDTO.getId());
-
     }
 }
