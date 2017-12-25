@@ -41,7 +41,7 @@ public class UserMapperTest {
         //then
         assertEquals(Long.valueOf(ID), userDTO.getId());
         assertEquals(NAME, userDTO.getName());
-//        assertEquals(deck.size(), userDTO.getDeck().size());
-//        assertEquals(deck.get(0).getId(), userDTO.getDeck().get(0));
+        assertEquals(deck.size(), userDTO.getDeck().size());
+        assertEquals(deck.get(0).getId(), userDTO.getDeck().get(0));
     }
 }
