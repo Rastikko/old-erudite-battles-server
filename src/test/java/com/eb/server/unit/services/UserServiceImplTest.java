@@ -51,12 +51,12 @@ public class UserServiceImplTest {
     @Test
     public void createNewUser() throws Exception {
         UserDTO userDTO = new UserDTO();
-        userDTO.setName("Rastikko");
+        userDTO.setName(NAME);
 
         when(userRepository.save(any(User.class))).thenAnswer(u -> u.getArguments()[0]);
         UserDTO savedDto = userService.createNewUser(userDTO);
 
-        assertEquals(userDTO.getName(), savedDto.getName());
+        assertEquals(NAME, savedDto.getName());
         assertEquals(Bootstrap.getDefaultDeck().size(), savedDto.getDeck().size());
     }
 }
