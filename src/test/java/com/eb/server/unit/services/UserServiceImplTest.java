@@ -2,6 +2,7 @@ package com.eb.server.unit.services;
 
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.UserDTO;
+import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.User;
 import com.eb.server.repositories.UserRepository;
 import com.eb.server.services.UserService;
@@ -22,6 +23,7 @@ public class UserServiceImplTest {
     public static final String NAME = "Johan";
 
     UserService userService;
+    UserMapper userMapper = UserMapper.INSTANCE;
 
     @Mock
     UserRepository userRepository;
@@ -29,7 +31,7 @@ public class UserServiceImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository);
+        userService = new UserServiceImpl(userMapper, userRepository);
     }
 
     @Test
@@ -46,35 +48,15 @@ public class UserServiceImplTest {
         assertEquals(NAME, userDTO.getName());
     }
 
-    /*
-
-            //given
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setFirstname("Jim");
-        Customer savedCustomer = new Customer();
-        savedCustomer.setFirstname(customerDTO.getFirstname());
-        savedCustomer.setLastname(customerDTO.getLastname());
-        savedCustomer.setId(1l);
-        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
-        //when
-        CustomerDTO savedDto = customerService.createNewCustomer(customerDTO);
-        //then
-        assertEquals(customerDTO.getFirstname(), savedDto.getFirstname());
-        assertEquals("/api/v1/customers/1", savedDto.getCustomerUrl());
-
-     */
     @Test
     public void createNewUser() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("Rastikko");
 
-        User savedUser = new User();
-        savedUser.setName(userDTO.getName());
-        savedUser.setId(1L);
-
-        when(userRepository.save(any(User.class))).thenReturn(savedUser);
-
+        when(userRepository.save(any(User.class))).thenAnswer(u -> u.getArguments()[0]);
         UserDTO savedDto = userService.createNewUser(userDTO);
+
         assertEquals(userDTO.getName(), savedDto.getName());
+        assertEquals(Bootstrap.getDefaultDeck().size(), savedDto.getDeck().size());
     }
 }
