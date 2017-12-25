@@ -2,9 +2,18 @@ package com.eb.server.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
+@Entity
+@Data
 public class Effect {
-//    Attribute attribute;
-//    Long value;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(value = EnumType.STRING)
+    Attribute attribute;
+    Long value;
+    @ManyToOne
+    Card card;
 }

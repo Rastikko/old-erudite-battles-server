@@ -21,5 +21,5 @@ public class User {
     @JoinTable(name = "user_card",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "card_id"))
-    private Set<Card> deck = new HashSet<>();
+    private List<Card> deck = new ArrayList<>();
 }

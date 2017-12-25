@@ -27,26 +27,30 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        loadCards();
         loadBot();
     }
 
     private void loadCards() {
-        Card card = new Card();
-        card.setName("Pythagoras Theorem");
-//        card.setId(1L);
+        Card pythagorasTheoremCard = new Card();
+        Card hamletCard = new Card();
 
-        cardRepository.save(card);
+        pythagorasTheoremCard.setId(1L);
+        pythagorasTheoremCard.setName("Pythagoras Theorem");
+
+        hamletCard.setId(2L);
+        hamletCard.setName("Hamlet");
+
+        cardRepository.save(pythagorasTheoremCard);
+        cardRepository.save(hamletCard);
+
+        System.out.println("Cards loaded: " + cardRepository.count());
     }
 
     private void loadBot() {
-        Card card = new Card();
-        card.setName("Pythagoras Theorem");
-        Card savedCard = cardRepository.save(card);
-
         User bot = new User();
-        Set<Card> deck = new HashSet<>();
+        List<Card> deck = getDefaultDeck();
 
-        deck.add(savedCard);
         bot.setName(BOT_NAME);
         bot.setDeck(deck);
 
@@ -55,7 +59,20 @@ public class Bootstrap implements CommandLineRunner {
         System.out.println("Bots loaded: " + userRepository.count());
     }
 
-    private void createBotDeck() {
+    public static List<Card> getDefaultDeck() {
+        List<Card> deck = new ArrayList<>();
 
+        Card pythagorasTheoremCard = new Card();
+        Card hamletCard = new Card();
+
+        pythagorasTheoremCard.setId(1L);
+        hamletCard.setId(2L);
+
+        for(int i = 0; i < 15; i++) {
+            deck.add(pythagorasTheoremCard);
+            deck.add(hamletCard);
+        }
+
+        return deck;
     }
 }

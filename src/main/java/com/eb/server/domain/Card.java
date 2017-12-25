@@ -18,6 +18,8 @@ public class Card {
     private String name;
 
     @ManyToMany(mappedBy = "deck")
-    private Set<User> users;
-//    private List<Effect> effects;
+    private List<User> users;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "card")
+    private List<Effect> effects;
 }

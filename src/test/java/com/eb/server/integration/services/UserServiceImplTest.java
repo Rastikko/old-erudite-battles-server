@@ -45,6 +45,7 @@ public class UserServiceImplTest {
         Long id = getBotIdValue();
         UserDTO bot = userService.findUserById(id);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
+        assertEquals(Bootstrap.getDefaultDeck().size(), bot.getDeck().size());
     }
 
     private Long getBotIdValue() {
