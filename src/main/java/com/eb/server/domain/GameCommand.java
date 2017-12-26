@@ -6,14 +6,14 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Effect {
+public class GameCommand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    Attribute attribute;
-    Long value;
+    private GameCommandType gameCommandType;
+
     @ManyToOne
-    Card card;
+    private GamePhase gamePhase;
 }

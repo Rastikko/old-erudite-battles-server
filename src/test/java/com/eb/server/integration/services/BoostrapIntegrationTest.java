@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class UserServiceImplTest {
+public class BoostrapIntegrationTest {
 
     @Autowired
     UserRepository userRepository;

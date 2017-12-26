@@ -26,25 +26,26 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO createNewGame(FindGameDTO findGameDTO) {
         Game game = createNewBotGame(findGameDTO.getUserId());
-        return saveAndReturnDTO(game);
+            return saveAndReturnDTO(game);
     }
 
     private Game createNewBotGame(Long userId) {
         Game game = new Game();
 
         List<GamePlayer> gamePlayers = new ArrayList<>();
-        gamePlayers.add(createGamePlayer(Bootstrap.BOT_ID));
-        gamePlayers.add(createGamePlayer(userId));
+        gamePlayers.add(createGamePlayer(game, Bootstrap.BOT_ID));
+        gamePlayers.add(createGamePlayer(game, userId));
 
         game.setGamePlayers(gamePlayers);
 
         return game;
     }
 
-    private GamePlayer createGamePlayer(Long userId) {
+    private GamePlayer createGamePlayer(Game game, Long userId) {
         // TODO: swallow copy and shuffle the deck
         GamePlayer gamePlayer = new GamePlayer();
         gamePlayer.setUserId(userId);
+        gamePlayer.setGame(game);
         return gamePlayer;
     }
 
