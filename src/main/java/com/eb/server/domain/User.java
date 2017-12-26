@@ -24,6 +24,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "card_id"))
     private List<Card> deck = new ArrayList<>();
 
+    private Long gameId;
+//    private String state;
+
     public List<Long> getDeckList() {
         return deck.stream().map(Card::getId).collect(Collectors.toList());
     }

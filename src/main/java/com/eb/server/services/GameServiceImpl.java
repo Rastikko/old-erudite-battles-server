@@ -1,6 +1,7 @@
 package com.eb.server.services;
 
 import com.eb.server.api.v1.mapper.GameMapper;
+import com.eb.server.api.v1.model.FindGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.Game;
@@ -23,8 +24,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO createNewGame(Long userId) {
-        Game game = createNewBotGame(userId);
+    public GameDTO createNewGame(FindGameDTO findGameDTO) {
+        Game game = createNewBotGame(findGameDTO.getUserId());
         return saveAndReturnDTO(game);
     }
 
