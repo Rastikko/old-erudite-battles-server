@@ -18,6 +18,8 @@ import static org.mockito.Mockito.when;
 
 public class GameServiceImplTest {
 
+    public static Long USER_ID = 1L;
+
     GameService gameService;
     GameMapper gameMapper = GameMapper.INSTANCE;
 
@@ -32,14 +34,11 @@ public class GameServiceImplTest {
 
     @Test
     public void createNewGameVsBot() {
-        Long USER_ID = 1L;
-
         when(gameRepository.save(any(Game.class))).thenAnswer(u -> u.getArguments()[0]);
 
         GameDTO newGameDTO = gameService.createNewGame(USER_ID);
 
         assertNotNull(newGameDTO);
-        // TODO: we should ensure the game is created with 2 game players
-        // one pointig to the user, another to the bot
+//        assertEquals(2, newGameDTO.getGamePlayers().size());
     }
 }

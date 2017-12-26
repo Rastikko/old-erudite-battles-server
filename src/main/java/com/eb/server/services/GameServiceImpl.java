@@ -20,12 +20,16 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO createNewGame(Long userId) {
         Game game = createNewBotGame(userId);
-        Game savedGame = gameRepository.save(game);
-        return gameMapper.gameToGameDTO(savedGame);
+        return saveAndReturnDTO(game);
     }
 
     private Game createNewBotGame(Long userId) {
         Game game = new Game();
         return game;
+    }
+
+    private GameDTO saveAndReturnDTO(Game game) {
+
+        return gameMapper.gameToGameDTO(gameRepository.save(game));
     }
 }

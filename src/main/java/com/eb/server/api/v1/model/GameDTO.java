@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class GameDTO {
     private Long id;
-//    private List<GamePlayerDTO> gamePlayers;
+    private List<GamePlayerDTO> gamePlayers;
 }
