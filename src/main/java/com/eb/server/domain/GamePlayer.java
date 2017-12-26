@@ -11,9 +11,8 @@ public class GamePlayer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
-
     @ManyToOne
     private Game game;
 
+    private Long userId;
 }

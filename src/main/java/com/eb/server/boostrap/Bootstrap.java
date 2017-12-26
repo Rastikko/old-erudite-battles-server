@@ -16,6 +16,7 @@ import java.util.Set;
 public class Bootstrap implements CommandLineRunner {
 
     public static final String BOT_NAME = "Bot";
+    public static final Long BOT_ID = 1L;
 
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
@@ -51,6 +52,7 @@ public class Bootstrap implements CommandLineRunner {
         User bot = new User();
         List<Card> deck = getDefaultDeck();
 
+        bot.setId(BOT_ID);
         bot.setName(BOT_NAME);
         bot.setDeck(deck);
 
