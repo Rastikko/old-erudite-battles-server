@@ -5,5 +5,4 @@ import com.eb.server.domain.GamePhase;
 
 public interface PhaseHandler {
     GamePhase create(Game game);
-    void handleBot(Game game);
 }
