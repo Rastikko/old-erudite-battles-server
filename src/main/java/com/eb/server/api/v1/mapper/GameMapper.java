@@ -12,5 +12,8 @@ public interface GameMapper {
     GameMapper INSTANCE = Mappers.getMapper(GameMapper.class);
 
     // TODO: this will not allow us filter the enemyPlayer data
+    @Mappings({
+            @Mapping(target = "gamePhase", ignore = true),
+    })
     GameDTO gameToGameDTO(Game game);
 }

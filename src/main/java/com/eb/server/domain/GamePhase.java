@@ -15,6 +15,8 @@ public class GamePhase {
     @Enumerated(value = EnumType.STRING)
     private GamePhaseType gamePhaseType;
 
+//    private Object payload;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "gamePhase")
     private List<GameCommand> gameCommands;
 

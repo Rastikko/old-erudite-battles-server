@@ -6,6 +6,7 @@ import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.Game;
 import com.eb.server.repositories.GameRepository;
+import com.eb.server.services.GamePhaseService;
 import com.eb.server.services.GameService;
 import com.eb.server.services.GameServiceImpl;
 import org.junit.Before;
@@ -34,10 +35,13 @@ public class GameServiceImplTest {
     @Mock
     GameRepository gameRepository;
 
+    @Mock
+    GamePhaseService gamePhaseService;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        gameService = new GameServiceImpl(gameMapper, gameRepository);
+        gameService = new GameServiceImpl(gameMapper, gameRepository, gamePhaseService);
     }
 
     @Test

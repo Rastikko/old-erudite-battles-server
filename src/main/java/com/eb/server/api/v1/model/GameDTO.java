@@ -8,4 +8,5 @@ import java.util.List;
 public class GameDTO {
     private Long id;
     private List<GamePlayerDTO> gamePlayers;
+    private GamePhaseDTO gamePhase;
 }

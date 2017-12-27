@@ -5,6 +5,7 @@ import com.eb.server.api.v1.model.FindGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.Game;
+import com.eb.server.domain.GamePhase;
 import com.eb.server.domain.GamePlayer;
 import com.eb.server.repositories.GameRepository;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,19 @@ public class GameServiceImpl implements GameService {
 
     GameMapper gameMapper;
     GameRepository gameRepository;
+    GamePhaseService gamePhaseService;
 
-    public GameServiceImpl(GameMapper gameMapper, GameRepository gameRepository) {
+    public GameServiceImpl(GameMapper gameMapper, GameRepository gameRepository, GamePhaseService gamePhaseService) {
         this.gameMapper = gameMapper;
         this.gameRepository = gameRepository;
+        this.gamePhaseService = gamePhaseService;
     }
 
     @Override
     public GameDTO createNewGame(FindGameDTO findGameDTO) {
         Game game = createNewBotGame(findGameDTO.getUserId());
-            return saveAndReturnDTO(game);
+        gamePhaseService.handlePhase(game);
+        return saveAndReturnDTO(game);
     }
 
     private Game createNewBotGame(Long userId) {
@@ -50,6 +54,7 @@ public class GameServiceImpl implements GameService {
     }
 
     private GameDTO saveAndReturnDTO(Game game) {
-        return gameMapper.gameToGameDTO(gameRepository.save(game));
+        Game savedGame = gameRepository.save(game);
+        return gameMapper.gameToGameDTO(savedGame);
     }
 }

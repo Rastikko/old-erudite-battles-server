@@ -1,6 +1,12 @@
-package com.eb.server.phaser;
+package com.eb.server.services;
 
-public interface PhaseService {
+import com.eb.server.api.v1.model.GameDTO;
+import com.eb.server.domain.Game;
+import com.eb.server.domain.GameCommand;
+
+public interface GamePhaseService {
+    void handlePhase(Game game);
+    void handleCommand(Game game, GameCommand gameCommand);
     // define next phase
         // each phase will have it's own implementation interface
         // a phase might have it's own DTO for the payload, like example resolution have stat information

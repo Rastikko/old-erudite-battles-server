@@ -14,6 +14,8 @@ public class GameCommand {
     @Enumerated(value = EnumType.STRING)
     private GameCommandType gameCommandType;
 
+//    private Object payload;
+
     @ManyToOne
     private GamePhase gamePhase;
 }

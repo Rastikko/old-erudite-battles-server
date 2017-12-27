@@ -1,4 +1,4 @@
-package com.eb.server.integration.services;
+package com.eb.server.integration;
 
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.UserDTO;
