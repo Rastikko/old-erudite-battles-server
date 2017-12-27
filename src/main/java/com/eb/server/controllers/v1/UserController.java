@@ -23,7 +23,7 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @PostMapping
+        @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO createNewUser(@RequestBody UserDTO userDTO) {
         return userService.createNewUser(userDTO);

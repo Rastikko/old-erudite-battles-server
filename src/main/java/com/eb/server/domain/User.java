@@ -25,9 +25,4 @@ public class User {
     private List<Card> deck = new ArrayList<>();
 
     private Long gameId;
-
-    // TODO: use a mapper
-    public List<Long> getDeckList() {
-        return deck.stream().map(Card::getId).collect(Collectors.toList());
-    }
 }
