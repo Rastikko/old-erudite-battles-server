@@ -2,9 +2,7 @@ package com.eb.server.unit.api.v1.mapper;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.GameDTO;
-import com.eb.server.domain.Game;
-import com.eb.server.domain.GamePhase;
-import com.eb.server.domain.GamePlayer;
+import com.eb.server.domain.*;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,6 +15,8 @@ public class GameMapperTest {
     public static final Long GAME_PLAYER_ID_1 = 11L;
     public static final Long GAME_PLAYER_ID_2 = 12L;
     public static final Long GAME_PHASE_ID = 100L;
+    public static final Long GAME_CARD_ID_1 = 1000L;
+    public static final Long GAME_CARD_ID_2 = 2000L;
 
     GameMapper gameMapper = GameMapper.INSTANCE;
 
@@ -34,6 +34,9 @@ public class GameMapperTest {
         assertEquals(gameDTO.getGamePlayers().get(0).getId(), GAME_PLAYER_ID_1);
         assertEquals(gameDTO.getGamePlayers().get(1).getId(), GAME_PLAYER_ID_2);
         assertEquals(gameDTO.getGamePhase().getId(), GAME_PHASE_ID);
+        assertEquals(gameDTO.getGamePlayers().get(0).getDeck().size(), 2);
+        assertEquals(gameDTO.getGamePlayers().get(0).getHand().size(), 2);
+        assertEquals(gameDTO.getGamePlayers().get(0).getDeck().get(0).getId(), GAME_CARD_ID_1);
     }
 
     private GamePhase getGamePhase(Game game) {
@@ -43,6 +46,7 @@ public class GameMapperTest {
         return gamePhase;
     }
 
+    // TODO: investigate if we need to pass game
     private List<GamePlayer> getGamePlayers(Game game) {
         List<GamePlayer> gamePlayers = new ArrayList<>();
         gamePlayers.add(getGamePlayer(1L, game));
@@ -54,8 +58,23 @@ public class GameMapperTest {
         GamePlayer gp = new GamePlayer();
         gp.setUserId(userId);
         gp.setGame(game);
+        gp.setDeck(getGameCards());
+        gp.setHand(getGameCards());
         // we make sure the gamePlayer id is different than the userId
         gp.setId(10L + userId);
         return gp;
+    }
+
+    private List<GameCard> getGameCards() {
+        List<GameCard> gameCards = new ArrayList<>();
+        gameCards.add(getGameCard(GAME_CARD_ID_1));
+        gameCards.add(getGameCard(GAME_CARD_ID_2));
+        return gameCards;
+    }
+
+    private GameCard getGameCard(Long cardId) {
+        GameCard gameCard = new GameCard();
+        gameCard.setId(cardId);
+        return gameCard;
     }
 }

@@ -42,14 +42,8 @@ public class BoostrapIntegrationTest {
 
     @Test
     public void getBotUserById() throws Exception {
-        Long id = getBotIdValue();
-        UserDTO bot = userService.findUserById(id);
+        UserDTO bot = userService.findUserById(Bootstrap.BOT_ID);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
         assertEquals(Bootstrap.getDefaultDeck().size(), bot.getDeck().size());
-    }
-
-    private Long getBotIdValue() {
-        List<User> users = userRepository.findAll();
-        return users.get(0).getId();
     }
 }

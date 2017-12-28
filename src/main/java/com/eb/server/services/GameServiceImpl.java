@@ -5,7 +5,6 @@ import com.eb.server.api.v1.model.FindGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GamePhase;
 import com.eb.server.domain.GamePlayer;
 import com.eb.server.repositories.GameRepository;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO createNewGame(FindGameDTO findGameDTO) {
         Game game = createNewBotGame(findGameDTO.getUserId());
-        gamePhaseService.handlePhase(game);
+        gamePhaseService.handleNewGame(game);
         return saveAndReturnDTO(game);
     }
 

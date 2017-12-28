@@ -21,7 +21,7 @@ public class GamePhaseServiceImplTest {
     public void handleNewGame() {
         Game game = new Game();
 
-        gamePhaseService.handlePhase(game);
+        gamePhaseService.handleNewGame(game);
         assertEquals(game.getGamePhase().getGamePhaseType(), GamePhaseType.PHASE_GATHER);
     }
 }

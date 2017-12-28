@@ -23,5 +23,4 @@ public class GameController {
     public GameDTO findGame(@RequestBody FindGameDTO findGameDTO) {
         return gameService.createNewGame(findGameDTO);
     }
-
 }

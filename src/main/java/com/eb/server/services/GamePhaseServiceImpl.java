@@ -10,13 +10,21 @@ import org.springframework.stereotype.Service;
 public class GamePhaseServiceImpl implements GamePhaseService {
 
     @Override
-    public void handlePhase(Game game) {
-        PhaseHandler phaseHandler = new PhaseHandlerGather();
-        game.setGamePhase(phaseHandler.create(game));
+    public void handleNewGame(Game game) {
+        PhaseHandler phaseHandler = getPhaseHandler(game);
+
+        phaseHandler.defineNextPhase(game);
     }
 
     @Override
     public void handleCommand(Game game, GameCommand gameCommand) {
 
+    }
+
+    private PhaseHandler getPhaseHandler(Game game) {
+        if (game.getGamePhase() == null) {
+            return new PhaseHandlerGather();
+        }
+        return null;
     }
 }

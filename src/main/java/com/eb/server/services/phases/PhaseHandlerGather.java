@@ -1,15 +1,21 @@
 package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GamePhase;
+import com.eb.server.domain.GameCommand;
 import com.eb.server.domain.GamePhaseType;
 
-public class PhaseHandlerGather implements PhaseHandler {
+public class PhaseHandlerGather extends AbstractPhaseHandler {
+    public PhaseHandlerGather() {
+        GAME_PHASE_TYPE = GamePhaseType.PHASE_GATHER;
+    }
+
     @Override
-    public GamePhase create(Game game) {
-        GamePhase gamePhase = new GamePhase();
-        gamePhase.setGame(game);
-        gamePhase.setGamePhaseType(GamePhaseType.PHASE_GATHER);
-        return gamePhase;
+    void handleBotCommands(Game game) {
+
+    }
+
+    @Override
+    public void handleCommand(Game game, GameCommand gameCommand) {
+
     }
 }

@@ -12,10 +12,15 @@ public class GamePlayer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "deckGamePlayer")
+    private List<GameCard> deck;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "handGamePlayer")
+    private List<GameCard> hand;
+
     @ManyToOne
     private Game game;
-    private Long userId;
 
-//    private List<Card> deck;
-//    private List<Card> hand;
+    private Long userId;
 }
