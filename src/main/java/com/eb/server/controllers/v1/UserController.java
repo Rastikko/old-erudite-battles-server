@@ -3,7 +3,6 @@ package com.eb.server.controllers.v1;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.services.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +19,7 @@ public class UserController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getUserById(@PathVariable Long id) {
-        return userService.findUserById(id);
+        return userService.findUserDTOById(id);
     }
 
         @PostMapping

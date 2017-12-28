@@ -2,6 +2,7 @@ package com.eb.server.unit.api.v1.mapper;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.GameDTO;
+import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
 import org.junit.Test;
 
@@ -37,6 +38,15 @@ public class GameMapperTest {
         assertEquals(gameDTO.getGamePlayers().get(0).getDeck().size(), 2);
         assertEquals(gameDTO.getGamePlayers().get(0).getHand().size(), 2);
         assertEquals(gameDTO.getGamePlayers().get(0).getDeck().get(0).getId(), GAME_CARD_ID_1);
+    }
+
+    @Test
+    public void cardsToGameCards() throws Exception {
+        List<Card> userDeck = Bootstrap.getDefaultDeck();
+
+        List<GameCard> playerDeck = gameMapper.cardsToGameCards(userDeck);
+
+        assertEquals(userDeck.size(), playerDeck.size());
     }
 
     private GamePhase getGamePhase(Game game) {

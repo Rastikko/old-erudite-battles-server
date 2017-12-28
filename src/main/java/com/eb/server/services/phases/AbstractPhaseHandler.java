@@ -15,6 +15,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         gamePhase.setGamePhaseType(GAME_PHASE_TYPE);
         game.setGamePhase(gamePhase);
 
+        // TODO: ensure is a bot game first
         handleBotCommands(game);
     }
 

@@ -45,7 +45,7 @@ public class UserControllerTest extends AbstractRestControllerTest {
         user.setId(1L);
         user.setName(NAME);
 
-        when(userService.findUserById(anyLong())).thenReturn(user);
+        when(userService.findUserDTOById(anyLong())).thenReturn(user);
 
         mockMvc.perform(get(UserController.BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON))

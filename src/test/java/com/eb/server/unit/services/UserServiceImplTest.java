@@ -42,7 +42,7 @@ public class UserServiceImplTest {
 
         when(userRepository.findOne(anyLong())).thenReturn(user);
 
-        UserDTO userDTO = userService.findUserById(ID);
+        UserDTO userDTO = userService.findUserDTOById(ID);
 
         assertEquals(ID, userDTO.getId());
         assertEquals(NAME, userDTO.getName());
