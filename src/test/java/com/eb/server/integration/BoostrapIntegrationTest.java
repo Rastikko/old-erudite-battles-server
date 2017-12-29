@@ -2,7 +2,7 @@ package com.eb.server.integration;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.mapper.UserMapper;
-import com.eb.server.api.v1.model.FindGameDTO;
+import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.boostrap.Bootstrap;
@@ -12,9 +12,7 @@ import com.eb.server.repositories.GameRepository;
 import com.eb.server.repositories.UserRepository;
 import com.eb.server.services.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -62,9 +60,9 @@ public class BoostrapIntegrationTest {
 
         UserDTO savedUserDTO = userService.createNewUser(userDTO);
 
-        FindGameDTO findGameDTO = new FindGameDTO();
-        findGameDTO.setUserId(savedUserDTO.getId());
-        GameDTO game = gameService.createNewGame(findGameDTO);
+        RequestGameDTO requestGameDTO = new RequestGameDTO();
+        requestGameDTO.setUserId(savedUserDTO.getId());
+        GameDTO game = gameService.createNewGame(requestGameDTO);
 
         assertEquals(GAME_ID, game.getId());
         assertEquals(GamePhaseType.PHASE_GATHER, game.getGamePhase().getGamePhaseType());

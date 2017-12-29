@@ -1,7 +1,8 @@
 package com.eb.server.services;
 
 import com.eb.server.api.v1.mapper.GameMapper;
-import com.eb.server.api.v1.model.FindGameDTO;
+import com.eb.server.api.v1.model.RequestGameDTO;
+import com.eb.server.api.v1.model.RequestGameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
@@ -31,14 +32,21 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO createNewGame(FindGameDTO findGameDTO) {
-        User user = userService.findUserByID(findGameDTO.getUserId());
+    public GameDTO createNewGame(RequestGameDTO requestGameDTO) {
+        User user = userService.findUserByID(requestGameDTO.getUserId());
         User bot = userService.findUserByID(Bootstrap.BOT_ID);
         Game game = createNewBotGame(user, bot);
 
         gamePhaseService.handleNewGame(game);
 
         return saveAndReturnDTO(game);
+    }
+
+    @Override
+    public GameDTO handleCommand(RequestGameCommandDTO requestGameCommandDTO) {
+        // get game
+        // craft gameCommand
+        return null;
     }
 
     private Game createNewBotGame(User user, User bot) {

@@ -13,7 +13,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
     @Override
     public void handleNewGame(Game game) {
         PhaseHandler phaseHandler = getPhaseHandler(game);
-        phaseHandler.defineNextPhase(game);
+        phaseHandler.definePhase(game);
     }
 
     @Override

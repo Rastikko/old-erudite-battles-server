@@ -5,9 +5,10 @@ import com.eb.server.domain.*;
 
 public abstract class AbstractPhaseHandler implements PhaseHandler {
     GamePhaseType GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
+    GamePhaseType NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
 
-    @Override
-    public void defineNextPhase(Game game) {
+    // TODO: override and call super to define payload
+    public void definePhase(Game game) {
         GamePhase gamePhase = new GamePhase();
 
         gamePhase.setGame(game);
@@ -15,6 +16,21 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         game.setGamePhase(gamePhase);
 
         handleBotCommands(game);
+    }
+
+    @Override
+    public void handleCommand(Game game, GameCommand gameCommand) {
+        switch (gameCommand.getGameCommandType()) {
+            case COMMAND_END:
+                handleCommandEnd(game, gameCommand);
+                break;
+
+        }
+    }
+
+    void handleCommandEnd(Game game, GameCommand gameCommand) {
+        // check if is last end required
+        // create new phase handler and advance to plan
     }
 
     GameCommand createBotCommand(GameCommandType commandType, String payload) {

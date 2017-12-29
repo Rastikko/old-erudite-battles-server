@@ -9,6 +9,6 @@ import java.util.List;
 public class GamePhaseDTO {
     private Long id;
     private GamePhaseType gamePhaseType;
-    private List<GameCommandDTO> gameComands;
+    private List<RequestGameCommandDTO> gameComands;
 //    private String payload;
 }

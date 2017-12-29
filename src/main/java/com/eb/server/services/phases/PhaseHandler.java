@@ -6,6 +6,6 @@ import com.eb.server.domain.GamePhase;
 import com.eb.server.domain.GamePhaseType;
 
 public interface PhaseHandler {
-    void defineNextPhase(Game game);
+    void definePhase(Game game);
     void handleCommand(Game game, GameCommand gameCommand);
 }

@@ -1,8 +1,8 @@
 package com.eb.server.controllers.v1;
 
-import com.eb.server.api.v1.model.FindGameDTO;
+import com.eb.server.api.v1.model.RequestGameDTO;
+import com.eb.server.api.v1.model.RequestGameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
-import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.services.GameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +15,20 @@ public class GameController {
     private final GameService gameService;
 
     public GameController(GameService gameService) {
+
         this.gameService = gameService;
     }
 
     @PostMapping("/find")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameDTO findGame(@RequestBody FindGameDTO findGameDTO) {
-        return gameService.createNewGame(findGameDTO);
+    public GameDTO find(@RequestBody RequestGameDTO requestGameDTO) {
+
+        return gameService.createNewGame(requestGameDTO);
+    }
+
+    @PostMapping("/command")
+    @ResponseStatus(HttpStatus.CREATED)
+    public GameDTO command(@RequestBody RequestGameCommandDTO requestGameCommandDTO) {
+        return null;
     }
 }
