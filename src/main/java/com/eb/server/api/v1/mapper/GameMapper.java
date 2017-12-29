@@ -1,5 +1,6 @@
 package com.eb.server.api.v1.mapper;
 
+import com.eb.server.api.v1.model.GameCardDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.GamePhaseDTO;
 import com.eb.server.domain.Card;
@@ -16,6 +17,12 @@ import java.util.List;
 @Mapper
 public interface GameMapper {
     GameMapper INSTANCE = Mappers.getMapper(GameMapper.class);
+
+    @Mappings({
+            @Mapping(target="id", ignore=true),
+            @Mapping(source="card.id", target="cardId")
+    })
+    GameCard cardToGameCard(Card card);
 
     List<GameCard> cardsToGameCards(List<Card> cards);
 

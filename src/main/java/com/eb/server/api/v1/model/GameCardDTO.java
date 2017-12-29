@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class GameCardDTO {
     private Long id;
+    private Long cardId;
 }

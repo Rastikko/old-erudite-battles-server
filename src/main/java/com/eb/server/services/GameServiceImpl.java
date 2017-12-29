@@ -58,11 +58,9 @@ public class GameServiceImpl implements GameService {
         GamePlayer gamePlayer = new GamePlayer();
         gamePlayer.setUserId(user.getId());
         gamePlayer.setGame(game);
-        // TODO: investigate why is throwing a
-        // org.hibernate.PersistentObjectException:
-        // detached entity passed to persist: com.eb.server.domain.GameCard
-//        gamePlayer.setDeck(shuffleDeck(user.getDeck(), gamePlayer));
-//        gamePlayer.setHand(new ArrayList<>());
+
+        gamePlayer.setDeck(shuffleDeck(user.getDeck(), gamePlayer));
+        gamePlayer.setHand(new ArrayList<>());
 
         return gamePlayer;
     }

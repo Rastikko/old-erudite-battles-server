@@ -16,7 +16,7 @@ public class GameCommand {
 
     private Long userId;
 
-//    private Object payload;
+    private String payload;
 
     @ManyToOne
     private GamePhase gamePhase;

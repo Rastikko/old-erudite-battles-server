@@ -11,6 +11,8 @@ public class GameCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long cardId;
+
     @ManyToOne
     GamePlayer deckGamePlayer;
 

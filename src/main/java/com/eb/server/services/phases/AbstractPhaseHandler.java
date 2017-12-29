@@ -1,8 +1,7 @@
 package com.eb.server.services.phases;
 
-import com.eb.server.domain.Game;
-import com.eb.server.domain.GamePhase;
-import com.eb.server.domain.GamePhaseType;
+import com.eb.server.boostrap.Bootstrap;
+import com.eb.server.domain.*;
 
 public abstract class AbstractPhaseHandler implements PhaseHandler {
     GamePhaseType GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
@@ -15,8 +14,15 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         gamePhase.setGamePhaseType(GAME_PHASE_TYPE);
         game.setGamePhase(gamePhase);
 
-        // TODO: ensure is a bot game first
         handleBotCommands(game);
+    }
+
+    GameCommand createBotCommand(GameCommandType commandType, String payload) {
+        GameCommand command = new GameCommand();
+        command.setGameCommandType(commandType);
+        command.setUserId(Bootstrap.BOT_ID);
+        command.setPayload(payload);
+        return command;
     }
 
     abstract void handleBotCommands(Game game);

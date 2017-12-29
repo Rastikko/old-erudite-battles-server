@@ -47,18 +47,11 @@ public class GameControllerTest extends AbstractRestControllerTest {
         FindGameDTO findGameDTO = new FindGameDTO();
         findGameDTO.setUserId(USER_ID);
 
-        GameDTO returnDTO = getReturnGame();
-
-        when(gameService.createNewGame(findGameDTO)).thenReturn(returnDTO);
+        when(gameService.createNewGame(findGameDTO)).thenReturn(new GameDTO());
 
         mockMvc.perform(post(GameController.BASE_URL + "/find")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(findGameDTO)))
                 .andExpect(status().isCreated());
-    }
-
-    private GameDTO getReturnGame() {
-        GameDTO gameDTO = new GameDTO();
-        return gameDTO;
     }
 }

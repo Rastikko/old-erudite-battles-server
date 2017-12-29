@@ -76,5 +76,6 @@ public class GameServiceImplTest {
                 hasProperty("userId", is(Bootstrap.BOT_ID)),
                 hasProperty("userId", is(USER_ID))
         ));
+
     }
 }

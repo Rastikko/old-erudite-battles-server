@@ -1,5 +1,6 @@
 package com.eb.server.unit.api.v1.mapper;
 
+import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
@@ -42,13 +43,15 @@ public class GameMapperTest {
 
     @Test
     public void cardsToGameCards() throws Exception {
-        List<Card> userDeck = Bootstrap.getDefaultDeck();
+        List<Card> userDeck = GameFixtures.getDefaultDeck();
 
         List<GameCard> playerDeck = gameMapper.cardsToGameCards(userDeck);
 
         assertEquals(userDeck.size(), playerDeck.size());
+        assertEquals(userDeck.get(0).getId(), playerDeck.get(0).getCardId());
     }
 
+    // TODO: move these to game fixtures
     private GamePhase getGamePhase(Game game) {
         GamePhase gamePhase = new GamePhase();
         gamePhase.setId(GAME_PHASE_ID);

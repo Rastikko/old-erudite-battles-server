@@ -1,5 +1,6 @@
 package com.eb.server.unit.services;
 
+import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.boostrap.Bootstrap;
@@ -57,6 +58,6 @@ public class UserServiceImplTest {
         UserDTO savedDto = userService.createNewUser(userDTO);
 
         assertEquals(NAME, savedDto.getName());
-        assertEquals(Bootstrap.getDefaultDeck().size(), savedDto.getDeck().size());
+        assertEquals(GameFixtures.getDefaultDeck().size(), savedDto.getDeck().size());
     }
 }
