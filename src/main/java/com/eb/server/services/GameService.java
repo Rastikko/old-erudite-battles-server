@@ -6,5 +6,5 @@ import com.eb.server.api.v1.model.GameDTO;
 
 public interface GameService {
     GameDTO createNewGame(RequestGameDTO requestGameDTO);
-    GameDTO handleCommand(RequestGameCommandDTO requestGameCommandDTO);
+    GameDTO handleCommand(Long gameId, RequestGameCommandDTO requestGameCommandDTO);
 }

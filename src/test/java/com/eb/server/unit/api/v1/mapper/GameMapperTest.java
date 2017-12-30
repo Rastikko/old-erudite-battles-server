@@ -3,6 +3,7 @@ package com.eb.server.unit.api.v1.mapper;
 import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.GameDTO;
+import com.eb.server.api.v1.model.RequestGameCommandDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
 import org.junit.Test;
@@ -49,6 +50,21 @@ public class GameMapperTest {
 
         assertEquals(userDeck.size(), playerDeck.size());
         assertEquals(userDeck.get(0).getId(), playerDeck.get(0).getCardId());
+    }
+
+    @Test
+    public void requestGameCommandDTOToGameCommand() throws Exception {
+        final Long USER_ID = 5l;
+        final String PAYLOAD = "10";
+        RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();
+        requestGameCommandDTO.setPayload(PAYLOAD);
+        requestGameCommandDTO.setGameCommandType("COMMAND_END");
+        requestGameCommandDTO.setUserId(USER_ID);
+
+        GameCommand gameCommand = gameMapper.requestGameCommandDTOToGameCommand(requestGameCommandDTO);
+        assertEquals(USER_ID, gameCommand.getUserId());
+        assertEquals(PAYLOAD, gameCommand.getPayload());
+        assertEquals(GameCommandType.COMMAND_END, gameCommand.getGameCommandType());
     }
 
     // TODO: move these to game fixtures

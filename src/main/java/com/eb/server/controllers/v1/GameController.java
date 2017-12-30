@@ -26,9 +26,10 @@ public class GameController {
         return gameService.createNewGame(requestGameDTO);
     }
 
-    @PostMapping("/command")
+    @PostMapping("/{id}/command")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameDTO command(@RequestBody RequestGameCommandDTO requestGameCommandDTO) {
+    public GameDTO command(@PathVariable Long id,
+                           @RequestBody RequestGameCommandDTO requestGameCommandDTO) {
         return null;
     }
 }

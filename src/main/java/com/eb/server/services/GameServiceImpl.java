@@ -43,9 +43,8 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO handleCommand(RequestGameCommandDTO requestGameCommandDTO) {
-        // get game
-        // craft gameCommand
+    public GameDTO handleCommand(Long gameId, RequestGameCommandDTO requestGameCommandDTO) {
+        Game game = gameRepository.findOne(gameId);
         return null;
     }
 
