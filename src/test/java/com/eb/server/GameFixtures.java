@@ -41,6 +41,13 @@ public class GameFixtures {
         return command;
     }
 
+    public static GameCommand endCommand() {
+        GameCommand command = new GameCommand();
+        command.setUserId(Bootstrap.BOT_ID);
+        command.setGameCommandType(GameCommandType.COMMAND_END);
+        return command;
+    }
+
     static GamePlayer geMockedGamePlayer(Long userId) {
         GamePlayer gamePlayer = new GamePlayer();
         List<GameCard> deck = gameMapper.cardsToGameCards(getDefaultDeck());

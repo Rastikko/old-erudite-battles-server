@@ -9,10 +9,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
 
     // TODO: override and call super to define payload
     public void definePhase(Game game) {
-        GamePhase gamePhase = new GamePhase();
-
-        gamePhase.setGame(game);
-        gamePhase.setGamePhaseType(GAME_PHASE_TYPE);
+        GamePhase gamePhase = createGamePhase(game, GAME_PHASE_TYPE);
         game.setGamePhase(gamePhase);
 
         handleBotCommands(game);
@@ -22,15 +19,26 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
     public void handleCommand(Game game, GameCommand gameCommand) {
         switch (gameCommand.getGameCommandType()) {
             case COMMAND_END:
-                handleCommandEnd(game, gameCommand);
+                handleCommandEnd(game);
                 break;
 
         }
     }
 
-    void handleCommandEnd(Game game, GameCommand gameCommand) {
-        // check if is last end required
-        // create new phase handler and advance to plan
+    void handleCommandEnd(Game game) {
+        GamePhase gamePhase = createGamePhase(game, NEXT_GAME_PHASE_TYPE);
+        game.setGamePhase(gamePhase);
+
+        handleBotCommands(game);
+    }
+
+    GamePhase createGamePhase(Game game, GamePhaseType gamePhaseType) {
+        GamePhase gamePhase = new GamePhase();
+
+        gamePhase.setGame(game);
+        gamePhase.setGamePhaseType(gamePhaseType);
+
+        return gamePhase;
     }
 
     GameCommand createBotCommand(GameCommandType commandType, String payload) {

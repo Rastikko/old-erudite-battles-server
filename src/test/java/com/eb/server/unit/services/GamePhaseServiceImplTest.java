@@ -1,6 +1,5 @@
 package com.eb.server.unit.services;
 
-import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.domain.Game;
 import com.eb.server.domain.GamePhaseType;
 import com.eb.server.domain.GamePlayer;
@@ -14,8 +13,6 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.Assert.assertEquals;
 
 public class GamePhaseServiceImplTest {
-    GameMapper gameMapper = GameMapper.INSTANCE;
-
     GamePhaseService gamePhaseService;
 
     @Before
@@ -38,12 +35,22 @@ public class GamePhaseServiceImplTest {
     }
 
     @Test
-    public void handleDrawCommand() {
+    public void handleCommandDraw() {
         Game game = GameFixtures.game();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
         gamePhaseService.handleCommand(game, GameFixtures.drawCommand("5"));
 
         assertEquals(25, game.getGamePlayers().get(0).getDeck().size());
+    }
+
+    @Test
+    public void handleCommandEnd() {
+        Game game = GameFixtures.game();
+        game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
+
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getGamePhaseType());
     }
 }
