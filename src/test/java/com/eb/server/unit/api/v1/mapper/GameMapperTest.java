@@ -56,6 +56,7 @@ public class GameMapperTest {
     public void requestGameCommandDTOToGameCommand() throws Exception {
         final Long USER_ID = 5l;
         final String PAYLOAD = "10";
+
         RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();
         requestGameCommandDTO.setPayload(PAYLOAD);
         requestGameCommandDTO.setGameCommandType("COMMAND_END");

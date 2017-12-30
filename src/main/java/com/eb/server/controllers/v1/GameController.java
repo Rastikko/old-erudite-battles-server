@@ -30,6 +30,6 @@ public class GameController {
     @ResponseStatus(HttpStatus.CREATED)
     public GameDTO command(@PathVariable Long id,
                            @RequestBody RequestGameCommandDTO requestGameCommandDTO) {
-        return null;
+        return gameService.handleCommand(id, requestGameCommandDTO);
     }
 }

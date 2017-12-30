@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -51,7 +52,22 @@ public class GameControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    public void createNewCommand() throws Exception {
+    public void commandGame() throws Exception {
+        final Long GAME_ID = 666L;
         RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();
+        requestGameCommandDTO.setGameCommandType("COMMAND_DRAW");
+        requestGameCommandDTO.setPayload("5");
+
+        GameDTO gameDTO = new GameDTO();
+        gameDTO.setId(GAME_ID);
+
+        when(gameService.handleCommand(5L, requestGameCommandDTO)).thenReturn(gameDTO);
+
+        mockMvc.perform(post(GameController.BASE_URL + "/find")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(requestGameCommandDTO)))
+                .andExpect(status().isCreated());
+                // TODO
+//                .andExpect(jsonPath("$.id", equalTo(String.valueOf(GAME_ID))));
     }
 }

@@ -47,7 +47,6 @@ public class UserMapperTest {
 
         User user = userMapper.userDTOToUser(userDTO);
 
-        assertEquals(ID, user.getId());
         assertEquals(NAME, user.getName());
         assertTrue(user.getDeck().isEmpty());
     }

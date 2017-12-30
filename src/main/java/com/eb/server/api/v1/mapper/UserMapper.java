@@ -24,7 +24,8 @@ public interface UserMapper {
     UserDTO userToUserDTO(User user);
 
     @Mappings({
-            @Mapping(target = "deck", ignore = true),
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "deck", ignore = true)
     })
     User userDTOToUser(UserDTO user);
 }

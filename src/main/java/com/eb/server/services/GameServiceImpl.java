@@ -45,7 +45,9 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO handleCommand(Long gameId, RequestGameCommandDTO requestGameCommandDTO) {
         Game game = gameRepository.findOne(gameId);
-        return null;
+        GameCommand command = gameMapper.requestGameCommandDTOToGameCommand(requestGameCommandDTO);
+        gamePhaseService.handleCommand(game, command);
+        return saveAndReturnDTO(game);
     }
 
     private Game createNewBotGame(User user, User bot) {

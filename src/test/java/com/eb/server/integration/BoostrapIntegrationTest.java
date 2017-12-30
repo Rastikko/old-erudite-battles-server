@@ -2,6 +2,7 @@ package com.eb.server.integration;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.mapper.UserMapper;
+import com.eb.server.api.v1.model.RequestGameCommandDTO;
 import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
@@ -47,7 +48,7 @@ public class BoostrapIntegrationTest {
     }
 
     @Test
-    public void createNewBotGame() {
+    public void testBotGame() {
         // TODO: discover why we cannot create 2 tests
         UserDTO bot = userService.findUserDTOById(Bootstrap.BOT_ID);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
@@ -62,11 +63,22 @@ public class BoostrapIntegrationTest {
 
         RequestGameDTO requestGameDTO = new RequestGameDTO();
         requestGameDTO.setUserId(savedUserDTO.getId());
-        GameDTO game = gameService.createNewGame(requestGameDTO);
+        GameDTO newGame = gameService.createNewGame(requestGameDTO);
 
-        assertEquals(GAME_ID, game.getId());
-        assertEquals(GamePhaseType.PHASE_GATHER, game.getGamePhase().getGamePhaseType());
-        assertEquals(2, game.getGamePlayers().size());
-//        assertEquals(25, game.getGamePlayers().get(0).getDeck());
+        assertEquals(GAME_ID, newGame.getId());
+        assertEquals(GamePhaseType.PHASE_GATHER, newGame.getGamePhase().getGamePhaseType());
+        assertEquals(2, newGame.getGamePlayers().size());
+
+
+        // the user dispatch a draw command
+        RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();
+        requestGameCommandDTO.setUserId(savedUserDTO.getId());
+        requestGameCommandDTO.setPayload("5");
+        requestGameCommandDTO.setGameCommandType("COMMAND_DRAW");
+
+        GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), requestGameCommandDTO);
+
+        assertEquals(25, drawCommandGame.getGamePlayers().get(1).getDeck().size());
+
     }
 }
