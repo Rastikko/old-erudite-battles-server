@@ -1,11 +1,14 @@
 package com.eb.server.boostrap;
 
+import com.eb.server.domain.Attribute;
+import com.eb.server.domain.AttributeType;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,16 +37,19 @@ public class Bootstrap implements CommandLineRunner {
 
     private void loadCards() {
         Card pythagorasTheoremCard = new Card();
-        Card hamletCard = new Card();
+
+        Attribute attackAttribute = new Attribute();
+        attackAttribute.setAttributeType(AttributeType.ATTACK);
+        attackAttribute.setValue(100);
+
+        List<Attribute> attributes = new ArrayList<>();
+        attributes.add(attackAttribute);
 
         pythagorasTheoremCard.setId(1L);
         pythagorasTheoremCard.setName("Pythagoras Theorem");
-
-        hamletCard.setId(2L);
-        hamletCard.setName("Hamlet");
+        pythagorasTheoremCard.setAttributes(attributes);
 
         cardRepository.save(pythagorasTheoremCard);
-        cardRepository.save(hamletCard);
 
         System.out.println("Cards loaded: " + cardRepository.count());
     }
@@ -61,18 +67,12 @@ public class Bootstrap implements CommandLineRunner {
         System.out.println("Bots loaded: " + userRepository.count());
     }
 
-    public static List<Card> getDefaultDeck() {
+    public List<Card> getDefaultDeck() {
         List<Card> deck = new ArrayList<>();
+        Card pythagorasTheoremCard = cardRepository.findOne(1L);
 
-        Card pythagorasTheoremCard = new Card();
-        Card hamletCard = new Card();
-
-        pythagorasTheoremCard.setId(1L);
-        hamletCard.setId(2L);
-
-        for(int i = 0; i < 15; i++) {
+        for(int i = 0; i < 30; i++) {
             deck.add(pythagorasTheoremCard);
-            deck.add(hamletCard);
         }
 
         return deck;

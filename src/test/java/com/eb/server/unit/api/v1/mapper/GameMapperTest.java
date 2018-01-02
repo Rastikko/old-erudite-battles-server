@@ -49,7 +49,8 @@ public class GameMapperTest {
         List<GameCard> playerDeck = gameMapper.cardsToGameCards(userDeck);
 
         assertEquals(userDeck.size(), playerDeck.size());
-        assertEquals(userDeck.get(0).getId(), playerDeck.get(0).getCardId());
+        assertEquals(1, userDeck.get(0).getAttributes().size());
+        assertEquals(userDeck.get(0).getAttributes().size(), playerDeck.get(0).getAttributes().size());
     }
 
     @Test
@@ -72,7 +73,6 @@ public class GameMapperTest {
     private GamePhase getGamePhase(Game game) {
         GamePhase gamePhase = new GamePhase();
         gamePhase.setId(GAME_PHASE_ID);
-        gamePhase.setGame(game);
         return gamePhase;
     }
 

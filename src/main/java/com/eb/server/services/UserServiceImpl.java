@@ -12,10 +12,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final Bootstrap bootstrap;
 
-    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository) {
+    public UserServiceImpl(UserMapper userMapper, UserRepository userRepository, Bootstrap bootstrap) {
         this.userMapper = userMapper;
         this.userRepository = userRepository;
+        this.bootstrap = bootstrap;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO createNewUser(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
-        user.setDeck(Bootstrap.getDefaultDeck());
+        user.setDeck(bootstrap.getDefaultDeck());
         return saveAndReturnDTO(user);
     }
 

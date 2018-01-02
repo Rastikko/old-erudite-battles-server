@@ -13,8 +13,24 @@ public class GameFixtures {
     public static Long USER_ID = 2L;
 
     public static List<Card> getDefaultDeck() {
-        // TODO: decouple from implementation
-        return Bootstrap.getDefaultDeck();
+        List<Card> deck = new ArrayList<>();
+
+        Attribute attackAttribute = new Attribute();
+        attackAttribute.setAttributeType(AttributeType.ATTACK);
+        attackAttribute.setValue(100);
+
+        List<Attribute> attributes = new ArrayList<>();
+        attributes.add(attackAttribute);
+
+        Card pythagorasTheoremCard = new Card();
+        pythagorasTheoremCard.setId(1L);
+        pythagorasTheoremCard.setAttributes(attributes);
+
+        for(int i = 0; i < 30; i++) {
+            deck.add(pythagorasTheoremCard);
+        }
+
+        return deck;
     }
 
     public static Game game() {

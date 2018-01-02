@@ -20,7 +20,6 @@ public interface GameMapper {
 
     @Mappings({
             @Mapping(target="id", ignore=true),
-            @Mapping(source="card.id", target="cardId")
     })
     GameCard cardToGameCard(Card card);
 

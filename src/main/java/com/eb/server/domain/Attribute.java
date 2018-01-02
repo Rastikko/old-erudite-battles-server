@@ -13,7 +13,5 @@ public class Attribute {
 
     @Enumerated(value = EnumType.STRING)
     AttributeType attributeType;
-    Long value;
-    @ManyToOne
-    Card card;
+    Integer value;
 }

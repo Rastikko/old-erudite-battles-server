@@ -29,10 +29,13 @@ public class UserServiceImplTest {
     @Mock
     UserRepository userRepository;
 
+    @Mock
+    Bootstrap bootstrap;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        userService = new UserServiceImpl(userMapper, userRepository);
+        userService = new UserServiceImpl(userMapper, userRepository, bootstrap);
     }
 
     @Test
@@ -54,6 +57,7 @@ public class UserServiceImplTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(NAME);
 
+        when(bootstrap.getDefaultDeck()).thenReturn(GameFixtures.getDefaultDeck());
         when(userRepository.save(any(User.class))).thenAnswer(u -> u.getArguments()[0]);
         UserDTO savedDto = userService.createNewUser(userDTO);
 

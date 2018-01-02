@@ -36,7 +36,6 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
     GamePhase createGamePhase(Game game, GamePhaseType gamePhaseType) {
         GamePhase gamePhase = new GamePhase();
 
-        gamePhase.setGame(game);
         gamePhase.setGamePhaseType(gamePhaseType);
 
         return gamePhase;

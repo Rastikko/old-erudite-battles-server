@@ -14,10 +14,8 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Integer cost;
 
-    @ManyToMany(mappedBy = "deck")
-    private List<User> users;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "card")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Attribute> attributes;
 }

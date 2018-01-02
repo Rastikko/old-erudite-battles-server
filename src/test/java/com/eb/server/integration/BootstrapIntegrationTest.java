@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class BoostrapIntegrationTest {
+public class BootstrapIntegrationTest {
 
     @Autowired
     GameRepository gameRepository;
@@ -32,16 +32,17 @@ public class BoostrapIntegrationTest {
     @Autowired
     CardRepository cardRepository;
 
+    Bootstrap bootstrap;
     UserService userService;
     GameService gameService;
     GamePhaseService gamePhaseService;
 
     @Before
     public void setUp() throws Exception {
-        Bootstrap bootstrap = new Bootstrap(userRepository, cardRepository);
+        bootstrap = new Bootstrap(userRepository, cardRepository);
         bootstrap.run();
 
-        userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository);
+        userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
         gamePhaseService = new GamePhaseServiceImpl();
         gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, gamePhaseService, userService);
 
@@ -52,7 +53,7 @@ public class BoostrapIntegrationTest {
         // TODO: discover why we cannot create 2 tests
         UserDTO bot = userService.findUserDTOById(Bootstrap.BOT_ID);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
-        assertEquals(Bootstrap.getDefaultDeck().size(), bot.getDeck().size());
+        assertEquals(bootstrap.getDefaultDeck().size(), bot.getDeck().size());
 
         Long GAME_ID = 1L;
 
@@ -66,11 +67,12 @@ public class BoostrapIntegrationTest {
         GameDTO newGame = gameService.createNewGame(requestGameDTO);
 
         assertEquals(GAME_ID, newGame.getId());
-        assertEquals(GamePhaseType.PHASE_GATHER, newGame.getGamePhase().getGamePhaseType());
-        assertEquals(2, newGame.getGamePlayers().size());
 
         GameDTO retrievedNewGame = gameService.findGameDTOById(newGame.getId());
+        assertEquals(GamePhaseType.PHASE_GATHER, retrievedNewGame.getGamePhase().getGamePhaseType());
+        assertEquals(2, retrievedNewGame.getGamePlayers().size());
         assertEquals(5, retrievedNewGame.getGamePlayers().get(0).getHand().size());
+        //assertEquals(1, retrievedNewGame.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
 
         // TODO: discover why gameId keeps returning null
         UserDTO userWithGameDTO = userService.findUserDTOById(savedUserDTO.getId());
