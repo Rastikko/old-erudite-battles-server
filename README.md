@@ -17,3 +17,9 @@ mvn clean install
     - Apply attributes
     - Energy mechanic
  - Aligment mechanic
+ 
+ 
+ ## Standars
+ 
+  - Data can be embeded or using a reference id.
+  

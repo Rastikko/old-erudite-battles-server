@@ -39,12 +39,12 @@ public class GameServiceImpl implements GameService {
 
         gamePhaseService.handleNewGame(game);
 
-        GameDTO gameDTO = saveAndReturnDTO(game);
+        GameDTO savedGameDTO = saveAndReturnDTO(game);
 
-        user.setGameId(gameDTO.getId());
+        user.setGameId(savedGameDTO.getId());
         userService.updateUser(user);
 
-        return gameDTO;
+        return savedGameDTO;
     }
 
     @Override
@@ -56,6 +56,11 @@ public class GameServiceImpl implements GameService {
             game.getGamePlayers().stream().forEach(this::removeGameFromUser);
         }
         return saveAndReturnDTO(game);
+    }
+
+    @Override
+    public GameDTO findGameDTOById(Long gameId) {
+        return gameMapper.gameToGameDTO(gameRepository.findOne(gameId));
     }
 
     private Game createNewBotGame(User user, User bot) {
@@ -89,10 +94,6 @@ public class GameServiceImpl implements GameService {
     private List<GameCard> shuffleDeck(List<Card> userDeck, GamePlayer gamePlayer) {
         // TODO: shuffle
         List<GameCard> deck = gameMapper.cardsToGameCards(userDeck);
-        deck.stream().forEach(card -> {
-            card.setDeckGamePlayer(gamePlayer);
-            card.setHandGamePlayer(gamePlayer);
-        });
         return deck;
     }
 

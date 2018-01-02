@@ -12,10 +12,4 @@ public class GameCard {
     private Long id;
 
     private Long cardId;
-
-    @ManyToOne
-    GamePlayer deckGamePlayer;
-
-    @ManyToOne
-    GamePlayer handGamePlayer;
 }

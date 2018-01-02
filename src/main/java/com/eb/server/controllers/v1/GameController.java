@@ -19,6 +19,12 @@ public class GameController {
         this.gameService = gameService;
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public GameDTO getGameDTOById(@PathVariable Long id) {
+        return gameService.findGameDTOById(id);
+    }
+
     @PostMapping("/find")
     @ResponseStatus(HttpStatus.CREATED)
     public GameDTO find(@RequestBody RequestGameDTO requestGameDTO) {

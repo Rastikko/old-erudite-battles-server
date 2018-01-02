@@ -16,10 +16,10 @@ public class GamePlayer {
     private Integer damage;
     private Integer health;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "deckGamePlayer")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<GameCard> deck;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "handGamePlayer")
+    @OneToMany(cascade = CascadeType.ALL)
     private List<GameCard> hand;
 
     @ManyToOne
