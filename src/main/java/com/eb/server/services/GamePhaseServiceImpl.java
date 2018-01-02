@@ -3,8 +3,7 @@ package com.eb.server.services;
 import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCommand;
 import com.eb.server.domain.GamePhaseType;
-import com.eb.server.services.phases.PhaseHandler;
-import com.eb.server.services.phases.PhaseHandlerGather;
+import com.eb.server.services.phases.*;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +12,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
     @Override
     public void handleNewGame(Game game) {
         PhaseHandler phaseHandler = getPhaseHandler(game);
-        phaseHandler.definePhase(game);
+        phaseHandler.definePhase(game, GamePhaseType.PHASE_GATHER);
     }
 
     @Override
@@ -22,7 +21,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
         phaseHandler.handleCommand(game, gameCommand);
     }
 
-    PhaseHandler getPhaseHandler(Game game) {
+    public static PhaseHandler getPhaseHandler(Game game) {
         if (game.getGamePhase() == null) {
             return new PhaseHandlerGather();
         }
@@ -30,6 +29,14 @@ public class GamePhaseServiceImpl implements GamePhaseService {
         switch (game.getGamePhase().getGamePhaseType()) {
             case PHASE_GATHER:
                 return new PhaseHandlerGather();
+            case PHASE_PLAN:
+                return new PhaseHandlerPlan();
+            case PHASE_BATTLE_PREPARATION:
+                return new PhaseHandlerBattlePreparation();
+            case PHASE_BATTLE:
+                return new PhaseHandlerBattle();
+            case PHASE_BATTLE_RESOLUTION:
+                return new PhaseHandlerBattleResolution();
         }
         return null;
     }

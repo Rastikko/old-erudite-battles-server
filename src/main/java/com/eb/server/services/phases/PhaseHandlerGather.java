@@ -11,6 +11,11 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
     }
 
     @Override
+    public void definePhaseAttributes(Game game) {
+
+    }
+
+    @Override
     public void handleCommand(Game game, GameCommand gameCommand) {
         switch (gameCommand.getGameCommandType()) {
             case COMMAND_DRAW:
@@ -32,7 +37,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
     }
 
     @Override
-    void handleBotCommands(Game game) {
+    public void handleBotCommands(Game game) {
         handleCommandDraw(game, createBotCommand(GameCommandType.COMMAND_DRAW, "5"));
         // TODO: get energy equivalent to turn
     }

@@ -41,16 +41,36 @@ public class GamePhaseServiceImplTest {
 
         gamePhaseService.handleCommand(game, GameFixtures.drawCommand("5"));
 
-        assertEquals(25, game.getGamePlayers().get(0).getDeck().size());
+        assertEquals(25, game.getGamePlayers().get(1).getDeck().size());
     }
 
     @Test
-    public void handleCommandEnd() {
+    public void fullLoop() {
+        Integer BOT_DAMAGE_LEFT = 50;
+        Integer PLAYER_DAMAGE_LEFT = 150;
         Game game = GameFixtures.game();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
         gamePhaseService.handleCommand(game, GameFixtures.endCommand());
 
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getGamePhaseType());
+
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+
+        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getGamePhaseType());
+
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+
+        assertEquals(GamePhaseType.PHASE_BATTLE, game.getGamePhase().getGamePhaseType());
+
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+
+        assertEquals(GamePhaseType.PHASE_BATTLE_RESOLUTION, game.getGamePhase().getGamePhaseType());
+        assertEquals(BOT_DAMAGE_LEFT, game.getGamePlayers().get(0).getHealth());
+        assertEquals(PLAYER_DAMAGE_LEFT, game.getGamePlayers().get(1).getHealth());
+
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+
+        assertEquals(GamePhaseType.PHASE_GATHER, game.getGamePhase().getGamePhaseType());
     }
 }

@@ -2,34 +2,30 @@ package com.eb.server.services.phases;
 
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
+import com.eb.server.services.GamePhaseServiceImpl;
 
 public abstract class AbstractPhaseHandler implements PhaseHandler {
     GamePhaseType GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
     GamePhaseType NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
 
     // TODO: override and call super to define payload
-    public void definePhase(Game game) {
-        GamePhase gamePhase = createGamePhase(game, GAME_PHASE_TYPE);
+    public void definePhase(Game game, GamePhaseType gamePhaseType) {
+        GamePhase gamePhase = createGamePhase(game, gamePhaseType);
         game.setGamePhase(gamePhase);
 
-        handleBotCommands(game);
+        PhaseHandler phaseHandler = GamePhaseServiceImpl.getPhaseHandler(game);
+        phaseHandler.definePhaseAttributes(game);
+        phaseHandler.handleBotCommands(game);
     }
 
     @Override
     public void handleCommand(Game game, GameCommand gameCommand) {
         switch (gameCommand.getGameCommandType()) {
             case COMMAND_END:
-                handleCommandEnd(game);
+                definePhase(game, NEXT_GAME_PHASE_TYPE);
                 break;
 
         }
-    }
-
-    void handleCommandEnd(Game game) {
-        GamePhase gamePhase = createGamePhase(game, NEXT_GAME_PHASE_TYPE);
-        game.setGamePhase(gamePhase);
-
-        handleBotCommands(game);
     }
 
     GamePhase createGamePhase(Game game, GamePhaseType gamePhaseType) {
@@ -48,7 +44,5 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         command.setPayload(payload);
         return command;
     }
-
-    abstract void handleBotCommands(Game game);
 
 }

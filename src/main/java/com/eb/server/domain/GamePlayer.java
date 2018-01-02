@@ -12,6 +12,9 @@ public class GamePlayer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    private Integer energy;
+    private Integer damage;
+    private Integer health;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "deckGamePlayer")
     private List<GameCard> deck;

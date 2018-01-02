@@ -1,6 +1,5 @@
 package com.eb.server.api.v1.mapper;
 
-import com.eb.server.api.v1.model.CardDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;

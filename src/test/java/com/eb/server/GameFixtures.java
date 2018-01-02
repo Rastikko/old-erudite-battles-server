@@ -10,6 +10,8 @@ import java.util.List;
 public class GameFixtures {
     static GameMapper gameMapper = GameMapper.INSTANCE;
 
+    public static Long USER_ID = 2L;
+
     public static List<Card> getDefaultDeck() {
         // TODO: decouple from implementation
         return Bootstrap.getDefaultDeck();
@@ -35,7 +37,7 @@ public class GameFixtures {
 
     public static GameCommand drawCommand(String payload) {
         GameCommand command = new GameCommand();
-        command.setUserId(Bootstrap.BOT_ID);
+        command.setUserId(USER_ID);
         command.setPayload(payload);
         command.setGameCommandType(GameCommandType.COMMAND_DRAW);
         return command;
@@ -43,7 +45,7 @@ public class GameFixtures {
 
     public static GameCommand endCommand() {
         GameCommand command = new GameCommand();
-        command.setUserId(Bootstrap.BOT_ID);
+        command.setUserId(USER_ID);
         command.setGameCommandType(GameCommandType.COMMAND_END);
         return command;
     }
@@ -53,6 +55,8 @@ public class GameFixtures {
         List<GameCard> deck = gameMapper.cardsToGameCards(getDefaultDeck());
         List<GameCard> hand = new ArrayList<>();
         gamePlayer.setUserId(userId);
+        gamePlayer.setHealth((int) (userId * 100));
+        gamePlayer.setDamage(50);
         gamePlayer.setDeck(deck);
         gamePlayer.setHand(hand);
         return gamePlayer;

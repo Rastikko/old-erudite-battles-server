@@ -1,14 +1,13 @@
 package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GameCommand;
 import com.eb.server.domain.GamePhaseType;
 
-public class PhaseHandlerPlan extends AbstractPhaseHandler {
+public class PhaseHandlerBattle extends AbstractPhaseHandler {
 
-    public PhaseHandlerPlan() {
-        GAME_PHASE_TYPE = GamePhaseType.PHASE_PLAN;
-        NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_BATTLE_PREPARATION;
+    public PhaseHandlerBattle() {
+        GAME_PHASE_TYPE = GamePhaseType.PHASE_BATTLE;
+        NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_BATTLE_RESOLUTION;
 
     }
 
@@ -19,6 +18,6 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
 
     @Override
     public void handleBotCommands(Game game) {
-    }
 
+    }
 }

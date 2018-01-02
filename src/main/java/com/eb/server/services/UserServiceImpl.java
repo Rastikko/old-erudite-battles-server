@@ -30,12 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO createNewUser(UserDTO user) {
-        return saveAndReturnDTO(userMapper.userDTOToUser(user));
+    public UserDTO createNewUser(UserDTO userDTO) {
+        User user = userMapper.userDTOToUser(userDTO);
+        user.setDeck(Bootstrap.getDefaultDeck());
+        return saveAndReturnDTO(user);
     }
 
     private UserDTO saveAndReturnDTO(User user) {
-        user.setDeck(Bootstrap.getDefaultDeck());
         return userMapper.userToUserDTO(userRepository.save(user));
     }
 
