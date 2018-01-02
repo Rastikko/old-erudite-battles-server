@@ -37,6 +37,10 @@ public class GamePhaseServiceImpl implements GamePhaseService {
                 return new PhaseHandlerBattle();
             case PHASE_BATTLE_RESOLUTION:
                 return new PhaseHandlerBattleResolution();
+            case PHASE_OUTCOME:
+                return new PhaseHandlerOutcome();
+            case PHASE_NONE:
+                return new PhaseHandlerNone();
         }
         return null;
     }

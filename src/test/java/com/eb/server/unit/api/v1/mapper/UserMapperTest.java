@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class UserMapperTest {
 
     public static final String NAME = "Johan";
+    public static final Long GAME_ID = 2L;
     public static final Long ID = 1L;
 
     UserMapper userMapper = UserMapper.INSTANCE;
@@ -25,6 +26,7 @@ public class UserMapperTest {
         List<Card> deck =  getTestDeck();
 
         User user = new User();
+        user.setGameId(GAME_ID);
         user.setId(ID);
         user.setName(NAME);
         user.setDeck(deck);
@@ -35,6 +37,7 @@ public class UserMapperTest {
         assertEquals(NAME, userDTO.getName());
         assertEquals(deck.size(), userDTO.getDeck().size());
         assertEquals(deck.get(0).getId(), userDTO.getDeck().get(0));
+        assertEquals(GAME_ID, userDTO.getGameId());
     }
 
     @Test

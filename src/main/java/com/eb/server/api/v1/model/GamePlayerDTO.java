@@ -9,6 +9,8 @@ import java.util.List;
 public class GamePlayerDTO {
     private Long id;
     private Long userId;
+    private Integer attack;
+    private Integer health;
     private List<GameCardDTO> deck;
     private List<GameCardDTO> hand;
 }

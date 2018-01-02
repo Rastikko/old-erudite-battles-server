@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByID(Long id) {
+
         return userRepository.findOne(id);
     }
 
@@ -33,6 +34,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO createNewUser(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
         user.setDeck(Bootstrap.getDefaultDeck());
+        return saveAndReturnDTO(user);
+    }
+
+    @Override
+    public UserDTO updateUser(User user) {
         return saveAndReturnDTO(user);
     }
 

@@ -35,6 +35,18 @@ public class GamePhaseServiceImplTest {
     }
 
     @Test
+    public void handleEndGame() {
+        Game game = GameFixtures.game();
+        game.getGamePlayers().get(0).setHealth(10);
+        game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_BATTLE));
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+        assertEquals(GamePhaseType.PHASE_OUTCOME, game.getGamePhase().getGamePhaseType());
+        gamePhaseService.handleCommand(game, GameFixtures.endCommand());
+        assertEquals(GamePhaseType.PHASE_NONE, game.getGamePhase().getGamePhaseType());
+    }
+
+    @Test
     public void handleCommandDraw() {
         Game game = GameFixtures.game();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
@@ -48,6 +60,7 @@ public class GamePhaseServiceImplTest {
     public void fullLoop() {
         Integer BOT_DAMAGE_LEFT = 50;
         Integer PLAYER_DAMAGE_LEFT = 150;
+
         Game game = GameFixtures.game();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 

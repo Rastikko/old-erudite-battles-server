@@ -39,7 +39,12 @@ public class GameServiceImpl implements GameService {
 
         gamePhaseService.handleNewGame(game);
 
-        return saveAndReturnDTO(game);
+        GameDTO gameDTO = saveAndReturnDTO(game);
+
+        user.setGameId(gameDTO.getId());
+        userService.updateUser(user);
+
+        return gameDTO;
     }
 
     @Override
@@ -47,6 +52,9 @@ public class GameServiceImpl implements GameService {
         Game game = gameRepository.findOne(gameId);
         GameCommand command = gameMapper.requestGameCommandDTOToGameCommand(requestGameCommandDTO);
         gamePhaseService.handleCommand(game, command);
+        if (game.getGamePhase().equals(GamePhaseType.PHASE_NONE)) {
+            game.getGamePlayers().stream().forEach(this::removeGameFromUser);
+        }
         return saveAndReturnDTO(game);
     }
 
@@ -86,6 +94,12 @@ public class GameServiceImpl implements GameService {
             card.setHandGamePlayer(gamePlayer);
         });
         return deck;
+    }
+
+    private void removeGameFromUser(GamePlayer gamePlayer) {
+        User user = userService.findUserByID(gamePlayer.getUserId());
+        user.setGameId(null);
+        userService.updateUser(user);
     }
 
     private GameDTO saveAndReturnDTO(Game game) {

@@ -7,4 +7,5 @@ public interface UserService {
     UserDTO findUserDTOById(Long id);
     User findUserByID(Long id);
     UserDTO createNewUser(UserDTO user);
+    UserDTO updateUser(User user);
 }

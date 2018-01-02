@@ -69,6 +69,9 @@ public class BoostrapIntegrationTest {
         assertEquals(GamePhaseType.PHASE_GATHER, newGame.getGamePhase().getGamePhaseType());
         assertEquals(2, newGame.getGamePlayers().size());
 
+        // TODO: discover why gameId keeps returning null
+        UserDTO userWithGameDTO = userService.findUserDTOById(savedUserDTO.getId());
+        assertEquals(GAME_ID, userWithGameDTO.getGameId());
 
         // the user dispatch a draw command
         RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();

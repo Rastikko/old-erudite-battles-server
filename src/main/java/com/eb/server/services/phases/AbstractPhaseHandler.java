@@ -20,12 +20,17 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
 
     @Override
     public void handleCommand(Game game, GameCommand gameCommand) {
-        switch (gameCommand.getGameCommandType()) {
-            case COMMAND_END:
-                definePhase(game, NEXT_GAME_PHASE_TYPE);
-                break;
-
+        if (shouldDefineNextPhase(game, gameCommand)) {
+            definePhase(game, NEXT_GAME_PHASE_TYPE);
         }
+    }
+
+    boolean shouldDefineNextPhase(Game game, GameCommand gameCommand) {
+        // TODO: we assume that is always a bot game
+        if (gameCommand.getGameCommandType().equals(GameCommandType.COMMAND_END)) {
+            return true;
+        }
+        return false;
     }
 
     GamePhase createGamePhase(Game game, GamePhaseType gamePhaseType) {
