@@ -1,9 +1,9 @@
 package com.eb.server.domain;
 
+import com.eb.server.domain.types.GamePhaseType;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data

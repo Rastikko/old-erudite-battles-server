@@ -6,6 +6,7 @@ import com.eb.server.api.v1.model.RequestGameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
+import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.repositories.GameRepository;
 import org.springframework.stereotype.Service;
 

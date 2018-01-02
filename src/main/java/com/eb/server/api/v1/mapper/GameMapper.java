@@ -27,5 +27,4 @@ public interface GameMapper {
 
     // TODO: this will not allow us filter the enemyPlayer data
     GameDTO gameToGameDTO(Game game);
-    GamePhaseDTO gamePhaseToGamePhaseDTO(GamePhase gamePhase);
 }

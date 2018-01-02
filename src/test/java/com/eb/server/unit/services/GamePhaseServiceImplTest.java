@@ -1,7 +1,7 @@
 package com.eb.server.unit.services;
 
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GamePhaseType;
+import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.domain.GamePlayer;
 import com.eb.server.services.GamePhaseService;
 import com.eb.server.services.GamePhaseServiceImpl;

@@ -10,5 +10,5 @@ public class GameCardDTO {
     private Long id;
     private String name;
     private Integer cost;
-    private List<Attribute> attributes;
+    private List<AttributeDTO> attributes;
 }

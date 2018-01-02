@@ -3,6 +3,9 @@ package com.eb.server;
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
+import com.eb.server.domain.types.AttributeType;
+import com.eb.server.domain.types.GameCommandType;
+import com.eb.server.domain.types.GamePhaseType;
 
 import java.util.ArrayList;
 import java.util.List;

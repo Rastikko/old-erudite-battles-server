@@ -16,6 +16,6 @@ public class Card {
     private String name;
     private Integer cost;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Attribute> attributes;
 }

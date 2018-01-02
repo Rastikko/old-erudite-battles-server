@@ -1,4 +1,4 @@
-package com.eb.server.domain;
+package com.eb.server.domain.types;
 
 public enum GamePhaseType {
     PHASE_NONE, PHASE_GATHER, PHASE_PLAN, PHASE_BATTLE_PREPARATION, PHASE_BATTLE, PHASE_BATTLE_RESOLUTION, PHASE_OUTCOME

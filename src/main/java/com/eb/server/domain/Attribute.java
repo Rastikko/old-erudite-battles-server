@@ -1,5 +1,6 @@
 package com.eb.server.domain;
 
+import com.eb.server.domain.types.AttributeType;
 import lombok.Data;
 
 import javax.persistence.*;

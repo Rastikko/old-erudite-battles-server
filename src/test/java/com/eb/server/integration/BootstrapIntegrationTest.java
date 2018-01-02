@@ -7,7 +7,7 @@ import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.boostrap.Bootstrap;
-import com.eb.server.domain.GamePhaseType;
+import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.GameRepository;
 import com.eb.server.repositories.UserRepository;
@@ -72,7 +72,7 @@ public class BootstrapIntegrationTest {
         assertEquals(GamePhaseType.PHASE_GATHER, retrievedNewGame.getGamePhase().getGamePhaseType());
         assertEquals(2, retrievedNewGame.getGamePlayers().size());
         assertEquals(5, retrievedNewGame.getGamePlayers().get(0).getHand().size());
-        //assertEquals(1, retrievedNewGame.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
+        assertEquals(1, retrievedNewGame.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
 
         // TODO: discover why gameId keeps returning null
         UserDTO userWithGameDTO = userService.findUserDTOById(savedUserDTO.getId());

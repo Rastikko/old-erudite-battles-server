@@ -1,7 +1,7 @@
 package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GamePhaseType;
+import com.eb.server.domain.types.GamePhaseType;
 
 public class PhaseHandlerBattle extends AbstractPhaseHandler {
 

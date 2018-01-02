@@ -1,6 +1,8 @@
 package com.eb.server.services.phases;
 
 import com.eb.server.domain.*;
+import com.eb.server.domain.types.GameCommandType;
+import com.eb.server.domain.types.GamePhaseType;
 
 import java.util.List;
 

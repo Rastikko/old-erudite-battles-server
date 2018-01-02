@@ -14,8 +14,7 @@ public class GameCard {
     private String name;
     private Integer cost;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Attribute> attributes;
-
 
 }

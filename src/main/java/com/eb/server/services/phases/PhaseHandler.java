@@ -2,8 +2,7 @@ package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCommand;
-import com.eb.server.domain.GamePhase;
-import com.eb.server.domain.GamePhaseType;
+import com.eb.server.domain.types.GamePhaseType;
 
 public interface PhaseHandler {
     void definePhase(Game game, GamePhaseType gamePhaseType);

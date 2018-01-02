@@ -1,19 +1,16 @@
 package com.eb.server.boostrap;
 
 import com.eb.server.domain.Attribute;
-import com.eb.server.domain.AttributeType;
+import com.eb.server.domain.types.AttributeType;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class Bootstrap implements CommandLineRunner {

@@ -1,6 +1,5 @@
 package com.eb.server.api.v1.model;
 
-import com.eb.server.domain.GameCommandType;
 import lombok.Data;
 
 @Data

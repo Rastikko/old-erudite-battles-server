@@ -2,6 +2,8 @@ package com.eb.server.services.phases;
 
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
+import com.eb.server.domain.types.GameCommandType;
+import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.services.GamePhaseServiceImpl;
 
 public abstract class AbstractPhaseHandler implements PhaseHandler {
