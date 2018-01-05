@@ -3,6 +3,7 @@ package com.eb.server.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -12,18 +13,18 @@ public class GamePlayer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private Integer energy;
+    private Integer energy = 0;
     private Integer damage;
     private Integer health;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<GameCard> deck;
+    private List<GameCard> deck = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<GameCard> hand;
+    private List<GameCard> hand = new ArrayList<>();
 
-    @ManyToOne
-    private Game game;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<GameCard> permanents = new ArrayList<>();
 
     private Long userId;
 }

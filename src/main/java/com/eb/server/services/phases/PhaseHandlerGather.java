@@ -23,6 +23,8 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
             case COMMAND_DRAW:
                 handleCommandDraw(game, gameCommand);
                 return;
+            case COMMAND_HARVEST:
+                handlecommandHarvest(game, gameCommand);
         }
         super.handleCommand(game, gameCommand);
     }
@@ -38,16 +40,14 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
 
     }
 
+    void handlecommandHarvest(Game game, GameCommand gameCommand) {
+        GamePlayer gamePlayer = findGamePlayerCommand(game.getGamePlayers(), gameCommand);
+        gamePlayer.setEnergy(game.getTurn());
+    }
+
     @Override
     public void handleBotCommands(Game game) {
         handleCommandDraw(game, createBotCommand(GameCommandType.COMMAND_DRAW, "5"));
         // TODO: get energy equivalent to turn
-    }
-
-    GamePlayer findGamePlayerCommand(List<GamePlayer> gamePlayers, GameCommand gameCommand) {
-        return gamePlayers.stream()
-                .filter(x -> x.getUserId() == gameCommand.getUserId())
-                .findFirst()
-                .get();
     }
 }

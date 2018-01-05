@@ -13,4 +13,5 @@ public class GamePlayerDTO {
     private Integer health;
     private List<GameCardDTO> deck;
     private List<GameCardDTO> hand;
+    private List<GameCardDTO> permanents;
 }

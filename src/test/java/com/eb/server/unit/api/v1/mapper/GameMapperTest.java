@@ -27,9 +27,12 @@ public class GameMapperTest {
     public void gameToGameDTO() throws Exception {
         Game game = new Game();
 
+        GamePhase gamePhase = new GamePhase();
+        gamePhase.setId(GAME_PHASE_ID);
+
         game.setId(ID);
-        game.setGamePlayers(getGamePlayers(game));
-        game.setGamePhase(getGamePhase(game));
+        game.setGamePlayers(getGamePlayers());
+        game.setGamePhase(gamePhase);
 
         GameDTO gameDTO = gameMapper.gameToGameDTO(game);
 
@@ -40,6 +43,7 @@ public class GameMapperTest {
         assertEquals(gameDTO.getGamePlayers().get(0).getDeck().size(), 2);
         assertEquals(gameDTO.getGamePlayers().get(0).getHand().size(), 2);
         assertEquals(gameDTO.getGamePlayers().get(0).getDeck().get(0).getId(), GAME_CARD_ID_1);
+        assertEquals(gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId(), GAME_CARD_ID_1);
     }
 
     @Test
@@ -69,27 +73,19 @@ public class GameMapperTest {
         assertEquals(GameCommandType.COMMAND_END, gameCommand.getGameCommandType());
     }
 
-    // TODO: move these to game fixtures
-    private GamePhase getGamePhase(Game game) {
-        GamePhase gamePhase = new GamePhase();
-        gamePhase.setId(GAME_PHASE_ID);
-        return gamePhase;
-    }
-
-    // TODO: investigate if we need to pass game
-    private List<GamePlayer> getGamePlayers(Game game) {
+    private List<GamePlayer> getGamePlayers() {
         List<GamePlayer> gamePlayers = new ArrayList<>();
-        gamePlayers.add(getGamePlayer(1L, game));
-        gamePlayers.add(getGamePlayer(2L, game));
+        gamePlayers.add(getGamePlayer(1L));
+        gamePlayers.add(getGamePlayer(2L));
         return gamePlayers;
     }
 
-    private GamePlayer getGamePlayer(Long userId, Game game) {
+    private GamePlayer getGamePlayer(Long userId) {
         GamePlayer gp = new GamePlayer();
         gp.setUserId(userId);
-        gp.setGame(game);
         gp.setDeck(getGameCards());
         gp.setHand(getGameCards());
+        gp.setPermanents(getGameCards());
         // we make sure the gamePlayer id is different than the userId
         gp.setId(10L + userId);
         return gp;

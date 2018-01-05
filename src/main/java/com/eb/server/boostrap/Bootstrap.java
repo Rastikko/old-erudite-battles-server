@@ -45,6 +45,7 @@ public class Bootstrap implements CommandLineRunner {
         pythagorasTheoremCard.setId(1L);
         pythagorasTheoremCard.setName("Pythagoras Theorem");
         pythagorasTheoremCard.setAttributes(attributes);
+        pythagorasTheoremCard.setCost(1);
 
         cardRepository.save(pythagorasTheoremCard);
 

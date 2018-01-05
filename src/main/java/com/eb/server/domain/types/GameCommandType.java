@@ -1,5 +1,5 @@
 package com.eb.server.domain.types;
 
 public enum GameCommandType {
-    COMMAND_DRAW, COMMAND_END
+    COMMAND_HARVEST, COMMAND_DRAW, COMMAND_PLAY_CARD, COMMAND_END
 }

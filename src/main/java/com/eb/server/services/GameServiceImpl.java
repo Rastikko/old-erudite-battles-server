@@ -51,11 +51,15 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO handleCommand(Long gameId, RequestGameCommandDTO requestGameCommandDTO) {
         Game game = gameRepository.findOne(gameId);
+        // TODO: we should be able to just use the requestGameCommandDTO
         GameCommand command = gameMapper.requestGameCommandDTOToGameCommand(requestGameCommandDTO);
+
         gamePhaseService.handleCommand(game, command);
+
         if (game.getGamePhase().equals(GamePhaseType.PHASE_NONE)) {
             game.getGamePlayers().stream().forEach(this::removeGameFromUser);
         }
+
         return saveAndReturnDTO(game);
     }
 
@@ -68,19 +72,19 @@ public class GameServiceImpl implements GameService {
         Game game = new Game();
 
         List<GamePlayer> gamePlayers = new ArrayList<>();
-        gamePlayers.add(createGamePlayer(game, bot));
-        gamePlayers.add(createGamePlayer(game, user));
+        gamePlayers.add(createGamePlayer(bot));
+        gamePlayers.add(createGamePlayer(user));
 
         game.setGamePlayers(gamePlayers);
+        game.setTurn(1);
 
         return game;
     }
 
-    private GamePlayer createGamePlayer(Game game, User user) {
+    private GamePlayer createGamePlayer(User user) {
 
         GamePlayer gamePlayer = new GamePlayer();
         gamePlayer.setUserId(user.getId());
-        gamePlayer.setGame(game);
 
         // TODO: derive these from user attributes
         gamePlayer.setDamage(50);

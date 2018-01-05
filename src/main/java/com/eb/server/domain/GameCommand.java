@@ -16,6 +16,5 @@ public class GameCommand {
     private GameCommandType gameCommandType;
 
     private Long userId;
-
     private String payload;
 }

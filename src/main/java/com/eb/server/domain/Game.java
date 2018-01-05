@@ -13,11 +13,12 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO: make this dynamic
-    @Enumerated(value = EnumType.STRING)
-    private GameType gameType;
+//    @Enumerated(value = EnumType.STRING)
+//    private GameType gameType;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "game")
+    private Integer turn;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<GamePlayer> gamePlayers;
 
     @OneToOne(cascade = CascadeType.ALL)

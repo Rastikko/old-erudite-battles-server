@@ -33,6 +33,7 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
     public void definePhaseAttributes(Game game) {
         applyGamePlayerDamage(game.getGamePlayers().get(0), game.getGamePlayers().get(1));
         applyGamePlayerDamage(game.getGamePlayers().get(1), game.getGamePlayers().get(0));
+        game.setTurn(game.getTurn() + 1);
     }
 
     boolean shouldGameEnd(Game game) {

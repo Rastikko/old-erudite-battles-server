@@ -1,7 +1,6 @@
 package com.eb.server;
 
 import com.eb.server.api.v1.mapper.GameMapper;
-import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.AttributeType;
 import com.eb.server.domain.types.GameCommandType;
@@ -14,6 +13,7 @@ public class GameFixtures {
     static GameMapper gameMapper = GameMapper.INSTANCE;
 
     public static Long USER_ID = 2L;
+    public static Long BOT_ID = 1L;
 
     public static List<Card> getDefaultDeck() {
         List<Card> deck = new ArrayList<>();
@@ -28,6 +28,7 @@ public class GameFixtures {
         Card pythagorasTheoremCard = new Card();
         pythagorasTheoremCard.setId(1L);
         pythagorasTheoremCard.setAttributes(attributes);
+        pythagorasTheoremCard.setCost(1);
 
         for(int i = 0; i < 30; i++) {
             deck.add(pythagorasTheoremCard);
@@ -40,9 +41,10 @@ public class GameFixtures {
         Game game = new Game();
         List<GamePlayer> gamePlayers = new ArrayList<>();
 
-        gamePlayers.add(geMockedGamePlayer(Bootstrap.BOT_ID));
+        gamePlayers.add(geMockedGamePlayer(BOT_ID));
         gamePlayers.add(geMockedGamePlayer(2L));
         game.setGamePlayers(gamePlayers);
+        game.setTurn(1);
 
         return game;
 
@@ -54,11 +56,11 @@ public class GameFixtures {
         return gamePhase;
     }
 
-    public static GameCommand drawCommand(String payload) {
+    public static GameCommand gameCommand(GameCommandType gameCommandType, String payload) {
         GameCommand command = new GameCommand();
         command.setUserId(USER_ID);
         command.setPayload(payload);
-        command.setGameCommandType(GameCommandType.COMMAND_DRAW);
+        command.setGameCommandType(gameCommandType);
         return command;
     }
 
@@ -72,12 +74,10 @@ public class GameFixtures {
     static GamePlayer geMockedGamePlayer(Long userId) {
         GamePlayer gamePlayer = new GamePlayer();
         List<GameCard> deck = gameMapper.cardsToGameCards(getDefaultDeck());
-        List<GameCard> hand = new ArrayList<>();
         gamePlayer.setUserId(userId);
         gamePlayer.setHealth((int) (userId * 100));
         gamePlayer.setDamage(50);
         gamePlayer.setDeck(deck);
-        gamePlayer.setHand(hand);
         return gamePlayer;
     }
 }
