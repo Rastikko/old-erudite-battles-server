@@ -24,14 +24,16 @@ public class GamePhaseServiceImplTest {
     @Test
     public void handleNewGame() {
         Integer BOT_ENERGY = 1;
+        int BOT_DECK = 25;
+        int BOT_HAND = 5;
         Game game = GameFixtures.game();
 
         gamePhaseService.handleNewGame(game);
         GamePlayer bot = game.getGamePlayers().get(0);
         assertEquals(game.getGamePhase().getGamePhaseType(), GamePhaseType.PHASE_GATHER);
         // will process bot draw cards
-        assertEquals(25, bot.getDeck().size());
-        assertEquals(5, bot.getHand().size());
+        assertEquals(BOT_DECK, bot.getDeck().size());
+        assertEquals(BOT_HAND, bot.getHand().size());
         assertEquals(BOT_ENERGY, bot.getEnergy());
     }
 

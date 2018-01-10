@@ -12,11 +12,11 @@ mvn clean install
     - A question have id, answers, time
     - We will dispatch gameQuestions that contains questions
     - gamePlayer does keep the performance update through an special DTO
-    
  - Cards
     - Apply attributes
     - Energy mechanic
- - Aligment mechanic
+ - Alignment mechanic
+ - json to generate cards
  
  
  ## Standars

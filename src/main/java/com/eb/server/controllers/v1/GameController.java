@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(GameController.BASE_URL)
 public class GameController {
     public static final String BASE_URL = "/api/v1/games";

@@ -14,7 +14,7 @@ public class GamePlayer {
     private Long id;
 
     private Integer energy = 0;
-    private Integer damage;
+    private Integer attack;
     private Integer health;
 
     @OneToMany(cascade = CascadeType.ALL)

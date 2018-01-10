@@ -14,7 +14,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
 
     // TODO: override and call super to define payload
     public void definePhase(Game game, GamePhaseType gamePhaseType) {
-        GamePhase gamePhase = createGamePhase(game, gamePhaseType);
+        GamePhase gamePhase = createGamePhase(gamePhaseType);
         game.setGamePhase(gamePhase);
 
         PhaseHandler phaseHandler = GamePhaseServiceImpl.getPhaseHandler(game);
@@ -37,11 +37,9 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         return false;
     }
 
-    GamePhase createGamePhase(Game game, GamePhaseType gamePhaseType) {
+    GamePhase createGamePhase(GamePhaseType gamePhaseType) {
         GamePhase gamePhase = new GamePhase();
-
         gamePhase.setGamePhaseType(gamePhaseType);
-
         return gamePhase;
     }
 

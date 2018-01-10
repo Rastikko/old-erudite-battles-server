@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping(UserController.BASE_URL)
 public class UserController {
     public static final String BASE_URL = "/api/v1/users";
@@ -22,7 +23,7 @@ public class UserController {
         return userService.findUserDTOById(id);
     }
 
-        @PostMapping
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO createNewUser(@RequestBody UserDTO userDTO) {
         return userService.createNewUser(userDTO);

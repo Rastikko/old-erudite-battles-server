@@ -4,8 +4,6 @@ import com.eb.server.domain.*;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
 
-import java.util.List;
-
 public class PhaseHandlerGather extends AbstractPhaseHandler {
     public PhaseHandlerGather() {
         GAME_PHASE_TYPE = GamePhaseType.PHASE_GATHER;
@@ -24,7 +22,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
                 handleCommandDraw(game, gameCommand);
                 return;
             case COMMAND_HARVEST:
-                handlecommandHarvest(game, gameCommand);
+                handleCommandHarvest(game, gameCommand);
         }
         super.handleCommand(game, gameCommand);
     }
@@ -40,7 +38,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
 
     }
 
-    void handlecommandHarvest(Game game, GameCommand gameCommand) {
+    void handleCommandHarvest(Game game, GameCommand gameCommand) {
         GamePlayer gamePlayer = findGamePlayerCommand(game.getGamePlayers(), gameCommand);
         gamePlayer.setEnergy(game.getTurn());
     }

@@ -42,7 +42,7 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
 
     void applyGamePlayerDamage(GamePlayer gamePlayerAttacker, GamePlayer gamePlayerDefender) {
         Integer health = gamePlayerDefender.getHealth();
-        Integer damage = gamePlayerAttacker.getDamage();
+        Integer damage = gamePlayerAttacker.getAttack();
         gamePlayerDefender.setHealth(health - damage);
     }
 }

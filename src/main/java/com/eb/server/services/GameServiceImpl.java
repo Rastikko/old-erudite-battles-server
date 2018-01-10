@@ -87,7 +87,7 @@ public class GameServiceImpl implements GameService {
         gamePlayer.setUserId(user.getId());
 
         // TODO: derive these from user attributes
-        gamePlayer.setDamage(50);
+        gamePlayer.setAttack(50);
         gamePlayer.setHealth(200);
 
         gamePlayer.setDeck(shuffleDeck(user.getDeck(), gamePlayer));

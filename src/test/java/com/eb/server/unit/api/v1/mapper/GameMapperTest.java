@@ -20,6 +20,7 @@ public class GameMapperTest {
     public static final Long GAME_PHASE_ID = 100L;
     public static final Long GAME_CARD_ID_1 = 1000L;
     public static final Long GAME_CARD_ID_2 = 2000L;
+    public static final Integer GAME_PLAYER_ATTACK = 50;
 
     GameMapper gameMapper = GameMapper.INSTANCE;
 
@@ -37,13 +38,14 @@ public class GameMapperTest {
         GameDTO gameDTO = gameMapper.gameToGameDTO(game);
 
         assertEquals(ID, gameDTO.getId());
-        assertEquals(gameDTO.getGamePlayers().get(0).getId(), GAME_PLAYER_ID_1);
-        assertEquals(gameDTO.getGamePlayers().get(1).getId(), GAME_PLAYER_ID_2);
-        assertEquals(gameDTO.getGamePhase().getId(), GAME_PHASE_ID);
-        assertEquals(gameDTO.getGamePlayers().get(0).getDeck().size(), 2);
-        assertEquals(gameDTO.getGamePlayers().get(0).getHand().size(), 2);
-        assertEquals(gameDTO.getGamePlayers().get(0).getDeck().get(0).getId(), GAME_CARD_ID_1);
-        assertEquals(gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId(), GAME_CARD_ID_1);
+        assertEquals(GAME_PLAYER_ID_1, gameDTO.getGamePlayers().get(0).getId());
+        assertEquals(GAME_PLAYER_ID_2, gameDTO.getGamePlayers().get(1).getId());
+        assertEquals(GAME_PHASE_ID, gameDTO.getGamePhase().getId());
+        assertEquals(GAME_PLAYER_ATTACK, gameDTO.getGamePlayers().get(0).getAttack());
+        assertEquals(2, gameDTO.getGamePlayers().get(0).getDeck().size());
+        assertEquals(2, gameDTO.getGamePlayers().get(0).getHand().size());
+        assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getDeck().get(0).getId());
+        assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
     }
 
     @Test
@@ -86,6 +88,7 @@ public class GameMapperTest {
         gp.setDeck(getGameCards());
         gp.setHand(getGameCards());
         gp.setPermanents(getGameCards());
+        gp.setAttack(GAME_PLAYER_ATTACK);
         // we make sure the gamePlayer id is different than the userId
         gp.setId(10L + userId);
         return gp;

@@ -76,7 +76,7 @@ public class GameFixtures {
         List<GameCard> deck = gameMapper.cardsToGameCards(getDefaultDeck());
         gamePlayer.setUserId(userId);
         gamePlayer.setHealth((int) (userId * 100));
-        gamePlayer.setDamage(50);
+        gamePlayer.setAttack(50);
         gamePlayer.setDeck(deck);
         return gamePlayer;
     }
