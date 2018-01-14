@@ -4,6 +4,8 @@ import com.eb.server.domain.types.GamePhaseType;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,6 +15,8 @@ public class GamePhase {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    // TODO: change to type
     private GamePhaseType type;
+
+    @ElementCollection
+    private List<Long> endPhaseGamePlayerIds = new ArrayList<>();
 }

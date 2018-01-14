@@ -3,7 +3,9 @@ package com.eb.server.services.phases;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PhaseHandlerGather extends AbstractPhaseHandler {
     public PhaseHandlerGather() {
         GAME_PHASE_TYPE = GamePhaseType.PHASE_GATHER;
@@ -47,6 +49,6 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
     public void handleBotCommands(Game game) {
         handleCommandDraw(game, createBotCommand(GameCommandType.COMMAND_DRAW, "5"));
         handleCommandHarvest(game, createBotCommand(GameCommandType.COMMAND_HARVEST, ""));
-        // TODO: get energy equivalent to turn
+        handleCommandEnd(game, createBotCommand(GameCommandType.COMMAND_END, ""));
     }
 }

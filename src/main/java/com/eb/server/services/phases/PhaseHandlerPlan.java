@@ -4,10 +4,13 @@ import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCard;
 import com.eb.server.domain.GameCommand;
 import com.eb.server.domain.GamePlayer;
+import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PhaseHandlerPlan extends AbstractPhaseHandler {
 
     public PhaseHandlerPlan() {
@@ -33,6 +36,7 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
 
     @Override
     public void handleBotCommands(Game game) {
+        handleCommandEnd(game, createBotCommand(GameCommandType.COMMAND_END, ""));
     }
 
     void handleCommandPlayCard(Game game, GameCommand gameCommand) {

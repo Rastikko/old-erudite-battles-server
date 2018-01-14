@@ -9,38 +9,64 @@ import org.springframework.stereotype.Service;
 @Service
 public class GamePhaseServiceImpl implements GamePhaseService {
 
+    PhaseHandlerNone phaseHandlerNone;
+    PhaseHandlerGather phaseHandlerGather;
+    PhaseHandlerPlan phaseHandlerPlan;
+    PhaseHandlerBattlePreparation phaseHandlerBattlePreparation;
+    PhaseHandlerBattle phaseHandlerBattle;
+    PhaseHandlerBattleResolution phaseHandlerBattleResolution;
+    PhaseHandlerOutcome phaseHandlerOutcome;
+
+    public GamePhaseServiceImpl(
+        PhaseHandlerNone phaseHandlerNone,
+        PhaseHandlerGather phaseHandlerGather,
+        PhaseHandlerPlan phaseHandlerPlan,
+        PhaseHandlerBattlePreparation phaseHandlerBattlePreparation,
+        PhaseHandlerBattle phaseHandlerBattle,
+        PhaseHandlerBattleResolution phaseHandlerBattleResolution,
+        PhaseHandlerOutcome phaseHandlerOutcome
+    ) {
+        this.phaseHandlerNone = phaseHandlerNone;
+        this.phaseHandlerGather = phaseHandlerGather;
+        this.phaseHandlerPlan = phaseHandlerPlan;
+        this.phaseHandlerBattlePreparation = phaseHandlerBattlePreparation;
+        this.phaseHandlerBattle = phaseHandlerBattle;
+        this.phaseHandlerBattleResolution = phaseHandlerBattleResolution;
+        this.phaseHandlerOutcome = phaseHandlerOutcome;
+    }
+
     @Override
     public void handleNewGame(Game game) {
-        PhaseHandler phaseHandler = getPhaseHandler(game);
-        phaseHandler.definePhase(game, GamePhaseType.PHASE_GATHER);
+        PhaseHandler phaseHandler = getPhaseHandler(GamePhaseType.PHASE_GATHER);
+        phaseHandler.definePhase(game);
     }
 
     @Override
     public void handleCommand(Game game, GameCommand gameCommand) {
-        PhaseHandler phaseHandler = getPhaseHandler(game);
+        PhaseHandler phaseHandler = getPhaseHandler(game.getGamePhase().getType());
         phaseHandler.handleCommand(game, gameCommand);
+        if (phaseHandler.isNextPhaseReady(game)) {
+            PhaseHandler newPhaseHandler = getPhaseHandler(phaseHandler.getNextPhaseType(game));
+            newPhaseHandler.definePhase(game);
+        }
     }
 
-    public static PhaseHandler getPhaseHandler(Game game) {
-        if (game.getGamePhase() == null) {
-            return new PhaseHandlerGather();
-        }
-
-        switch (game.getGamePhase().getType()) {
+    public PhaseHandler getPhaseHandler(GamePhaseType gamePhaseType) {
+        switch (gamePhaseType) {
             case PHASE_GATHER:
-                return new PhaseHandlerGather();
+                return this.phaseHandlerGather;
             case PHASE_PLAN:
-                return new PhaseHandlerPlan();
+                return this.phaseHandlerPlan;
             case PHASE_BATTLE_PREPARATION:
-                return new PhaseHandlerBattlePreparation();
+                return this.phaseHandlerBattlePreparation;
             case PHASE_BATTLE:
-                return new PhaseHandlerBattle();
+                return this.phaseHandlerBattle;
             case PHASE_BATTLE_RESOLUTION:
-                return new PhaseHandlerBattleResolution();
+                return this.phaseHandlerBattleResolution;
             case PHASE_OUTCOME:
-                return new PhaseHandlerOutcome();
+                return this.phaseHandlerOutcome;
             case PHASE_NONE:
-                return new PhaseHandlerNone();
+                return this.phaseHandlerNone;
         }
         return null;
     }

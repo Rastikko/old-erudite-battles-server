@@ -2,7 +2,9 @@ package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
 import com.eb.server.domain.types.GamePhaseType;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PhaseHandlerOutcome extends AbstractPhaseHandler {
 
     public PhaseHandlerOutcome() {

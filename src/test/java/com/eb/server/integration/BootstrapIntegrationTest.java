@@ -12,6 +12,7 @@ import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.GameRepository;
 import com.eb.server.repositories.UserRepository;
 import com.eb.server.services.*;
+import com.eb.server.services.phases.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,14 +44,22 @@ public class BootstrapIntegrationTest {
         bootstrap.run();
 
         userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
-        gamePhaseService = new GamePhaseServiceImpl();
+        gamePhaseService = new GamePhaseServiceImpl(
+                new PhaseHandlerNone(),
+                new PhaseHandlerGather(),
+                new PhaseHandlerPlan(),
+                new PhaseHandlerBattlePreparation(),
+                new PhaseHandlerBattle(),
+                new PhaseHandlerBattleResolution(),
+                new PhaseHandlerOutcome()
+        );
         gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, gamePhaseService, userService);
 
     }
 
     @Test
+    // TODO: discover why we cannot create 2 tests
     public void testBotGame() {
-        // TODO: discover why we cannot create 2 tests
         UserDTO bot = userService.findUserDTOById(Bootstrap.BOT_ID);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
         assertEquals(bootstrap.getDefaultDeck().size(), bot.getDeck().size());
@@ -74,7 +83,6 @@ public class BootstrapIntegrationTest {
         assertEquals(5, retrievedNewGame.getGamePlayers().get(0).getHand().size());
         assertEquals(1, retrievedNewGame.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
 
-        // TODO: discover why gameId keeps returning null
         UserDTO userWithGameDTO = userService.findUserDTOById(savedUserDTO.getId());
         assertEquals(GAME_ID, userWithGameDTO.getGameId());
 
@@ -87,6 +95,24 @@ public class BootstrapIntegrationTest {
         GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
 
         assertEquals(25, drawCommandGame.getGamePlayers().get(1).getDeck().size());
+
+        gameCommandDTO.setUserId(savedUserDTO.getId());
+        gameCommandDTO.setPayload("");
+        gameCommandDTO.setType("COMMAND_HARVEST");
+
+        GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
+
+        assertEquals(Integer.valueOf(1), gatherCommandGame.getGamePlayers().get(1).getEnergy());
+
+        gameCommandDTO.setUserId(savedUserDTO.getId());
+        gameCommandDTO.setPayload("");
+        gameCommandDTO.setType("COMMAND_END");
+
+        GameDTO endCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
+
+        assertEquals(GamePhaseType.PHASE_PLAN, endCommandGame.getGamePhase().getType());
+
+        // TODO: test play a card
 
     }
 }

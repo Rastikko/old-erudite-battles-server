@@ -2,9 +2,12 @@ package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCommand;
+import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.domain.GamePlayer;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
     public PhaseHandlerBattleResolution() {
         GAME_PHASE_TYPE = GamePhaseType.PHASE_BATTLE_RESOLUTION;
@@ -13,20 +16,7 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
 
     @Override
     public void handleBotCommands(Game game) {
-
-    }
-
-    @Override
-    public void handleCommand(Game game, GameCommand gameCommand) {
-        boolean isNextPhase = shouldDefineNextPhase(game, gameCommand);
-        boolean isGameOver = shouldGameEnd(game);
-
-        if (isNextPhase && isGameOver) {
-            definePhase(game, GamePhaseType.PHASE_OUTCOME);
-            return;
-        }
-
-        super.handleCommand(game, gameCommand);
+        handleCommandEnd(game, createBotCommand(GameCommandType.COMMAND_END, ""));
     }
 
     @Override
@@ -34,6 +24,17 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
         applyGamePlayerDamage(game.getGamePlayers().get(0), game.getGamePlayers().get(1));
         applyGamePlayerDamage(game.getGamePlayers().get(1), game.getGamePlayers().get(0));
         game.setTurn(game.getTurn() + 1);
+    }
+
+    @Override
+    public GamePhaseType getNextPhaseType(Game game) {
+        boolean isNextPhase = isNextPhaseReady(game);
+        boolean isGameOver = shouldGameEnd(game);
+
+        if (isNextPhase && isGameOver) {
+            return GamePhaseType.PHASE_OUTCOME;
+        }
+        return NEXT_GAME_PHASE_TYPE;
     }
 
     boolean shouldGameEnd(Game game) {

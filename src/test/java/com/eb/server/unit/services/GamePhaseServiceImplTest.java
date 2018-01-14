@@ -8,11 +8,14 @@ import com.eb.server.services.GamePhaseServiceImpl;
 import com.eb.server.GameFixtures;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
 
 public class GamePhaseServiceImplTest {
-    GamePhaseService gamePhaseService;
+    // TODO: these are integration tests
+    /*GamePhaseService gamePhaseService;
+
 
     @Before
     public void setUp()
@@ -77,5 +80,5 @@ public class GamePhaseServiceImplTest {
         gamePhaseService.handleCommand(game, GameFixtures.endCommand());
 
         assertEquals(GamePhaseType.PHASE_GATHER, game.getGamePhase().getType());
-    }
+    }*/
 }
