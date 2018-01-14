@@ -1,5 +1,6 @@
 package com.eb.server.api.v1.model;
 
+import com.eb.server.domain.GameQuestion;
 import lombok.Data;
 
 import java.util.List;
@@ -15,5 +16,5 @@ public class GamePlayerDTO {
     private List<GameCardDTO> deck;
     private List<GameCardDTO> hand;
     private List<GameCardDTO> permanents;
-    // private List<AnsweredQuestionsDTO> answeredQuestions;
+    private List<GameQuestion> gameQuestions;
 }

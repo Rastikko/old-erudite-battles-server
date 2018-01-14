@@ -26,5 +26,8 @@ public class GamePlayer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameCard> permanents = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<GameQuestion> gameQuestions;
+
     private Long userId;
 }

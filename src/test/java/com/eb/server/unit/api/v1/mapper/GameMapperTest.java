@@ -9,6 +9,7 @@ import com.eb.server.domain.types.GameCommandType;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -47,6 +48,7 @@ public class GameMapperTest {
         // TODO: make a deckDTO
         assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getDeck().get(0).getId());
         assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
+        assertEquals("Answer C", gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(2));
     }
 
     @Test
@@ -90,9 +92,30 @@ public class GameMapperTest {
         gp.setHand(getGameCards());
         gp.setPermanents(getGameCards());
         gp.setAttack(GAME_PLAYER_ATTACK);
+        gp.setGameQuestions(new ArrayList<>());
+        gp.getGameQuestions().add(getGameQuestion());
         // we make sure the gamePlayer id is different than the userId
         gp.setId(10L + userId);
         return gp;
+    }
+
+    private GameQuestion getGameQuestion() {
+        GameQuestion gameQuestion = new GameQuestion();
+        Question question = new Question();
+        List<String> answers = new ArrayList<>();
+        answers.add("Answer A");
+        answers.add("Answer B");
+        answers.add("Answer C");
+        answers.add("Answer D");
+        question.setCorrectAnswer("Answer A");
+        question.setPotentialAnswers(answers);
+        gameQuestion.setEndDate(new Date());
+        gameQuestion.setStartDate(new Date());
+        gameQuestion.setId(1L);
+        gameQuestion.setSelectedAnswer("Answer B");
+        gameQuestion.setTurn(2);
+        gameQuestion.setQuestion(question);
+        return  gameQuestion;
     }
 
     private List<GameCard> getGameCards() {

@@ -2,10 +2,8 @@ package com.eb.server.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -14,5 +12,16 @@ public class GameQuestion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer turn;
+    private Date startDate;
+    private Date endDate;
+    private String selectedAnswer;
+    private Integer performance;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Question question;
+
+    // turn
+    // startDate
+    // endDate
 }

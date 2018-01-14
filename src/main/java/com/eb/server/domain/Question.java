@@ -4,10 +4,8 @@ import com.eb.server.domain.types.AffinityType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,10 +16,17 @@ public class Question {
     private Long id;
 
     private String title;
-    private String answer;
-//    private List<String> potentialAnswers;
-//    private QuestionCategoryType category;
-//    private AffinityType affinity;
+
+    private String correctAnswer;
+
+    @ElementCollection
+    private List<String> potentialAnswers = new ArrayList<>();
+
+    @Enumerated(value = EnumType.STRING)
+    private QuestionCategoryType category;
+
+    @Enumerated(value = EnumType.STRING)
+    private AffinityType affinity;
 }
 
 // gamePlayer will have a question that MIGHT be null

@@ -14,7 +14,7 @@ public class Game {
     private Long id;
 
 //    @Enumerated(value = EnumType.STRING)
-//    private GameType gameType;
+//    private GameType gameType = GameType.VS_BOT;
 
     private Integer turn;
 
