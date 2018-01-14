@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class GamePhaseDTO {
     private Long id;
-    private GamePhaseType gamePhaseType;
+    private GamePhaseType type;
 }

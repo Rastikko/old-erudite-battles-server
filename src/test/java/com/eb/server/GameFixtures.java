@@ -52,7 +52,7 @@ public class GameFixtures {
 
     public static GamePhase gamePhase(GamePhaseType gamePhaseType) {
         GamePhase gamePhase = new GamePhase();
-        gamePhase.setGamePhaseType(gamePhaseType);
+        gamePhase.setType(gamePhaseType);
         return gamePhase;
     }
 

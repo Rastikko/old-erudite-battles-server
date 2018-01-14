@@ -14,5 +14,5 @@ public class GamePhase {
 
     @Enumerated(value = EnumType.STRING)
     // TODO: change to type
-    private GamePhaseType gamePhaseType;
+    private GamePhaseType type;
 }

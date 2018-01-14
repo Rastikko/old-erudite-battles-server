@@ -13,7 +13,6 @@ public class GameCommand {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    // TODO: change to type
     private GameCommandType type;
 
     private Long userId;

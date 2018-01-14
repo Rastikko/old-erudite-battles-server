@@ -26,7 +26,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
             return new PhaseHandlerGather();
         }
 
-        switch (game.getGamePhase().getGamePhaseType()) {
+        switch (game.getGamePhase().getType()) {
             case PHASE_GATHER:
                 return new PhaseHandlerGather();
             case PHASE_PLAN:

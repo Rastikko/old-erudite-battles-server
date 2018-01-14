@@ -69,7 +69,7 @@ public class BootstrapIntegrationTest {
         assertEquals(GAME_ID, newGame.getId());
 
         GameDTO retrievedNewGame = gameService.findGameDTOById(newGame.getId());
-        assertEquals(GamePhaseType.PHASE_GATHER, retrievedNewGame.getGamePhase().getGamePhaseType());
+        assertEquals(GamePhaseType.PHASE_GATHER, retrievedNewGame.getGamePhase().getType());
         assertEquals(2, retrievedNewGame.getGamePlayers().size());
         assertEquals(5, retrievedNewGame.getGamePlayers().get(0).getHand().size());
         assertEquals(1, retrievedNewGame.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
