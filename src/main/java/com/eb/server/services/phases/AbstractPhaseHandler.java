@@ -31,7 +31,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
 
     boolean shouldDefineNextPhase(Game game, GameCommand gameCommand) {
         // TODO: we assume that is always a bot game
-        if (gameCommand.getGameCommandType().equals(GameCommandType.COMMAND_END)) {
+        if (gameCommand.getType().equals(GameCommandType.COMMAND_END)) {
             return true;
         }
         return false;
@@ -45,7 +45,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
 
     GameCommand createBotCommand(GameCommandType commandType, String payload) {
         GameCommand command = new GameCommand();
-        command.setGameCommandType(commandType);
+        command.setType(commandType);
         command.setUserId(Bootstrap.BOT_ID);
         command.setPayload(payload);
         return command;

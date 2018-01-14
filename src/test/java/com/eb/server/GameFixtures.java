@@ -60,14 +60,14 @@ public class GameFixtures {
         GameCommand command = new GameCommand();
         command.setUserId(USER_ID);
         command.setPayload(payload);
-        command.setGameCommandType(gameCommandType);
+        command.setType(gameCommandType);
         return command;
     }
 
     public static GameCommand endCommand() {
         GameCommand command = new GameCommand();
         command.setUserId(USER_ID);
-        command.setGameCommandType(GameCommandType.COMMAND_END);
+        command.setType(GameCommandType.COMMAND_END);
         return command;
     }
 

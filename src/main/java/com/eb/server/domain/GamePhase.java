@@ -13,5 +13,6 @@ public class GamePhase {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
+    // TODO: change to type
     private GamePhaseType gamePhaseType;
 }

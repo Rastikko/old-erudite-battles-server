@@ -2,7 +2,7 @@ package com.eb.server.integration;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.mapper.UserMapper;
-import com.eb.server.api.v1.model.RequestGameCommandDTO;
+import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
@@ -64,7 +64,7 @@ public class BootstrapIntegrationTest {
 
         RequestGameDTO requestGameDTO = new RequestGameDTO();
         requestGameDTO.setUserId(savedUserDTO.getId());
-        GameDTO newGame = gameService.createNewGame(requestGameDTO);
+        GameDTO newGame = gameService.requestNewGame(requestGameDTO);
 
         assertEquals(GAME_ID, newGame.getId());
 
@@ -79,12 +79,12 @@ public class BootstrapIntegrationTest {
         assertEquals(GAME_ID, userWithGameDTO.getGameId());
 
         // the user dispatch a draw command
-        RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();
-        requestGameCommandDTO.setUserId(savedUserDTO.getId());
-        requestGameCommandDTO.setPayload("5");
-        requestGameCommandDTO.setGameCommandType("COMMAND_DRAW");
+        GameCommandDTO gameCommandDTO = new GameCommandDTO();
+        gameCommandDTO.setUserId(savedUserDTO.getId());
+        gameCommandDTO.setPayload("5");
+        gameCommandDTO.setType("COMMAND_DRAW");
 
-        GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), requestGameCommandDTO);
+        GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
 
         assertEquals(25, drawCommandGame.getGamePlayers().get(1).getDeck().size());
 

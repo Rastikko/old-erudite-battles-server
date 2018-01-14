@@ -2,7 +2,7 @@ package com.eb.server.services;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.RequestGameDTO;
-import com.eb.server.api.v1.model.RequestGameCommandDTO;
+import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.*;
@@ -33,7 +33,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO createNewGame(RequestGameDTO requestGameDTO) {
+    public GameDTO requestNewGame(RequestGameDTO requestGameDTO) {
         User user = userService.findUserByID(requestGameDTO.getUserId());
         User bot = userService.findUserByID(Bootstrap.BOT_ID);
         Game game = createNewBotGame(user, bot);
@@ -49,10 +49,10 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameDTO handleCommand(Long gameId, RequestGameCommandDTO requestGameCommandDTO) {
+    public GameDTO handleCommand(Long gameId, GameCommandDTO gameCommandDTO) {
         Game game = gameRepository.findOne(gameId);
-        // TODO: we should be able to just use the requestGameCommandDTO
-        GameCommand command = gameMapper.requestGameCommandDTOToGameCommand(requestGameCommandDTO);
+        // TODO: we should be able to just use the gameCommandDTO
+        GameCommand command = gameMapper.requestGameCommandDTOToGameCommand(gameCommandDTO);
 
         gamePhaseService.handleCommand(game, command);
 

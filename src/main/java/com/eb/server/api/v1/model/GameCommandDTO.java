@@ -2,10 +2,11 @@ package com.eb.server.api.v1.model;
 
 import lombok.Data;
 
+// TODO: change to gameCommand
 @Data
-public class RequestGameCommandDTO {
+public class GameCommandDTO {
 
-    private String gameCommandType;
+    private String type;
     private Long userId;
     private String payload;
 

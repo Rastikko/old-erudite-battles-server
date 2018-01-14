@@ -64,7 +64,7 @@ public class GameServiceImplTest {
         RequestGameDTO requestGameDTO = new RequestGameDTO();
         requestGameDTO.setUserId(USER_ID);
 
-        GameDTO newGameDTO = gameService.createNewGame(requestGameDTO);
+        GameDTO newGameDTO = gameService.requestNewGame(requestGameDTO);
 
         assertNotNull(newGameDTO);
         assertEquals(2, newGameDTO.getGamePlayers().size());

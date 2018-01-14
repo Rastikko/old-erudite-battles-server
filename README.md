@@ -18,8 +18,19 @@ mvn clean install
  - Alignment mechanic
  - json to generate cards
  
+ questions
+ 
+ Generation from a json file
+ Selection base on permanents and erudites
+ 
+ gameQuestions
+ 
+ Save date when dispatch
+ Save answered updateEmberObjectFromObject
  
  ## Standars
  
   - Data can be embeded or using a reference id.
+  
+  
   

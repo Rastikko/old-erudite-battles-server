@@ -3,7 +3,7 @@ package com.eb.server.unit.api.v1.mapper;
 import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.GameDTO;
-import com.eb.server.api.v1.model.RequestGameCommandDTO;
+import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GameCommandType;
 import org.junit.Test;
@@ -44,6 +44,7 @@ public class GameMapperTest {
         assertEquals(GAME_PLAYER_ATTACK, gameDTO.getGamePlayers().get(0).getAttack());
         assertEquals(2, gameDTO.getGamePlayers().get(0).getDeck().size());
         assertEquals(2, gameDTO.getGamePlayers().get(0).getHand().size());
+        // TODO: make a deckDTO
         assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getDeck().get(0).getId());
         assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
     }
@@ -64,15 +65,15 @@ public class GameMapperTest {
         final Long USER_ID = 5l;
         final String PAYLOAD = "10";
 
-        RequestGameCommandDTO requestGameCommandDTO = new RequestGameCommandDTO();
-        requestGameCommandDTO.setPayload(PAYLOAD);
-        requestGameCommandDTO.setGameCommandType("COMMAND_END");
-        requestGameCommandDTO.setUserId(USER_ID);
+        GameCommandDTO gameCommandDTO = new GameCommandDTO();
+        gameCommandDTO.setPayload(PAYLOAD);
+        gameCommandDTO.setType("COMMAND_END");
+        gameCommandDTO.setUserId(USER_ID);
 
-        GameCommand gameCommand = gameMapper.requestGameCommandDTOToGameCommand(requestGameCommandDTO);
+        GameCommand gameCommand = gameMapper.requestGameCommandDTOToGameCommand(gameCommandDTO);
         assertEquals(USER_ID, gameCommand.getUserId());
         assertEquals(PAYLOAD, gameCommand.getPayload());
-        assertEquals(GameCommandType.COMMAND_END, gameCommand.getGameCommandType());
+        assertEquals(GameCommandType.COMMAND_END, gameCommand.getType());
     }
 
     private List<GamePlayer> getGamePlayers() {

@@ -11,7 +11,9 @@ public class GamePlayerDTO {
     private Integer energy;
     private Integer attack;
     private Integer health;
+    // TODO: deck just need to expose size
     private List<GameCardDTO> deck;
     private List<GameCardDTO> hand;
     private List<GameCardDTO> permanents;
+    // private List<AnsweredQuestionsDTO> answeredQuestions;
 }

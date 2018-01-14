@@ -1,11 +1,14 @@
 package com.eb.server.domain;
 
+import com.eb.server.domain.types.AffinityType;
+import com.eb.server.domain.types.QuestionCategoryType;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,6 +19,9 @@ public class Question {
 
     private String title;
     private String answer;
+//    private List<String> potentialAnswers;
+//    private QuestionCategoryType category;
+//    private AffinityType affinity;
 }
 
 // gamePlayer will have a question that MIGHT be null
