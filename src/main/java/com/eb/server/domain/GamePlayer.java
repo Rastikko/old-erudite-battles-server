@@ -1,5 +1,6 @@
 package com.eb.server.domain;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,8 +27,13 @@ public class GamePlayer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameCard> permanents = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private GameQuestion currentGameQuestion;
+
     @OneToMany(cascade = CascadeType.ALL)
-    private List<GameQuestion> gameQuestions;
+    private List<GameQuestion> gameQuestions = new ArrayList<>();
 
     private Long userId;
+
+    private Boolean isBot = false;
 }

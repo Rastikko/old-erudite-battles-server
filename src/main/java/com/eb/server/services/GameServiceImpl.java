@@ -71,8 +71,12 @@ public class GameServiceImpl implements GameService {
     private Game createNewBotGame(User user, User bot) {
         Game game = new Game();
 
+        GamePlayer gamePlayerBot = createGamePlayer(bot);
+        gamePlayerBot.setIsBot(true);
+
         List<GamePlayer> gamePlayers = new ArrayList<>();
-        gamePlayers.add(createGamePlayer(bot));
+
+        gamePlayers.add(gamePlayerBot);
         gamePlayers.add(createGamePlayer(user));
 
         game.setGamePlayers(gamePlayers);

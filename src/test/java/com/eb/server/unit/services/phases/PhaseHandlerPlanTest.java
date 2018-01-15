@@ -30,7 +30,7 @@ public class PhaseHandlerPlanTest {
         cardToPlay.setId(CARD_ID);
         game.getGamePlayers().get(1).getHand().add(cardToPlay);
         game.getGamePlayers().get(1).setEnergy(2);
-        GameCommand gameCommand = GameFixtures.gameCommand(GameCommandType.COMMAND_PLAY_CARD, cardToPlay.getId().toString());
+        GameCommand gameCommand = GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, cardToPlay.getId().toString());
 
         phaseHandlerPlan.handleCommand(game, gameCommand);
 

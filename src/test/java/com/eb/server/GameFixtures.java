@@ -2,11 +2,11 @@ package com.eb.server;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.domain.*;
-import com.eb.server.domain.types.AttributeType;
-import com.eb.server.domain.types.GameCommandType;
-import com.eb.server.domain.types.GamePhaseType;
+import com.eb.server.domain.types.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class GameFixtures {
@@ -38,11 +38,15 @@ public class GameFixtures {
     }
 
     public static Game game() {
-        Game game = new Game();
-        List<GamePlayer> gamePlayers = new ArrayList<>();
+        GamePlayer botPlayer = geMockedGamePlayer(BOT_ID);
+        GamePlayer player = geMockedGamePlayer(2L);
+        botPlayer.setIsBot(true);
 
-        gamePlayers.add(geMockedGamePlayer(BOT_ID));
-        gamePlayers.add(geMockedGamePlayer(2L));
+        List<GamePlayer> gamePlayers = new ArrayList<>();
+        gamePlayers.add(botPlayer);
+        gamePlayers.add(player);
+
+        Game game = new Game();
         game.setGamePlayers(gamePlayers);
         game.setTurn(1);
 
@@ -56,19 +60,27 @@ public class GameFixtures {
         return gamePhase;
     }
 
-    public static GameCommand gameCommand(GameCommandType gameCommandType, String payload) {
+    public static GameCommand gameCommand(Long userId, GameCommandType gameCommandType, String payload) {
         GameCommand command = new GameCommand();
-        command.setUserId(USER_ID);
+        command.setUserId(userId);
         command.setPayload(payload);
         command.setType(gameCommandType);
         return command;
     }
 
-    public static GameCommand endCommand() {
-        GameCommand command = new GameCommand();
-        command.setUserId(USER_ID);
-        command.setType(GameCommandType.COMMAND_END);
-        return command;
+    public static GameQuestion gameQuestion() {
+        Question question = new Question();
+        question.setTitle("1+1");
+        question.setCorrectAnswer("2");
+        question.setCategory(QuestionCategoryType.TRIGONOMETRY);
+        question.setAffinity(QuestionAffinityType.LOGIC);
+
+        GameQuestion gameQuestion = new GameQuestion();
+        gameQuestion.setStartDate(new GregorianCalendar(2018, 1, 1));
+        gameQuestion.setTurn(1);
+        gameQuestion.setQuestion(question);
+
+        return gameQuestion;
     }
 
     static GamePlayer geMockedGamePlayer(Long userId) {

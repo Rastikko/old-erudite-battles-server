@@ -3,6 +3,7 @@ package com.eb.server.domain;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -13,8 +14,8 @@ public class GameQuestion {
     private Long id;
 
     private Integer turn;
-    private Date startDate;
-    private Date endDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private String selectedAnswer;
     private Integer performance;
 

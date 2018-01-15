@@ -10,6 +10,7 @@ import com.eb.server.boostrap.Bootstrap;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.GameRepository;
+import com.eb.server.repositories.QuestionRepository;
 import com.eb.server.repositories.UserRepository;
 import com.eb.server.services.*;
 import com.eb.server.services.phases.*;
@@ -32,27 +33,34 @@ public class BootstrapIntegrationTest {
     UserRepository userRepository;
     @Autowired
     CardRepository cardRepository;
+    @Autowired
+    QuestionRepository questionRepository;
 
     Bootstrap bootstrap;
     UserService userService;
     GameService gameService;
     GamePhaseService gamePhaseService;
+    QuestionService questionService;
 
     @Before
     public void setUp() throws Exception {
-        bootstrap = new Bootstrap(userRepository, cardRepository);
+        bootstrap = new Bootstrap(userRepository, cardRepository, questionRepository);
         bootstrap.run();
 
         userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
+
+        questionService = new QuestionServiceImpl(questionRepository);
+
         gamePhaseService = new GamePhaseServiceImpl(
                 new PhaseHandlerNone(),
                 new PhaseHandlerGather(),
                 new PhaseHandlerPlan(),
                 new PhaseHandlerBattlePreparation(),
-                new PhaseHandlerBattle(),
+                new PhaseHandlerBattle(questionService),
                 new PhaseHandlerBattleResolution(),
                 new PhaseHandlerOutcome()
         );
+
         gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, gamePhaseService, userService);
 
     }
@@ -87,32 +95,45 @@ public class BootstrapIntegrationTest {
         assertEquals(GAME_ID, userWithGameDTO.getGameId());
 
         // the user dispatch a draw command
-        GameCommandDTO gameCommandDTO = new GameCommandDTO();
-        gameCommandDTO.setUserId(savedUserDTO.getId());
-        gameCommandDTO.setPayload("5");
-        gameCommandDTO.setType("COMMAND_DRAW");
+        GameCommandDTO drawCommandDTO = new GameCommandDTO();
+        drawCommandDTO.setUserId(savedUserDTO.getId());
+        drawCommandDTO.setPayload("5");
+        drawCommandDTO.setType("COMMAND_DRAW");
 
-        GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
+        GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), drawCommandDTO);
 
         assertEquals(25, drawCommandGame.getGamePlayers().get(1).getDeck().size());
 
-        gameCommandDTO.setUserId(savedUserDTO.getId());
-        gameCommandDTO.setPayload("");
-        gameCommandDTO.setType("COMMAND_HARVEST");
+        GameCommandDTO harvestCommandDTO = new GameCommandDTO();
 
-        GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
+        harvestCommandDTO.setUserId(savedUserDTO.getId());
+        harvestCommandDTO.setPayload("");
+        harvestCommandDTO.setType("COMMAND_HARVEST");
+
+        GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
 
         assertEquals(Integer.valueOf(1), gatherCommandGame.getGamePlayers().get(1).getEnergy());
 
-        gameCommandDTO.setUserId(savedUserDTO.getId());
-        gameCommandDTO.setPayload("");
-        gameCommandDTO.setType("COMMAND_END");
+        GameCommandDTO endCommandDTO = new GameCommandDTO();
 
-        GameDTO endCommandGame = gameService.handleCommand(newGame.getId(), gameCommandDTO);
+        endCommandDTO.setUserId(savedUserDTO.getId());
+        endCommandDTO.setPayload("");
+        endCommandDTO.setType("COMMAND_END");
 
-        assertEquals(GamePhaseType.PHASE_PLAN, endCommandGame.getGamePhase().getType());
+        GameDTO phasePlanGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
 
         // TODO: test play a card
+        assertEquals(GamePhaseType.PHASE_PLAN, phasePlanGame.getGamePhase().getType());
+
+        GameDTO phaseBattlePreparationGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
+
+        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, phaseBattlePreparationGame.getGamePhase().getType());
+
+        GameDTO phaseBattleGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
+
+        assertEquals(GamePhaseType.PHASE_BATTLE, phaseBattleGame.getGamePhase().getType());
+        assertEquals(Long.valueOf(1L), phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getId());
+        assertEquals(Long.valueOf(2L), phaseBattleGame.getGamePlayers().get(1).getCurrentGameQuestion().getId());
 
     }
 }

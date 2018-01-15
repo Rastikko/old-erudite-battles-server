@@ -64,4 +64,10 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
                 .get();
     }
 
+    GamePlayer findOtherGamePlayerCommand(List<GamePlayer> gamePlayers, GameCommand gameCommand) {
+        return gamePlayers.stream()
+                .filter(x -> x.getUserId() != gameCommand.getUserId())
+                .findFirst()
+                .get();
+    }
 }

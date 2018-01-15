@@ -1,6 +1,6 @@
 package com.eb.server.domain;
 
-import com.eb.server.domain.types.AffinityType;
+import com.eb.server.domain.types.QuestionAffinityType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import lombok.Data;
 
@@ -16,7 +16,6 @@ public class Question {
     private Long id;
 
     private String title;
-
     private String correctAnswer;
 
     @ElementCollection
@@ -26,7 +25,8 @@ public class Question {
     private QuestionCategoryType category;
 
     @Enumerated(value = EnumType.STRING)
-    private AffinityType affinity;
+    private QuestionAffinityType affinity;
+    private Integer averageAnswerTime;
 }
 
 // gamePlayer will have a question that MIGHT be null

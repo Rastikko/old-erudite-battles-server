@@ -1,17 +1,18 @@
 package com.eb.server.api.v1.model;
 
-import com.eb.server.domain.Question;
+import lombok.Data;
 
-import java.util.Date;
+import java.util.Calendar;
 
+@Data
 public class GameQuestionDTO {
     private Long id;
 
     private Integer turn;
-    private Date startDate;
-    private Date endDate;
+    private Calendar startDate;
+    private Calendar endDate;
     private String selectedAnswer;
     private Integer performance;
 
-    private Question question;
+    private QuestionDTO question;
 }

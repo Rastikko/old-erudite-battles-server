@@ -9,6 +9,7 @@ import com.eb.server.domain.types.GameCommandType;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -109,8 +110,8 @@ public class GameMapperTest {
         answers.add("Answer D");
         question.setCorrectAnswer("Answer A");
         question.setPotentialAnswers(answers);
-        gameQuestion.setEndDate(new Date());
-        gameQuestion.setStartDate(new Date());
+        gameQuestion.setEndDate(Calendar.getInstance());
+        gameQuestion.setStartDate(Calendar.getInstance());
         gameQuestion.setId(1L);
         gameQuestion.setSelectedAnswer("Answer B");
         gameQuestion.setTurn(2);

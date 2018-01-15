@@ -1,10 +1,14 @@
 package com.eb.server.boostrap;
 
 import com.eb.server.domain.Attribute;
+import com.eb.server.domain.Question;
 import com.eb.server.domain.types.AttributeType;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;
+import com.eb.server.domain.types.QuestionAffinityType;
+import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.repositories.CardRepository;
+import com.eb.server.repositories.QuestionRepository;
 import com.eb.server.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,16 +24,19 @@ public class Bootstrap implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final CardRepository cardRepository;
+    private final QuestionRepository questionRepository;
 
-    public Bootstrap(UserRepository userRepository, CardRepository cardRepository) {
+    public Bootstrap(UserRepository userRepository, CardRepository cardRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
         this.cardRepository = cardRepository;
+        this.questionRepository = questionRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         loadCards();
         loadBot();
+        loadQuestions();
     }
 
     private void loadCards() {
@@ -63,6 +70,20 @@ public class Bootstrap implements CommandLineRunner {
         userRepository.save(bot);
 
         System.out.println("Bots loaded: " + userRepository.count());
+    }
+
+    private void loadQuestions() {
+        Question question = new Question();
+        question.setCategory(QuestionCategoryType.TRIGONOMETRY);
+        question.setAffinity(QuestionAffinityType.LOGIC);
+        question.setTitle("What is sin(90 grade)");
+        question.setCorrectAnswer("1");
+        question.setAverageAnswerTime(20);
+
+        questionRepository.save(question);
+
+        System.out.println("Questions loaded: " + questionRepository.count());
+
     }
 
     public List<Card> getDefaultDeck() {

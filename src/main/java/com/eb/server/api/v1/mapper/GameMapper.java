@@ -2,6 +2,7 @@ package com.eb.server.api.v1.mapper;
 
 import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
+import com.eb.server.api.v1.model.GameQuestionDTO;
 import com.eb.server.domain.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

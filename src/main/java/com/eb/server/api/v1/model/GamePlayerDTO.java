@@ -16,5 +16,6 @@ public class GamePlayerDTO {
     private List<GameCardDTO> deck;
     private List<GameCardDTO> hand;
     private List<GameCardDTO> permanents;
-    private List<GameQuestion> gameQuestions;
+    private GameQuestionDTO currentGameQuestion;
+    private List<GameQuestionDTO> gameQuestions;
 }
