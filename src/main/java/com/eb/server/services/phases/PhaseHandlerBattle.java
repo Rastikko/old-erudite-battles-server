@@ -25,8 +25,8 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     @Override
     public void definePhaseAttributes(Game game) {
         Question question = getNextQuestion(/*game*/);
-        game.getGamePlayers().get(0).getGameQuestions().add(getNextGameQuestion(game,question));
-        game.getGamePlayers().get(1).getGameQuestions().add(getNextGameQuestion(game,question));
+        game.getGamePlayers().get(0).setCurrentGameQuestion(getNextGameQuestion(game,question));
+        game.getGamePlayers().get(1).setCurrentGameQuestion(getNextGameQuestion(game,question));
     }
 
     @Override
