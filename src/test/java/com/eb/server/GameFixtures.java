@@ -74,6 +74,7 @@ public class GameFixtures {
         question.setCorrectAnswer("2");
         question.setCategory(QuestionCategoryType.TRIGONOMETRY);
         question.setAffinity(QuestionAffinityType.LOGIC);
+        question.setAverageAnswerTime(20);
 
         GameQuestion gameQuestion = new GameQuestion();
         gameQuestion.setStartDate(new GregorianCalendar(2018, 1, 1));

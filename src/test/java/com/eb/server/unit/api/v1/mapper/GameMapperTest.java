@@ -44,10 +44,9 @@ public class GameMapperTest {
         assertEquals(GAME_PLAYER_ID_2, gameDTO.getGamePlayers().get(1).getId());
         assertEquals(GAME_PHASE_ID, gameDTO.getGamePhase().getId());
         assertEquals(GAME_PLAYER_ATTACK, gameDTO.getGamePlayers().get(0).getAttack());
-        assertEquals(2, gameDTO.getGamePlayers().get(0).getDeck().size());
+        assertEquals(Integer.valueOf(2), gameDTO.getGamePlayers().get(0).getDeck());
         assertEquals(2, gameDTO.getGamePlayers().get(0).getHand().size());
-        // TODO: make a deckDTO
-        assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getDeck().get(0).getId());
+
         assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
         assertEquals("Answer C", gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(2));
     }

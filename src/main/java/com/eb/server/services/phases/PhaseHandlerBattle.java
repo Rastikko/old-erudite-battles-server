@@ -67,15 +67,34 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
         }
 
         // check both game players questions, if both are correct then use time to tiebreak
+        setCurrentQuestionOutcome(game);
 
+        // TODO: check some sort of question stack to see if there is another question in this turn
+    }
+
+    void setCurrentQuestionOutcome(Game game) {
         GamePlayer victoriousGamePlayer = game.getGamePlayers().stream()
                 .filter(gp -> gp.getCurrentGameQuestion().getSelectedAnswer().equals(gp.getCurrentGameQuestion().getQuestion().getCorrectAnswer()))
                 .sorted((gp1, gp2) -> gp1.getCurrentGameQuestion().getEndDate().compareTo(gp2.getCurrentGameQuestion().getEndDate()))
                 .findFirst()
                 .get();
 
-        gameQuestion.setPerformance(1);
-        victoriousGamePlayer.getGameQuestions().add(gameQuestion);
+        GamePlayer defeatedGamePlayer = game.getGamePlayers().stream()
+                .filter(gp -> gp.getUserId() != victoriousGamePlayer.getUserId())
+                .findFirst()
+                .get();
+
+        GameQuestion victoriousGameQuestion = victoriousGamePlayer.getCurrentGameQuestion();
+        GameQuestion defeatedGameQuestion = defeatedGamePlayer.getCurrentGameQuestion();
+
+        victoriousGameQuestion.setPerformance(1);
+        defeatedGameQuestion.setPerformance(0);
+
+        victoriousGamePlayer.getGameQuestions().add(victoriousGameQuestion);
+        defeatedGamePlayer.getGameQuestions().add(defeatedGameQuestion);
+
+        victoriousGamePlayer.setCurrentGameQuestion(null);
+        defeatedGamePlayer.setCurrentGameQuestion(null);
     }
 
     Question getNextQuestion(/*Game game*/) {
