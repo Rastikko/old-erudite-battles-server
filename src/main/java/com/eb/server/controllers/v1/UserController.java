@@ -25,7 +25,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO createNewUser(@RequestBody UserDTO userDTO) {
-        return userService.createNewUser(userDTO);
+    public void createNewUser(@RequestBody UserDTO userDTO) {
+        userService.createNewUser(userDTO);
     }
 }

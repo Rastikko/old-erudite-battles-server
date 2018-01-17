@@ -28,15 +28,15 @@ public class GameController {
 
     @PostMapping("/find")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameDTO find(@RequestBody RequestGameDTO requestGameDTO) {
+    public void find(@RequestBody RequestGameDTO requestGameDTO) {
 
-        return gameService.requestNewGame(requestGameDTO);
+        gameService.requestNewGame(requestGameDTO);
     }
 
     @PostMapping("/{id}/command")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameDTO command(@PathVariable Long id,
+    public void command(@PathVariable Long id,
                            @RequestBody GameCommandDTO gameCommandDTO) {
-        return gameService.handleCommand(id, gameCommandDTO);
+        gameService.handleCommand(id, gameCommandDTO);
     }
 }
