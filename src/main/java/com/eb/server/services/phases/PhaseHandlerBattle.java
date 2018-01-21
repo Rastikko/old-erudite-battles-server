@@ -41,6 +41,7 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
 
     @Override
     public void handleBotCommands(Game game) {
+        handleCommand(game, createBotCommand(GameCommandType.COMMAND_ANSWER, ""));
         handleCommandEnd(game, createBotCommand(GameCommandType.COMMAND_END, ""));
 
     }
@@ -79,22 +80,37 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
                 .findFirst()
                 .get();
 
-        GamePlayer defeatedGamePlayer = game.getGamePlayers().stream()
-                .filter(gp -> gp.getUserId() != victoriousGamePlayer.getUserId())
-                .findFirst()
-                .get();
+        if (victoriousGamePlayer != null) {
+            GamePlayer defeatedGamePlayer = game.getGamePlayers().stream()
+                    .filter(gp -> gp.getUserId() != victoriousGamePlayer.getUserId())
+                    .findFirst()
+                    .get();
 
-        GameQuestion victoriousGameQuestion = victoriousGamePlayer.getCurrentGameQuestion();
-        GameQuestion defeatedGameQuestion = defeatedGamePlayer.getCurrentGameQuestion();
+            GameQuestion victoriousGameQuestion = victoriousGamePlayer.getCurrentGameQuestion();
+            GameQuestion defeatedGameQuestion = defeatedGamePlayer.getCurrentGameQuestion();
 
-        victoriousGameQuestion.setPerformance(1);
-        defeatedGameQuestion.setPerformance(0);
+            victoriousGameQuestion.setPerformance(1);
+            defeatedGameQuestion.setPerformance(0);
 
-        victoriousGamePlayer.getGameQuestions().add(victoriousGameQuestion);
-        defeatedGamePlayer.getGameQuestions().add(defeatedGameQuestion);
+            victoriousGamePlayer.getGameQuestions().add(victoriousGameQuestion);
+            defeatedGamePlayer.getGameQuestions().add(defeatedGameQuestion);
 
-        victoriousGamePlayer.setCurrentGameQuestion(null);
-        defeatedGamePlayer.setCurrentGameQuestion(null);
+            victoriousGamePlayer.setCurrentGameQuestion(null);
+            defeatedGamePlayer.setCurrentGameQuestion(null);
+        } else {
+            // TODO: test and reduce the complexity
+            GameQuestion firstGameQuestion = game.getGamePlayers().get(0).getCurrentGameQuestion();
+            GameQuestion secondGameQuestion = game.getGamePlayers().get(1).getCurrentGameQuestion();
+
+            firstGameQuestion.setPerformance(0);
+            secondGameQuestion.setPerformance(0);
+
+            game.getGamePlayers().get(0).getGameQuestions().add(firstGameQuestion);
+            game.getGamePlayers().get(1).getGameQuestions().add(secondGameQuestion);
+
+            game.getGamePlayers().get(0).setCurrentGameQuestion(null);
+            game.getGamePlayers().get(1).setCurrentGameQuestion(null);
+        }
     }
 
     Question getNextQuestion(/*Game game*/) {

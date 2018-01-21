@@ -23,4 +23,7 @@ public class Game {
 
     @OneToOne(cascade = CascadeType.ALL)
     private GamePhase gamePhase;
+
+    // baseAligment
+    // extraQuestions
 }

@@ -25,7 +25,7 @@ public class GamePlayer {
     private List<GameCard> hand = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<GameCard> permanents = new ArrayList<>();
+    private List<GameCard> permanents = new ArrayList<>(); // TODO: use gamePermanents
 
     @OneToOne(cascade = CascadeType.ALL)
     private GameQuestion currentGameQuestion;

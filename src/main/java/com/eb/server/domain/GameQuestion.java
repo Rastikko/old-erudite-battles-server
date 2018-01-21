@@ -21,8 +21,4 @@ public class GameQuestion {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Question question;
-
-    // turn
-    // startDate
-    // endDate
 }

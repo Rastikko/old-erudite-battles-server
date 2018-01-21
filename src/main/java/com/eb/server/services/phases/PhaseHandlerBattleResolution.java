@@ -21,8 +21,8 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
 
     @Override
     public void definePhaseAttributes(Game game) {
-        applyGamePlayerDamage(game.getGamePlayers().get(0), game.getGamePlayers().get(1));
-        applyGamePlayerDamage(game.getGamePlayers().get(1), game.getGamePlayers().get(0));
+        applyGamePlayerDamage(game, game.getGamePlayers().get(0), game.getGamePlayers().get(1));
+        applyGamePlayerDamage(game, game.getGamePlayers().get(1), game.getGamePlayers().get(0));
         game.setTurn(game.getTurn() + 1);
     }
 
@@ -41,9 +41,14 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
         return game.getGamePlayers().stream().anyMatch(player -> player.getHealth() <= 0);
     }
 
-    void applyGamePlayerDamage(GamePlayer gamePlayerAttacker, GamePlayer gamePlayerDefender) {
+    void applyGamePlayerDamage(Game game, GamePlayer gamePlayerAttacker, GamePlayer gamePlayerDefender) {
         Integer health = gamePlayerDefender.getHealth();
         Integer damage = gamePlayerAttacker.getAttack();
-        gamePlayerDefender.setHealth(health - damage);
+        Integer extraDamage = gamePlayerAttacker.getGameQuestions().stream()
+               .filter(question -> question.getTurn().equals(game.getTurn()))
+               .filter(question -> question.getPerformance().equals(Integer.valueOf(1)))
+               .mapToInt(question -> Integer.valueOf(30))
+               .sum();
+        gamePlayerDefender.setHealth(health - damage - extraDamage);
     }
 }

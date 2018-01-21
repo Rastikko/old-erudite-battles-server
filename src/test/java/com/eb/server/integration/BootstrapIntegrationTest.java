@@ -115,6 +115,15 @@ public class BootstrapIntegrationTest {
         assertEquals(GamePhaseType.PHASE_BATTLE, phaseBattleGame.getGamePhase().getType());
         assertEquals(Long.valueOf(1L), phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getId());
         assertEquals(Long.valueOf(2L), phaseBattleGame.getGamePlayers().get(1).getCurrentGameQuestion().getId());
+        GameCommandDTO answerCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
+        GameDTO answeredBattleGame = gameService.handleCommand(newGame.getId(), answerCommandDTO);
+        assertEquals(null, answeredBattleGame.getGamePlayers().get(1).getCurrentGameQuestion());
+        assertEquals(Integer.valueOf(0), answeredBattleGame.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
+
+        /* BATTLE_RESOLUTION */
+        GameDTO phaseBattleResolutionGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
+        assertEquals(Integer.valueOf(150), phaseBattleResolutionGame.getGamePlayers().get(0).getHealth());
+        assertEquals(Integer.valueOf(120), phaseBattleResolutionGame.getGamePlayers().get(1).getHealth());
     }
 
     private GameCommandDTO getCommandDTO(Long userId, String commandType, String payload) {

@@ -20,6 +20,8 @@ public class GameController {
         this.gameService = gameService;
     }
 
+    // TODO: expose games/{id}/game-players/{id} for planPhase
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GameDTO getGameDTOById(@PathVariable Long id) {
