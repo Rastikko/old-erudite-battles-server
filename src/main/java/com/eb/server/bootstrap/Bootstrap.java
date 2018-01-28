@@ -43,9 +43,11 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadCards();
-        loadBot();
-        loadQuestions();
+        if (cardRepository.count() == 0) {
+            loadCards();
+            loadBot();
+            loadQuestions();
+        }
     }
 
     private void loadCards() {
