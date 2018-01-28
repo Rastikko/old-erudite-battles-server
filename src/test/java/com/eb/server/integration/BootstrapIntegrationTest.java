@@ -1,14 +1,12 @@
 package com.eb.server.integration;
 
-import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
-import com.eb.server.boostrap.Bootstrap;
-import com.eb.server.domain.types.GameCommandType;
+import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.GameRepository;
@@ -21,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -37,6 +36,8 @@ public class BootstrapIntegrationTest {
     CardRepository cardRepository;
     @Autowired
     QuestionRepository questionRepository;
+    @Autowired
+    ResourceLoader resourceLoader;
 
     Bootstrap bootstrap;
     UserService userService;
@@ -46,7 +47,7 @@ public class BootstrapIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        bootstrap = new Bootstrap(userRepository, cardRepository, questionRepository);
+        bootstrap = new Bootstrap(resourceLoader, userRepository, cardRepository, questionRepository);
         bootstrap.run();
 
         userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);

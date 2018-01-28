@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "Euclid's Elements",
+    "cost": 1,
+    "attributes": [
+      {
+        "id": 1,
+        "type": "ALIGN_LOGIC",
+        "value": 100
+      }
+    ]
+  }
+]

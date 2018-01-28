@@ -2,7 +2,7 @@ package com.eb.server.services;
 
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.UserDTO;
-import com.eb.server.boostrap.Bootstrap;
+import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.User;
 import com.eb.server.repositories.UserRepository;
 import org.springframework.stereotype.Service;

@@ -16,5 +16,6 @@ public class GameCommand {
     private GameCommandType type;
 
     private Long userId;
+    // TODO: make sure payload is always a json object
     private String payload;
 }

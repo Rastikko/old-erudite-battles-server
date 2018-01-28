@@ -4,7 +4,7 @@ import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
-import com.eb.server.boostrap.Bootstrap;
+import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.repositories.GameRepository;

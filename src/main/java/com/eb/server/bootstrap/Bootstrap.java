@@ -1,8 +1,6 @@
-package com.eb.server.boostrap;
+package com.eb.server.bootstrap;
 
-import com.eb.server.domain.Attribute;
 import com.eb.server.domain.Question;
-import com.eb.server.domain.types.AttributeType;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;
 import com.eb.server.domain.types.QuestionAffinityType;
@@ -10,11 +8,19 @@ import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.QuestionRepository;
 import com.eb.server.repositories.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -26,10 +32,13 @@ public class Bootstrap implements CommandLineRunner {
     private final CardRepository cardRepository;
     private final QuestionRepository questionRepository;
 
-    public Bootstrap(UserRepository userRepository, CardRepository cardRepository, QuestionRepository questionRepository) {
+    private final ResourceLoader resourceLoader;
+
+    public Bootstrap(ResourceLoader resourceLoader, UserRepository userRepository, CardRepository cardRepository, QuestionRepository questionRepository) {
         this.userRepository = userRepository;
         this.cardRepository = cardRepository;
         this.questionRepository = questionRepository;
+        this.resourceLoader = resourceLoader;
     }
 
     @Override
@@ -40,21 +49,18 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     private void loadCards() {
-        Card pythagorasTheoremCard = new Card();
 
-        Attribute attackAttribute = new Attribute();
-        attackAttribute.setAttributeType(AttributeType.ATTACK);
-        attackAttribute.setValue(100);
-
-        List<Attribute> attributes = new ArrayList<>();
-        attributes.add(attackAttribute);
-
-        pythagorasTheoremCard.setId(1L);
-        pythagorasTheoremCard.setName("Pythagoras Theorem");
-        pythagorasTheoremCard.setAttributes(attributes);
-        pythagorasTheoremCard.setCost(1);
-
-        cardRepository.save(pythagorasTheoremCard);
+        try {
+            Resource resource = resourceLoader.getResource("classpath:fixtures/cards.json");
+            File cardsFile = resource.getFile();
+            ObjectMapper mapper = new ObjectMapper();
+            Card[] cards = mapper.readValue(cardsFile, Card[].class);
+            for (Card card : cards) {
+                cardRepository.save(card);
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Error loading fixtures/cards: " + e);
+        }
 
         System.out.println("Cards loaded: " + cardRepository.count());
     }

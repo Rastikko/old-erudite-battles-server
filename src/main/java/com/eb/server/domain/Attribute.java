@@ -13,6 +13,6 @@ public class Attribute {
     private Long id;
 
     @Enumerated(value = EnumType.STRING)
-    AttributeType attributeType;
+    AttributeType type;
     Integer value;
 }

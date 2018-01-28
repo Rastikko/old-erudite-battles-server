@@ -19,7 +19,7 @@ public class GameFixtures {
         List<Card> deck = new ArrayList<>();
 
         Attribute attackAttribute = new Attribute();
-        attackAttribute.setAttributeType(AttributeType.ATTACK);
+        attackAttribute.setType(AttributeType.ALIGN_LOGIC);
         attackAttribute.setValue(100);
 
         List<Attribute> attributes = new ArrayList<>();
