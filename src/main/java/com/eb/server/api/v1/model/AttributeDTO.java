@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class AttributeDTO {
     private Long id;
-    AttributeType attributeType;
+    AttributeType type;
     Integer value;
 }

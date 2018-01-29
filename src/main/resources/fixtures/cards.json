@@ -1,13 +1,21 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "name": "Euclid's Elements",
     "cost": 1,
     "attributes": [
       {
-        "id": 1,
-        "type": "ALIGN_LOGIC",
-        "value": 100
+        "id": 0
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Shakespeare's Hamlet",
+    "cost": 1,
+    "attributes": [
+      {
+        "id": 1
       }
     ]
   }

@@ -1,10 +1,12 @@
 package com.eb.server.bootstrap;
 
+import com.eb.server.domain.Attribute;
 import com.eb.server.domain.Question;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;
 import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
+import com.eb.server.repositories.AttributeRepository;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.QuestionRepository;
 import com.eb.server.repositories.UserRepository;
@@ -13,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.Attr;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,13 +29,19 @@ public class Bootstrap implements CommandLineRunner {
     public static final Long BOT_ID = 1L;
 
     private final UserRepository userRepository;
+    private final AttributeRepository attributeRepository;
     private final CardRepository cardRepository;
     private final QuestionRepository questionRepository;
 
     private final ResourceLoader resourceLoader;
 
-    public Bootstrap(ResourceLoader resourceLoader, UserRepository userRepository, CardRepository cardRepository, QuestionRepository questionRepository) {
+    public Bootstrap(ResourceLoader resourceLoader,
+                     UserRepository userRepository,
+                     AttributeRepository attributeRepository,
+                     CardRepository cardRepository,
+                     QuestionRepository questionRepository) {
         this.userRepository = userRepository;
+        this.attributeRepository = attributeRepository;
         this.cardRepository = cardRepository;
         this.questionRepository = questionRepository;
         this.resourceLoader = resourceLoader;
@@ -41,20 +50,42 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (cardRepository.count() == 0) {
+            loadAttributes();
             loadCards();
             loadBot();
             loadQuestions();
         }
     }
 
-    private void loadCards() {
+    private void loadAttributes() {
+        try {
+            Resource resource = resourceLoader.getResource("classpath:fixtures/attributes.json");
+            File file = resource.getFile();
+            ObjectMapper mapper = new ObjectMapper();
+            Attribute[] attributes = mapper.readValue(file, Attribute[].class);
+            for (Attribute attribute : attributes) {
+                attributeRepository.save(attribute);
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Error loading fixtures/attributes: " + e);
+        }
 
+        System.out.println("Attributes loaded: " + attributeRepository.count());
+
+    }
+
+    private void loadCards() {
         try {
             Resource resource = resourceLoader.getResource("classpath:fixtures/cards.json");
             File cardsFile = resource.getFile();
             ObjectMapper mapper = new ObjectMapper();
             Card[] cards = mapper.readValue(cardsFile, Card[].class);
             for (Card card : cards) {
+                for (int i = 0; i < card.getAttributes().size(); i++) {
+                    Attribute attribute = card.getAttributes().get(i);
+                    Attribute refAttribute = attributeRepository.findOne(attribute.getId());
+                    card.getAttributes().set(i, refAttribute);
+                }
                 cardRepository.save(card);
             }
         } catch (IOException | NullPointerException e) {

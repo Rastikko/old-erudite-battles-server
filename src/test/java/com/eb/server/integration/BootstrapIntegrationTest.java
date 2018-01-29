@@ -8,10 +8,7 @@ import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.types.GamePhaseType;
-import com.eb.server.repositories.CardRepository;
-import com.eb.server.repositories.GameRepository;
-import com.eb.server.repositories.QuestionRepository;
-import com.eb.server.repositories.UserRepository;
+import com.eb.server.repositories.*;
 import com.eb.server.services.*;
 import com.eb.server.services.phases.*;
 import org.junit.Before;
@@ -23,6 +20,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -30,6 +28,8 @@ public class BootstrapIntegrationTest {
 
     @Autowired
     GameRepository gameRepository;
+    @Autowired
+    AttributeRepository attributeRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -47,7 +47,7 @@ public class BootstrapIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        bootstrap = new Bootstrap(resourceLoader, userRepository, cardRepository, questionRepository);
+        bootstrap = new Bootstrap(resourceLoader, userRepository, attributeRepository, cardRepository, questionRepository);
         bootstrap.run();
 
         userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
@@ -78,6 +78,8 @@ public class BootstrapIntegrationTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setName("Johan");
         UserDTO savedUserDTO = userService.createNewUser(userDTO);
+        // check the default deck is created
+        assertEquals(30, savedUserDTO.getDeck().size());
 
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
@@ -96,7 +98,10 @@ public class BootstrapIntegrationTest {
         /* GATHER */
         GameCommandDTO drawCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_DRAW", "5");
         GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), drawCommandDTO);
+        assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(1).getDeck());
+        assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
+
         GameCommandDTO harvestCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
         GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
         assertEquals(Integer.valueOf(1), gatherCommandGame.getGamePlayers().get(1).getEnergy());

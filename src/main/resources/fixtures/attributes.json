@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": 0,
+    "type": "ALIGN_LOGIC",
+    "value": 100
+  },
+  {
+    "id": 1,
+    "type": "ALIGN_CULTURE",
+    "value": 100
+  }
+]
