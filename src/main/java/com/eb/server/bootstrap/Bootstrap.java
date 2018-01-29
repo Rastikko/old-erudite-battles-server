@@ -80,7 +80,7 @@ public class Bootstrap implements CommandLineRunner {
     private void loadQuestions() {
         Question question = new Question();
         question.setCategory(QuestionCategoryType.TRIGONOMETRY);
-        question.setSubCategory(QuestionSubcategoryType.LOGIC);
+        question.setSubcategory(QuestionSubcategoryType.LOGIC);
         question.setTitle("What is sin(90 grade)");
         question.setCorrectAnswer("1");
         question.setAverageAnswerTime(20);

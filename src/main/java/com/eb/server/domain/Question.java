@@ -25,7 +25,7 @@ public class Question {
     private QuestionCategoryType category;
 
     @Enumerated(value = EnumType.STRING)
-    private QuestionSubcategoryType subCategory;
+    private QuestionSubcategoryType subcategory;
     private Integer averageAnswerTime;
 }
 

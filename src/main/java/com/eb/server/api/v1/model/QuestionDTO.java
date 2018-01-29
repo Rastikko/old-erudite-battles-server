@@ -14,6 +14,6 @@ public class QuestionDTO {
     private String correctAnswer;
     private List<String> potentialAnswers = new ArrayList<>();
     private QuestionCategoryType category;
-    private QuestionSubcategoryType subCategory;
+    private QuestionSubcategoryType subcategory;
     private Integer averageAnswerTime;
 }

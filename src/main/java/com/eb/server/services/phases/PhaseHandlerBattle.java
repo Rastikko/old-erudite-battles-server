@@ -114,14 +114,14 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     }
 
     Question getNextQuestion(/*Game game*/) {
-        // TODO: calculate next category and subCategory
+        // TODO: calculate next category and subcategory
         List<Long> excludedIds = new ArrayList<>();
         // HACK: JPA NotIn requires at least 1 element
         excludedIds.add(-1L);
         QuestionCategoryType category = QuestionCategoryType.TRIGONOMETRY;
-        QuestionSubcategoryType affinity = QuestionSubcategoryType.LOGIC;
+        QuestionSubcategoryType subcategory = QuestionSubcategoryType.LOGIC;
 
-        return questionService.getRandomQuestion(category, affinity, excludedIds);
+        return questionService.getRandomQuestion(category, subcategory, excludedIds);
     }
 
     GameQuestion getNextGameQuestion(Game game, Question question) {

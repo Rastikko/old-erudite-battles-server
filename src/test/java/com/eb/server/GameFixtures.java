@@ -72,7 +72,7 @@ public class GameFixtures {
         question.setTitle("1+1");
         question.setCorrectAnswer("2");
         question.setCategory(QuestionCategoryType.TRIGONOMETRY);
-        question.setSubCategory(QuestionSubcategoryType.LOGIC);
+        question.setSubcategory(QuestionSubcategoryType.LOGIC);
         question.setAverageAnswerTime(20);
 
         GameQuestion gameQuestion = new GameQuestion();

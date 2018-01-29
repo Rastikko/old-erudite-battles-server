@@ -7,5 +7,5 @@ import com.eb.server.domain.types.QuestionCategoryType;
 import java.util.List;
 
 public interface QuestionService {
-    Question getRandomQuestion(QuestionCategoryType category, QuestionSubcategoryType affinity, List<Long> excluded);
+    Question getRandomQuestion(QuestionCategoryType category, QuestionSubcategoryType subcategory, List<Long> excluded);
 }

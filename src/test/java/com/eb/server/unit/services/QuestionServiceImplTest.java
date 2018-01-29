@@ -31,7 +31,7 @@ public class QuestionServiceImplTest {
 
         List<Question> questions = getQuestions();
 
-        when(questionRepository.findByCategoryAndSubCategoryAndIdNotIn(
+        when(questionRepository.findByCategoryAndSubcategoryAndIdNotIn(
                 Matchers.any(QuestionCategoryType.class),
                 Matchers.any(QuestionSubcategoryType.class),
                 Matchers.any())
