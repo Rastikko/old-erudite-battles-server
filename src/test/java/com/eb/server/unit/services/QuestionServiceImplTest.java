@@ -1,7 +1,7 @@
 package com.eb.server.unit.services;
 
 import com.eb.server.domain.Question;
-import com.eb.server.domain.types.QuestionAffinityType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.repositories.QuestionRepository;
 import com.eb.server.services.QuestionService;
@@ -15,9 +15,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 public class QuestionServiceImplTest {
@@ -33,9 +31,9 @@ public class QuestionServiceImplTest {
 
         List<Question> questions = getQuestions();
 
-        when(questionRepository.findByCategoryAndAffinityAndIdNotIn(
+        when(questionRepository.findByCategoryAndSubCategoryAndIdNotIn(
                 Matchers.any(QuestionCategoryType.class),
-                Matchers.any(QuestionAffinityType.class),
+                Matchers.any(QuestionSubcategoryType.class),
                 Matchers.any())
         ).thenReturn(questions);
 
@@ -44,7 +42,7 @@ public class QuestionServiceImplTest {
 
     @Test
     public void getRandomQuestion() {
-        Question question = questionService.getRandomQuestion(QuestionCategoryType.TRIGONOMETRY, QuestionAffinityType.LOGIC, new ArrayList<>());
+        Question question = questionService.getRandomQuestion(QuestionCategoryType.TRIGONOMETRY, QuestionSubcategoryType.LOGIC, new ArrayList<>());
         assertNotNull(question.getId());
     }
 

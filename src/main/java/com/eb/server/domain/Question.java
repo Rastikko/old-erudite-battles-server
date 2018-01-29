@@ -1,6 +1,6 @@
 package com.eb.server.domain;
 
-import com.eb.server.domain.types.QuestionAffinityType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import lombok.Data;
 
@@ -25,7 +25,7 @@ public class Question {
     private QuestionCategoryType category;
 
     @Enumerated(value = EnumType.STRING)
-    private QuestionAffinityType affinity;
+    private QuestionSubcategoryType subCategory;
     private Integer averageAnswerTime;
 }
 

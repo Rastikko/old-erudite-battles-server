@@ -1,5 +1,5 @@
 package com.eb.server.domain.types;
 
-public enum QuestionAffinityType {
+public enum QuestionSubcategoryType {
     LOGIC, CULTURE, SCIENCE
 }

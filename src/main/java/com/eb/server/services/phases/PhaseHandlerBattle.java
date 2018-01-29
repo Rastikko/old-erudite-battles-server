@@ -3,7 +3,7 @@ package com.eb.server.services.phases;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
-import com.eb.server.domain.types.QuestionAffinityType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.services.QuestionService;
 import org.springframework.stereotype.Service;
@@ -114,12 +114,12 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     }
 
     Question getNextQuestion(/*Game game*/) {
-        // TODO: calculate next category and affinity
+        // TODO: calculate next category and subCategory
         List<Long> excludedIds = new ArrayList<>();
         // HACK: JPA NotIn requires at least 1 element
         excludedIds.add(-1L);
         QuestionCategoryType category = QuestionCategoryType.TRIGONOMETRY;
-        QuestionAffinityType affinity = QuestionAffinityType.LOGIC;
+        QuestionSubcategoryType affinity = QuestionSubcategoryType.LOGIC;
 
         return questionService.getRandomQuestion(category, affinity, excludedIds);
     }

@@ -5,7 +5,6 @@ import com.eb.server.domain.*;
 import com.eb.server.domain.types.*;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -73,7 +72,7 @@ public class GameFixtures {
         question.setTitle("1+1");
         question.setCorrectAnswer("2");
         question.setCategory(QuestionCategoryType.TRIGONOMETRY);
-        question.setAffinity(QuestionAffinityType.LOGIC);
+        question.setSubCategory(QuestionSubcategoryType.LOGIC);
         question.setAverageAnswerTime(20);
 
         GameQuestion gameQuestion = new GameQuestion();

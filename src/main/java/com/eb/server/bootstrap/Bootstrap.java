@@ -3,24 +3,21 @@ package com.eb.server.bootstrap;
 import com.eb.server.domain.Question;
 import com.eb.server.domain.Card;
 import com.eb.server.domain.User;
-import com.eb.server.domain.types.QuestionAffinityType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.QuestionRepository;
 import com.eb.server.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.platform.commons.logging.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -83,7 +80,7 @@ public class Bootstrap implements CommandLineRunner {
     private void loadQuestions() {
         Question question = new Question();
         question.setCategory(QuestionCategoryType.TRIGONOMETRY);
-        question.setAffinity(QuestionAffinityType.LOGIC);
+        question.setSubCategory(QuestionSubcategoryType.LOGIC);
         question.setTitle("What is sin(90 grade)");
         question.setCorrectAnswer("1");
         question.setAverageAnswerTime(20);
