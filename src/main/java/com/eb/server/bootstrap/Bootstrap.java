@@ -81,6 +81,11 @@ public class Bootstrap implements CommandLineRunner {
             ObjectMapper mapper = new ObjectMapper();
             Card[] cards = mapper.readValue(cardsFile, Card[].class);
             for (Card card : cards) {
+                for (int i = 0; i < card.getAttributes().size(); i++) {
+                    Attribute attribute = card.getAttributes().get(i);
+                    Attribute refAttribute = attributeRepository.findOne(attribute.getId());
+                    card.getAttributes().set(i, refAttribute);
+                }
                 cardRepository.save(card);
             }
         } catch (IOException | NullPointerException e) {
@@ -119,7 +124,7 @@ public class Bootstrap implements CommandLineRunner {
 
     public List<Card> getDefaultDeck() {
         List<Card> deck = new ArrayList<>();
-        Card pythagorasTheoremCard = cardRepository.findOne(0L);
+        Card pythagorasTheoremCard = cardRepository.findOne(1L);
 
         for(int i = 0; i < 30; i++) {
             deck.add(pythagorasTheoremCard);

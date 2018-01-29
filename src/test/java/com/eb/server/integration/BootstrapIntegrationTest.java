@@ -7,7 +7,6 @@ import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.bootstrap.Bootstrap;
-import com.eb.server.domain.types.AttributeType;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.repositories.*;
 import com.eb.server.services.*;
@@ -101,7 +100,7 @@ public class BootstrapIntegrationTest {
         GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), drawCommandDTO);
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(1).getDeck());
-        assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getAttributeType());
+        assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
 
         GameCommandDTO harvestCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
         GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
