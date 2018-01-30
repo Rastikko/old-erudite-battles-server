@@ -101,7 +101,6 @@ public class BootstrapIntegrationTest {
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(1).getDeck());
         assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
-
         GameCommandDTO harvestCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
         GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
         assertEquals(Integer.valueOf(1), gatherCommandGame.getGamePlayers().get(1).getEnergy());
@@ -120,6 +119,7 @@ public class BootstrapIntegrationTest {
         GameDTO phaseBattleGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
         assertEquals(GamePhaseType.PHASE_BATTLE, phaseBattleGame.getGamePhase().getType());
         assertEquals(Long.valueOf(1L), phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getId());
+        assertNotNull(phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getTitle());
         assertEquals(Long.valueOf(2L), phaseBattleGame.getGamePlayers().get(1).getCurrentGameQuestion().getId());
         GameCommandDTO answerCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
         GameDTO answeredBattleGame = gameService.handleCommand(newGame.getId(), answerCommandDTO);

@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "category": "LOGIC",
+    "subcategory": "TRIGONOMETRY",
+    "type": "INPUT",
+    "title": "SIN_OF_90_GRADES",
+    "correctAnswer": "1",
+    "averageAnswerTime": 20
+  }
+]

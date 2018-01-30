@@ -2,6 +2,7 @@ package com.eb.server.domain;
 
 import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
+import com.eb.server.domain.types.QuestionType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,6 +27,10 @@ public class Question {
 
     @Enumerated(value = EnumType.STRING)
     private QuestionSubcategoryType subcategory;
+
+    @Enumerated(value = EnumType.STRING)
+    private QuestionType type;
+
     private Integer averageAnswerTime;
 }
 

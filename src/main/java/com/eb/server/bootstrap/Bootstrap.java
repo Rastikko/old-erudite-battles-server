@@ -109,14 +109,17 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     private void loadQuestions() {
-        Question question = new Question();
-        question.setCategory(QuestionCategoryType.TRIGONOMETRY);
-        question.setSubcategory(QuestionSubcategoryType.LOGIC);
-        question.setTitle("What is sin(90 grade)");
-        question.setCorrectAnswer("1");
-        question.setAverageAnswerTime(20);
-
-        questionRepository.save(question);
+        try {
+            Resource resource = resourceLoader.getResource("classpath:fixtures/questions.json");
+            File file = resource.getFile();
+            ObjectMapper mapper = new ObjectMapper();
+            Question[] attributes = mapper.readValue(file, Question[].class);
+            for (Question question : attributes) {
+                questionRepository.save(question);
+            }
+        } catch (IOException | NullPointerException e) {
+            System.out.println("Error loading fixtures/attributes: " + e);
+        }
 
         System.out.println("Questions loaded: " + questionRepository.count());
 

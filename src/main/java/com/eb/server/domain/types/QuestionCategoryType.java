@@ -1,5 +1,5 @@
 package com.eb.server.domain.types;
 
 public enum QuestionCategoryType {
-    TRIGONOMETRY
+    LOGIC, CULTURE, SCIENCE
 }

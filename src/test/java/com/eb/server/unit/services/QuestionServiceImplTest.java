@@ -42,7 +42,7 @@ public class QuestionServiceImplTest {
 
     @Test
     public void getRandomQuestion() {
-        Question question = questionService.getRandomQuestion(QuestionCategoryType.TRIGONOMETRY, QuestionSubcategoryType.LOGIC, new ArrayList<>());
+        Question question = questionService.getRandomQuestion(QuestionCategoryType.LOGIC, QuestionSubcategoryType.TRIGONOMETRY, new ArrayList<>());
         assertNotNull(question.getId());
     }
 
