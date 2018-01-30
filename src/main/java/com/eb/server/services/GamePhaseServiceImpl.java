@@ -51,7 +51,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
         }
     }
 
-    public PhaseHandler getPhaseHandler(GamePhaseType gamePhaseType) {
+    private PhaseHandler getPhaseHandler(GamePhaseType gamePhaseType) {
         switch (gamePhaseType) {
             case PHASE_GATHER:
                 return this.phaseHandlerGather;
