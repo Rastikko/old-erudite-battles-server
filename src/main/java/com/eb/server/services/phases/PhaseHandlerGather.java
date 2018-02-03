@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PhaseHandlerGather extends AbstractPhaseHandler {
+
+    final Integer DEFAULT_DRAW_CARDS = 5;
+    final Integer DEFAULT_ENERGY = 5;
+
     public PhaseHandlerGather() {
         GAME_PHASE_TYPE = GamePhaseType.PHASE_GATHER;
         NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_PLAN;
@@ -31,7 +35,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
 
     void handleCommandDraw(Game game, GameCommand gameCommand) {
         GamePlayer gamePlayer = findGamePlayerCommand(game.getGamePlayers(), gameCommand);
-        Integer nCards = Integer.valueOf(gameCommand.getPayload());
+        Integer nCards = DEFAULT_DRAW_CARDS;
 
         for(int i = 0; i < nCards; i++) {
             GameCard gameCard = gamePlayer.getDeck().remove(0);
@@ -42,7 +46,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
 
     void handleCommandHarvest(Game game, GameCommand gameCommand) {
         GamePlayer gamePlayer = findGamePlayerCommand(game.getGamePlayers(), gameCommand);
-        gamePlayer.setEnergy(game.getTurn());
+        gamePlayer.setEnergy(DEFAULT_ENERGY);
     }
 
     @Override

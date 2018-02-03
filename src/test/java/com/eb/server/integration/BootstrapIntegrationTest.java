@@ -103,7 +103,7 @@ public class BootstrapIntegrationTest {
         assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
         GameCommandDTO harvestCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
         GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
-        assertEquals(Integer.valueOf(1), gatherCommandGame.getGamePlayers().get(1).getEnergy());
+        assertEquals(Integer.valueOf(5), gatherCommandGame.getGamePlayers().get(1).getEnergy());
         GameCommandDTO endCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_END", "");
 
         /* PLAN */

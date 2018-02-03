@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -53,7 +52,7 @@ public class GameMapperTest {
 
     @Test
     public void cardsToGameCards() throws Exception {
-        List<Card> userDeck = GameFixtures.getDefaultDeck();
+        List<Card> userDeck = GameFixtures.deck();
 
         List<GameCard> playerDeck = gameMapper.cardsToGameCards(userDeck);
 

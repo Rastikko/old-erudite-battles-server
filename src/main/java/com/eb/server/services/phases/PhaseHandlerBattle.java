@@ -76,15 +76,15 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     void setCurrentQuestionOutcome(Game game) {
         GamePlayer victoriousGamePlayer = game.getGamePlayers().stream()
                 .filter(gp -> gp.getCurrentGameQuestion().getSelectedAnswer().equals(gp.getCurrentGameQuestion().getQuestion().getCorrectAnswer()))
-                .sorted((gp1, gp2) -> gp1.getCurrentGameQuestion().getEndDate().compareTo(gp2.getCurrentGameQuestion().getEndDate()))
+                .sorted((gp1, gp2) -> gp2.getCurrentGameQuestion().getEndDate().compareTo(gp1.getCurrentGameQuestion().getEndDate()))
                 .findFirst()
                 .get();
 
         if (victoriousGamePlayer != null) {
             GamePlayer defeatedGamePlayer = game.getGamePlayers().stream()
-                    .filter(gp -> gp.getUserId() != victoriousGamePlayer.getUserId())
-                    .findFirst()
-                    .get();
+                .filter(gp -> gp.getUserId() != victoriousGamePlayer.getUserId())
+                .findFirst()
+                .get();
 
             GameQuestion victoriousGameQuestion = victoriousGamePlayer.getCurrentGameQuestion();
             GameQuestion defeatedGameQuestion = defeatedGamePlayer.getCurrentGameQuestion();
@@ -127,7 +127,7 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     GameQuestion getNextGameQuestion(Game game, Question question) {
         GameQuestion gameQuestion = new GameQuestion();
         gameQuestion.setQuestion(question);
-        gameQuestion.setStartDate(Calendar.getInstance());
+        gameQuestion.setStartDate(new GregorianCalendar());
         gameQuestion.setTurn(game.getTurn());
 
         return gameQuestion;

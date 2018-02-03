@@ -57,11 +57,11 @@ public class UserServiceImplTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(NAME);
 
-        when(bootstrap.getDefaultDeck()).thenReturn(GameFixtures.getDefaultDeck());
+        when(bootstrap.getDefaultDeck()).thenReturn(GameFixtures.deck());
         when(userRepository.save(any(User.class))).thenAnswer(u -> u.getArguments()[0]);
         UserDTO savedDto = userService.createNewUser(userDTO);
 
         assertEquals(NAME, savedDto.getName());
-        assertEquals(GameFixtures.getDefaultDeck().size(), savedDto.getDeck().size());
+        assertEquals(GameFixtures.deck().size(), savedDto.getDeck().size());
     }
 }

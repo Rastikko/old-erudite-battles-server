@@ -30,6 +30,9 @@ public class GamePlayer {
     @OneToOne(cascade = CascadeType.ALL)
     private GameQuestion currentGameQuestion;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private GameAlignment gameAlignment;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameQuestion> gameQuestions = new ArrayList<>();
 

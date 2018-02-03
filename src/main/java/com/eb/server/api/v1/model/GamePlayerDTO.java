@@ -12,10 +12,12 @@ public class GamePlayerDTO {
     private Integer energy;
     private Integer attack;
     private Integer health;
-    // TODO: deck just need to expose size
+
     private Integer deck;
     private List<GameCardDTO> hand;
     private List<GameCardDTO> permanents;
+    private GameAlignmentDTO gameAlignment;
+
     // TODO: we need to filter the answer for this question
     private GameQuestionDTO currentGameQuestion;
     private List<GameQuestionDTO> gameQuestions;

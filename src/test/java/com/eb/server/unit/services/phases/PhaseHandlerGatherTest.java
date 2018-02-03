@@ -26,14 +26,14 @@ public class PhaseHandlerGatherTest {
         Game game = GameFixtures.game();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
-        phaseHandlerGather.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_DRAW, "5"));
+        phaseHandlerGather.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_DRAW, ""));
 
         assertEquals(25, game.getGamePlayers().get(1).getDeck().size());
     }
 
     @Test
     public void handleCommandHarvest() {
-        Integer ENERGY_HARVESTED = 1;
+        Integer ENERGY_HARVESTED = 5;
         Game game = GameFixtures.game();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 

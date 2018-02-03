@@ -14,7 +14,7 @@ public class GameFixtures {
     public static Long USER_ID = 2L;
     public static Long BOT_ID = 1L;
 
-    public static List<Card> getDefaultDeck() {
+    public static List<Card> deck() {
         List<Card> deck = new ArrayList<>();
 
         Attribute attackAttribute = new Attribute();
@@ -37,8 +37,8 @@ public class GameFixtures {
     }
 
     public static Game game() {
-        GamePlayer botPlayer = geMockedGamePlayer(BOT_ID);
-        GamePlayer player = geMockedGamePlayer(2L);
+        GamePlayer botPlayer = gamePlayer(BOT_ID);
+        GamePlayer player = gamePlayer(2L);
         botPlayer.setIsBot(true);
 
         List<GamePlayer> gamePlayers = new ArrayList<>();
@@ -83,9 +83,9 @@ public class GameFixtures {
         return gameQuestion;
     }
 
-    static GamePlayer geMockedGamePlayer(Long userId) {
+    static GamePlayer gamePlayer(Long userId) {
         GamePlayer gamePlayer = new GamePlayer();
-        List<GameCard> deck = gameMapper.cardsToGameCards(getDefaultDeck());
+        List<GameCard> deck = gameMapper.cardsToGameCards(deck());
         gamePlayer.setUserId(userId);
         gamePlayer.setHealth((int) (userId * 100));
         gamePlayer.setAttack(50);

@@ -2,6 +2,7 @@ package com.eb.server.unit.services.phases;
 
 import com.eb.server.GameFixtures;
 import com.eb.server.domain.Game;
+import com.eb.server.domain.GameQuestion;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.services.QuestionService;
 import com.eb.server.services.phases.PhaseHandlerBattle;
@@ -57,6 +58,9 @@ public class PhaseHandlerBattleTest {
         phaseHandlerBattle.handleCommand(game, GameFixtures.gameCommand(1L, GameCommandType.COMMAND_ANSWER, ""));
         phaseHandlerBattle.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_ANSWER, CORRECT_ANSWER));
 
+        GameQuestion botGameQuestion = game.getGamePlayers().get(0).getGameQuestions().get(0);
+        GameQuestion playerGameQuestion = game.getGamePlayers().get(1).getGameQuestions().get(0);
+        assertEquals(-1, botGameQuestion.getEndDate().compareTo(playerGameQuestion.getEndDate()));
         assertEquals(Integer.valueOf(0), game.getGamePlayers().get(0).getGameQuestions().get(0).getPerformance());
         assertEquals(Integer.valueOf(1), game.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
         assertEquals(null, game.getGamePlayers().get(0).getCurrentGameQuestion());

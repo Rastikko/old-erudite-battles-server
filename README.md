@@ -10,25 +10,10 @@ mvn clean install
 
 ## TODO
 
- - Questions
-    - A question have id, answers, time
-    - We will dispatch gameQuestions that contains questions
-    - gamePlayer does keep the performance update through an special DTO
- - Cards
-    - Apply attributes
-    - Energy mechanic
- - Alignment mechanic
- - json to generate cards
- 
- questions
- 
- Generation from a json file
- Selection base on permanents and erudites
- 
- gameQuestions
- 
- Save date when dispatch
- Save answered updateEmberObjectFromObject
+ - Create plan base on turn system where each player can play 1 card at a time.
+ - Aligment system, each card you play will drag you towards S, C or L.
+ - Question system where you might answer multiple questions
+    - Preparation phase will give you information about selected questions
  
  ## Standars
  
