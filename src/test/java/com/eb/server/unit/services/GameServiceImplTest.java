@@ -7,6 +7,7 @@ import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.Game;
 import com.eb.server.domain.User;
 import com.eb.server.repositories.GameRepository;
+import com.eb.server.repositories.MatchmakingRequestRepository;
 import com.eb.server.services.GamePhaseService;
 import com.eb.server.services.GameService;
 import com.eb.server.services.GameServiceImpl;
@@ -38,6 +39,8 @@ public class GameServiceImplTest {
     GameRepository gameRepository;
 
     @Mock
+    MatchmakingRequestRepository matchmakingRequestRepository;
+    @Mock
     GamePhaseService gamePhaseService;
 
     @Mock
@@ -53,7 +56,7 @@ public class GameServiceImplTest {
             return user;
         });
 
-        gameService = new GameServiceImpl(gameMapper, gameRepository, gamePhaseService, userService);
+        gameService = new GameServiceImpl(gameMapper, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
     }
 
     @Test

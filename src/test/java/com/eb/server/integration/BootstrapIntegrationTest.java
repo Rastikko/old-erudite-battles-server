@@ -29,6 +29,8 @@ public class BootstrapIntegrationTest {
     @Autowired
     GameRepository gameRepository;
     @Autowired
+    MatchmakingRequestRepository matchmakingRequestRepository;
+    @Autowired
     AttributeRepository attributeRepository;
     @Autowired
     UserRepository userRepository;
@@ -64,7 +66,7 @@ public class BootstrapIntegrationTest {
                 new PhaseHandlerOutcome()
         );
 
-        gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, gamePhaseService, userService);
+        gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
 
     }
 

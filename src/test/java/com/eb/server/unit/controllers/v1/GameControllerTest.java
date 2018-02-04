@@ -4,6 +4,7 @@ import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.controllers.v1.GameController;
+import com.eb.server.domain.types.GameType;
 import com.eb.server.services.GameService;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +43,7 @@ public class GameControllerTest extends AbstractRestControllerTest {
     public void findGame() throws Exception {
         RequestGameDTO requestGameDTO = new RequestGameDTO();
         requestGameDTO.setUserId(USER_ID);
+        requestGameDTO.setType(GameType.VS_BOT);
 
         when(gameService.requestNewGame(requestGameDTO)).thenReturn(new GameDTO());
 
@@ -55,14 +58,14 @@ public class GameControllerTest extends AbstractRestControllerTest {
         final Long GAME_ID = 666L;
         GameCommandDTO gameCommandDTO = new GameCommandDTO();
         gameCommandDTO.setType("COMMAND_DRAW");
-        gameCommandDTO.setPayload("5");
+        gameCommandDTO.setPayload("");
 
         GameDTO gameDTO = new GameDTO();
         gameDTO.setId(GAME_ID);
 
         when(gameService.handleCommand(5L, gameCommandDTO)).thenReturn(gameDTO);
 
-        mockMvc.perform(post(GameController.BASE_URL + "/find")
+        mockMvc.perform(post(GameController.BASE_URL + "/1/command")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(gameCommandDTO)))
                 .andExpect(status().isCreated());
