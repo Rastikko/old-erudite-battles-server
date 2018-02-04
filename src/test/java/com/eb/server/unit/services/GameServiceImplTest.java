@@ -5,7 +5,9 @@ import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.Game;
+import com.eb.server.domain.MatchmakingRequest;
 import com.eb.server.domain.User;
+import com.eb.server.domain.types.GameType;
 import com.eb.server.repositories.GameRepository;
 import com.eb.server.repositories.MatchmakingRequestRepository;
 import com.eb.server.services.GamePhaseService;
@@ -20,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.hamcrest.CoreMatchers.is;
@@ -57,13 +60,12 @@ public class GameServiceImplTest {
         });
 
         gameService = new GameServiceImpl(gameMapper, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
+        // this is not 100% unit but meh
+        when(gameRepository.save(any(Game.class))).thenAnswer(u -> u.getArguments()[0]);
     }
 
     @Test
     public void createNewGameVsBot() {
-        // this is not 100% unit but meh
-        when(gameRepository.save(any(Game.class))).thenAnswer(u -> u.getArguments()[0]);
-
         RequestGameDTO requestGameDTO = new RequestGameDTO();
         requestGameDTO.setUserId(USER_ID);
 
@@ -77,5 +79,31 @@ public class GameServiceImplTest {
                 hasProperty("userId", is(USER_ID))
         ));
 
+    }
+
+    @Test
+    public void createNewGameEnterMatchmakingQueue() {
+        when(matchmakingRequestRepository.findFirstByOrderByRequestDateAsc()).thenReturn(null);
+        RequestGameDTO requestGameDTO = new RequestGameDTO();
+        requestGameDTO.setUserId(USER_ID);
+        requestGameDTO.setType(GameType.VS_PLAYER);
+        GameDTO newGameDTO = gameService.requestNewGame(requestGameDTO);
+        assertNull( newGameDTO);
+    }
+
+    @Test
+    public void createNewGameFindMatch() {
+        Long OTHER_USER = 2L;
+        MatchmakingRequest matchmakingRequest = new MatchmakingRequest();
+        matchmakingRequest.setUserId(OTHER_USER);
+        when(matchmakingRequestRepository.findFirstByOrderByRequestDateAsc()).thenReturn(matchmakingRequest);
+        RequestGameDTO requestGameDTO = new RequestGameDTO();
+        requestGameDTO.setUserId(USER_ID);
+        requestGameDTO.setType(GameType.VS_PLAYER);
+        GameDTO newGameDTO = gameService.requestNewGame(requestGameDTO);
+        assertThat( newGameDTO.getGamePlayers(), contains(
+                hasProperty("userId", is(USER_ID)),
+                hasProperty("userId", is(OTHER_USER))
+        ));
     }
 }

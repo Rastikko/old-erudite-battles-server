@@ -8,12 +8,13 @@ import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.domain.types.GameType;
+import com.eb.server.domain.types.UserStateType;
 import com.eb.server.repositories.GameRepository;
 import com.eb.server.repositories.MatchmakingRequestRepository;
 import org.springframework.stereotype.Service;
-import sun.misc.Request;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Service
@@ -41,7 +42,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDTO requestNewGame(RequestGameDTO requestGameDTO) {
         if (requestGameDTO.getType().equals(GameType.VS_PLAYER)) {
-            return createNewGame(requestGameDTO);
+            return createNewVSGame(requestGameDTO);
         }
         return createNewBotGame(requestGameDTO);
     }
@@ -66,15 +67,37 @@ public class GameServiceImpl implements GameService {
         return gameMapper.gameToGameDTO(gameRepository.findOne(gameId));
     }
 
-    private GameDTO createNewGame(RequestGameDTO requestGameDTO) {
-        return null;
+    private GameDTO createNewVSGame(RequestGameDTO requestGameDTO) {
+        User user = userService.findUserByID(requestGameDTO.getUserId());
+        MatchmakingRequest matchmakingRequest = matchmakingRequestRepository.findFirstByOrderByRequestDateAsc();
+
+        if (matchmakingRequest == null) {
+            createMatchmakingRequest(user);
+            return null;
+        }
+
+        User otherUser = userService.findUserByID(matchmakingRequest.getUserId());
+        GamePlayer gamePlayer = createGamePlayer(user);
+        GamePlayer otherGamePlayer = createGamePlayer(otherUser);
+        List<GamePlayer> gamePlayers = new ArrayList<>();
+
+        gamePlayers.add(gamePlayer);
+        gamePlayers.add(otherGamePlayer);
+
+        GameDTO savedGameDTO = createNewGame(gamePlayers);
+
+        user.setGameId(savedGameDTO.getId());
+        otherUser.setGameId(savedGameDTO.getId());
+
+        userService.updateUser(user);
+        userService.updateUser(otherUser);
+
+        return savedGameDTO;
     }
 
     private GameDTO createNewBotGame(RequestGameDTO requestGameDTO) {
         User user = userService.findUserByID(requestGameDTO.getUserId());
         User bot = userService.findUserByID(Bootstrap.BOT_ID);
-
-        Game game = new Game();
 
         GamePlayer gamePlayerBot = createGamePlayer(bot);
         gamePlayerBot.setIsBot(true);
@@ -84,17 +107,32 @@ public class GameServiceImpl implements GameService {
         gamePlayers.add(gamePlayerBot);
         gamePlayers.add(createGamePlayer(user));
 
-        game.setGamePlayers(gamePlayers);
-        game.setTurn(1);
-
-        gamePhaseService.handleNewGame(game);
-
-        GameDTO savedGameDTO = saveAndReturnDTO(game);
+        GameDTO savedGameDTO = createNewGame(gamePlayers);
 
         user.setGameId(savedGameDTO.getId());
         userService.updateUser(user);
 
         return savedGameDTO;
+    }
+
+    private GameDTO createNewGame(List<GamePlayer> gamePlayers) {
+        Game game = new Game();
+
+        game.setGamePlayers(gamePlayers);
+        game.setTurn(1);
+
+        gamePhaseService.handleNewGame(game);
+
+        return saveAndReturnDTO(game);
+    }
+
+    private void createMatchmakingRequest(User user) {
+        MatchmakingRequest matchmakingRequest = new MatchmakingRequest();
+        matchmakingRequest.setUserId(user.getId());
+        matchmakingRequest.setRequestDate(new GregorianCalendar());
+        user.setState(UserStateType.SEARCHING_GAME);
+        matchmakingRequestRepository.save(matchmakingRequest);
+        userService.updateUser(user);
     }
 
     private GamePlayer createGamePlayer(User user) {
