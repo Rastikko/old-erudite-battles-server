@@ -6,6 +6,7 @@ import com.eb.server.domain.User;
 public interface UserService {
     UserDTO findUserDTOById(Long id);
     User findUserByID(Long id);
+    UserDTO findUserDTOByName(String name);
     UserDTO createNewUser(UserDTO user);
     UserDTO updateUser(User user);
 }

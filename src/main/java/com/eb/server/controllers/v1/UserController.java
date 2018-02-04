@@ -1,5 +1,6 @@
 package com.eb.server.controllers.v1;
 
+import com.eb.server.api.v1.model.RequestLoginDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public UserDTO getUserById(@PathVariable Long id) {
         return userService.findUserDTOById(id);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO login(@RequestBody RequestLoginDTO requestLoginDTO ) {
+        return userService.findUserDTOByName(requestLoginDTO.getName());
     }
 
     @PostMapping

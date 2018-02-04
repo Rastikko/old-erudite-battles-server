@@ -32,6 +32,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findUserDTOByName(String name) {
+        User user = userRepository.findFirstByName(name);
+        return userMapper.userToUserDTO(user);
+    }
+
+    @Override
     public UserDTO createNewUser(UserDTO userDTO) {
         User user = userMapper.userDTOToUser(userDTO);
         user.setDeck(bootstrap.getDefaultDeck());
