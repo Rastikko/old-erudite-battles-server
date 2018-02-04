@@ -87,8 +87,11 @@ public class GameServiceImpl implements GameService {
         Game game = createNewGame(gamePlayers, GameType.VS_PLAYER);
 
         GameDTO savedGameDTO = saveAndReturnDTO(game);
+
         user.setGameId(savedGameDTO.getId());
+        user.setState(UserStateType.IN_GAME);
         otherUser.setGameId(savedGameDTO.getId());
+        otherUser.setState(UserStateType.IN_GAME);
 
         userService.updateUser(user);
         userService.updateUser(otherUser);

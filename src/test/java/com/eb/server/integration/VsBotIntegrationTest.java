@@ -26,7 +26,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class BootstrapIntegrationTest {
+public class VsBotIntegrationTest {
 
     @Autowired
     GameRepository gameRepository;

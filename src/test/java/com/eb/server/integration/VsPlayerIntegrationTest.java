@@ -23,6 +23,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.beans.HasPropertyWithValue.hasProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -102,5 +106,11 @@ public class VsPlayerIntegrationTest {
         otherUserRequestGameDTO.setType(GameType.VS_PLAYER);
         GameDTO otherUserNewGame = gameService.requestNewGame(otherUserRequestGameDTO);
         assertNotNull(otherUserNewGame);
+        assertThat( otherUserNewGame.getGamePlayers(), contains(
+                hasProperty("userId", is(OTHER_USER_ID)),
+                hasProperty("userId", is(USER_ID))
+        ));
+        User foundGameUser = userService.findUserByID(USER_ID);
+        assertEquals(UserStateType.IN_GAME, foundGameUser.getState());
     }
 }
