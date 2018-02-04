@@ -12,6 +12,7 @@
     "subcategory": "ALGEBRA",
     "type": "INPUT",
     "title": "QUESTION_FACTOR_POLYNOMIAL_1_// 12x^3 + 9x^2",
-    "correctAnswer": "3x^2(4x + 3)"
+    "correctAnswer": "3x^2(4x + 3)",
+    "averageAnswerTime": 20
   }
 ]

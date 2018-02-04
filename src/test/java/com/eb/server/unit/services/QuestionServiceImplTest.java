@@ -31,11 +31,7 @@ public class QuestionServiceImplTest {
 
         List<Question> questions = getQuestions();
 
-        when(questionRepository.findByCategoryAndSubcategoryAndIdNotIn(
-                Matchers.any(QuestionCategoryType.class),
-                Matchers.any(QuestionSubcategoryType.class),
-                Matchers.any())
-        ).thenReturn(questions);
+        when(questionRepository.findByCategory(Matchers.any(QuestionCategoryType.class))).thenReturn(questions);
 
         questionService = new QuestionServiceImpl(questionRepository);
     }
