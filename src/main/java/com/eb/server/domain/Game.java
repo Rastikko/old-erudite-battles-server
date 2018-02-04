@@ -1,5 +1,6 @@
 package com.eb.server.domain;
 
+import com.eb.server.domain.types.GameType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,8 +13,8 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Enumerated(value = EnumType.STRING)
-//    private GameType gameType = GameType.VS_BOT;
+    @Enumerated(value = EnumType.STRING)
+    private GameType gameType = GameType.VS_BOT;
 
     private Integer turn;
 
@@ -23,6 +24,4 @@ public class Game {
     @OneToOne(cascade = CascadeType.ALL)
     private GamePhase gamePhase;
 
-    // baseAligment
-    // extraQuestions
 }

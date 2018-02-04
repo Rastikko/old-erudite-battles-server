@@ -1,6 +1,7 @@
 package com.eb.server;
 
 import com.eb.server.api.v1.mapper.GameMapper;
+import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.*;
 
@@ -64,6 +65,14 @@ public class GameFixtures {
         command.setUserId(userId);
         command.setPayload(payload);
         command.setType(gameCommandType);
+        return command;
+    }
+
+    public static GameCommandDTO gameCommandDTO(Long userId, String commandType, String payload) {
+        GameCommandDTO command = new GameCommandDTO();
+        command.setUserId(userId);
+        command.setType(commandType);
+        command.setPayload(payload);
         return command;
     }
 

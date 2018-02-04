@@ -7,6 +7,7 @@ import com.eb.server.domain.GamePhase;
 import com.eb.server.domain.GamePlayer;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
+import com.eb.server.domain.types.GameType;
 
 import java.util.List;
 
@@ -22,7 +23,9 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         game.setGamePhase(gamePhase);
 
         definePhaseAttributes(game);
-        handleBotCommands(game);
+        if (game.getGameType().equals(GameType.VS_BOT)) {
+            handleBotCommands(game);
+        }
     }
 
     @Override

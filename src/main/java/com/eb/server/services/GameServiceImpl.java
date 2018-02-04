@@ -84,8 +84,9 @@ public class GameServiceImpl implements GameService {
         gamePlayers.add(gamePlayer);
         gamePlayers.add(otherGamePlayer);
 
-        GameDTO savedGameDTO = createNewGame(gamePlayers);
+        Game game = createNewGame(gamePlayers, GameType.VS_PLAYER);
 
+        GameDTO savedGameDTO = saveAndReturnDTO(game);
         user.setGameId(savedGameDTO.getId());
         otherUser.setGameId(savedGameDTO.getId());
 
@@ -107,23 +108,25 @@ public class GameServiceImpl implements GameService {
         gamePlayers.add(gamePlayerBot);
         gamePlayers.add(createGamePlayer(user));
 
-        GameDTO savedGameDTO = createNewGame(gamePlayers);
+        Game game = createNewGame(gamePlayers, GameType.VS_BOT);
 
+        GameDTO savedGameDTO = saveAndReturnDTO(game);
         user.setGameId(savedGameDTO.getId());
         userService.updateUser(user);
 
         return savedGameDTO;
     }
 
-    private GameDTO createNewGame(List<GamePlayer> gamePlayers) {
+    private Game createNewGame(List<GamePlayer> gamePlayers, GameType gameType) {
         Game game = new Game();
 
         game.setGamePlayers(gamePlayers);
         game.setTurn(1);
+        game.setGameType(gameType);
 
         gamePhaseService.handleNewGame(game);
 
-        return saveAndReturnDTO(game);
+        return game;
     }
 
     private void createMatchmakingRequest(User user) {

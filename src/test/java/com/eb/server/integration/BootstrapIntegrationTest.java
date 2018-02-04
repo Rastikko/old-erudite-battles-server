@@ -1,5 +1,6 @@
 package com.eb.server.integration;
 
+import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.GameCommandDTO;
@@ -15,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -48,14 +50,13 @@ public class BootstrapIntegrationTest {
     QuestionService questionService;
 
     @Before
+    @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
     public void setUp() throws Exception {
         bootstrap = new Bootstrap(resourceLoader, userRepository, attributeRepository, cardRepository, questionRepository);
         bootstrap.run();
 
         userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
-
         questionService = new QuestionServiceImpl(questionRepository);
-
         gamePhaseService = new GamePhaseServiceImpl(
                 new PhaseHandlerNone(),
                 new PhaseHandlerGather(),
@@ -67,7 +68,6 @@ public class BootstrapIntegrationTest {
         );
 
         gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
-
     }
 
     @Test
@@ -98,15 +98,15 @@ public class BootstrapIntegrationTest {
         assertEquals(Long.valueOf(1L), userWithGameDTO.getGameId());
 
         /* GATHER */
-        GameCommandDTO drawCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_DRAW", "5");
+        GameCommandDTO drawCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_DRAW", "5");
         GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), drawCommandDTO);
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(1).getDeck());
         assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
-        GameCommandDTO harvestCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
+        GameCommandDTO harvestCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
         GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
         assertEquals(Integer.valueOf(5), gatherCommandGame.getGamePlayers().get(1).getEnergy());
-        GameCommandDTO endCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_END", "");
+        GameCommandDTO endCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_END", "");
 
         /* PLAN */
         GameDTO phasePlanGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
@@ -123,7 +123,7 @@ public class BootstrapIntegrationTest {
         assertEquals(Long.valueOf(1L), phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getId());
         assertNotNull(phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getTitle());
         assertEquals(Long.valueOf(2L), phaseBattleGame.getGamePlayers().get(1).getCurrentGameQuestion().getId());
-        GameCommandDTO answerCommandDTO = getCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
+        GameCommandDTO answerCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
         GameDTO answeredBattleGame = gameService.handleCommand(newGame.getId(), answerCommandDTO);
         assertEquals(null, answeredBattleGame.getGamePlayers().get(1).getCurrentGameQuestion());
         assertEquals(Integer.valueOf(0), answeredBattleGame.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
@@ -132,13 +132,5 @@ public class BootstrapIntegrationTest {
         GameDTO phaseBattleResolutionGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
         assertEquals(Integer.valueOf(150), phaseBattleResolutionGame.getGamePlayers().get(0).getHealth());
         assertEquals(Integer.valueOf(120), phaseBattleResolutionGame.getGamePlayers().get(1).getHealth());
-    }
-
-    private GameCommandDTO getCommandDTO(Long userId, String commandType, String payload) {
-        GameCommandDTO command = new GameCommandDTO();
-        command.setUserId(userId);
-        command.setType(commandType);
-        command.setPayload(payload);
-        return command;
     }
 }

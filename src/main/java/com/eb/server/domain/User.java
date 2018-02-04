@@ -1,6 +1,5 @@
 package com.eb.server.domain;
 
-import com.eb.server.domain.types.QuestionType;
 import com.eb.server.domain.types.UserStateType;
 import lombok.Data;
 
