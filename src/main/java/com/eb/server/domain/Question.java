@@ -1,7 +1,7 @@
 package com.eb.server.domain;
 
-import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionType;
 import lombok.Data;
 

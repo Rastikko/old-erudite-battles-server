@@ -1,6 +1,5 @@
 package com.eb.server.domain;
 
-import com.eb.server.domain.types.GameType;
 import lombok.Data;
 
 import javax.persistence.*;

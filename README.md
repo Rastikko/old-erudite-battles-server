@@ -13,11 +13,13 @@ mvn clean install
  - Create plan base on turn system where each player can play 1 card at a time.
  - Aligment system, each card you play will drag you towards S, C or L.
  - Question system where you might answer multiple questions
-    - Preparation phase will give you information about selected questions
+ - Preparation phase will give you information about selected questions
+ - Add authentication and authorization endpoints
+ - Create websocket updates for when the phase is done
  
  ## Standars
  
-  - Data can be embeded or using a reference id.
+  - Payload must always be a json object that can be deserialized in a phasePayloadObject.
   
   
   

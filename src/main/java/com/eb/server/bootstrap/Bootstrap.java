@@ -1,11 +1,9 @@
 package com.eb.server.bootstrap;
 
 import com.eb.server.domain.Attribute;
-import com.eb.server.domain.Question;
 import com.eb.server.domain.Card;
+import com.eb.server.domain.Question;
 import com.eb.server.domain.User;
-import com.eb.server.domain.types.QuestionSubcategoryType;
-import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.repositories.AttributeRepository;
 import com.eb.server.repositories.CardRepository;
 import com.eb.server.repositories.QuestionRepository;
@@ -15,7 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Attr;
 
 import java.io.File;
 import java.io.IOException;

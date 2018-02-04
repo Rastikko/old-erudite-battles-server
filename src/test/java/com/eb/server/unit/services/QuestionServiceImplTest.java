@@ -30,7 +30,6 @@ public class QuestionServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         List<Question> questions = getQuestions();
-
         when(questionRepository.findByCategory(Matchers.any(QuestionCategoryType.class))).thenReturn(questions);
 
         questionService = new QuestionServiceImpl(questionRepository);

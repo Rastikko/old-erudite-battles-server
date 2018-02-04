@@ -1,7 +1,10 @@
 package com.eb.server.services.phases;
 
 import com.eb.server.bootstrap.Bootstrap;
-import com.eb.server.domain.*;
+import com.eb.server.domain.Game;
+import com.eb.server.domain.GameCommand;
+import com.eb.server.domain.GamePhase;
+import com.eb.server.domain.GamePlayer;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
 

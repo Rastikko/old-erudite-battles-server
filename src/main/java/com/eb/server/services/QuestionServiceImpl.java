@@ -1,8 +1,8 @@
 package com.eb.server.services;
 
 import com.eb.server.domain.Question;
-import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,9 @@
 package com.eb.server.services.phases;
 
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GameCommand;
+import com.eb.server.domain.GamePlayer;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
-import com.eb.server.domain.GamePlayer;
 import org.springframework.stereotype.Service;
 
 @Service

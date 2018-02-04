@@ -1,8 +1,8 @@
 package com.eb.server.controllers.v1;
 
 import com.eb.server.api.v1.model.GameCommandDTO;
-import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
+import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.services.GameService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

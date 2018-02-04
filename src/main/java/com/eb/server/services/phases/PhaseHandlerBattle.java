@@ -3,12 +3,15 @@ package com.eb.server.services.phases;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
-import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.domain.types.QuestionCategoryType;
+import com.eb.server.domain.types.QuestionSubcategoryType;
 import com.eb.server.services.QuestionService;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Service
 public class PhaseHandlerBattle extends AbstractPhaseHandler {

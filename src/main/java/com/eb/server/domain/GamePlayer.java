@@ -1,6 +1,5 @@
 package com.eb.server.domain;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
 import javax.persistence.*;
