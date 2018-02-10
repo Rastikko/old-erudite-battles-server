@@ -5,7 +5,6 @@ import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCard;
 import com.eb.server.domain.GameCommand;
 import com.eb.server.domain.types.GameCommandType;
-import com.eb.server.services.phases.PhaseHandlerGather;
 import com.eb.server.services.phases.PhaseHandlerPlan;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +21,16 @@ public class PhaseHandlerPlanTest {
     }
 
     @Test
+    public void definePhaseShouldSetPlayerPlayCardIfBot() {
+//        Game game = GameFixtures.botGame();
+        // TODO
+    }
+
+    @Test
     public void playCardCommand() {
         Long CARD_ID = 1L;
         Integer ENERGY_LEFT = 1;
-        Game game = GameFixtures.game();
+        Game game = GameFixtures.botGame();
         GameCard cardToPlay = game.getGamePlayers().get(1).getDeck().remove(0);
         cardToPlay.setId(CARD_ID);
         game.getGamePlayers().get(1).getHand().add(cardToPlay);

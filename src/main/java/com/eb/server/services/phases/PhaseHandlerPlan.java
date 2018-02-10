@@ -40,6 +40,7 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
     }
 
     void handleCommandPlayCard(Game game, GameCommand gameCommand) {
+        // TODO: use java predicates to handle any arbitrary attribute
         GamePlayer gamePlayer = findGamePlayerCommand(game.getGamePlayers(), gameCommand);
         Long cardId = Long.valueOf(gameCommand.getPayload());
         GameCard cardToPlay = findCardFromId(cardId, gamePlayer.getHand());

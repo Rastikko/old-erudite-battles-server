@@ -8,7 +8,6 @@ import com.eb.server.services.QuestionService;
 import com.eb.server.services.phases.PhaseHandlerBattle;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,7 +31,7 @@ public class PhaseHandlerBattleTest {
     @Test
     @DisplayName("PhaseHandlerBattle::handleCommandAnswer should return if not both players answered")
     public void handleCommandAnswerReturns() {
-        Game game = GameFixtures.game();
+        Game game = GameFixtures.botGame();
 
         game.getGamePlayers().get(0).setCurrentGameQuestion(GameFixtures.gameQuestion());
         game.getGamePlayers().get(1).setCurrentGameQuestion(GameFixtures.gameQuestion());
@@ -48,7 +47,7 @@ public class PhaseHandlerBattleTest {
     @Test
     @DisplayName("PhaseHandlerBattle::handleCommandAnswer should set the performance and move question")
     public void handleCommandAnswerPerformance() {
-        Game game = GameFixtures.game();
+        Game game = GameFixtures.botGame();
 
         game.getGamePlayers().get(0).setCurrentGameQuestion(GameFixtures.gameQuestion());
         game.getGamePlayers().get(1).setCurrentGameQuestion(GameFixtures.gameQuestion());

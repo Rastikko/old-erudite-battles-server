@@ -4,11 +4,9 @@ import com.eb.server.GameFixtures;
 import com.eb.server.domain.Game;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
-import com.eb.server.services.QuestionService;
 import com.eb.server.services.phases.PhaseHandlerGather;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +21,7 @@ public class PhaseHandlerGatherTest {
 
     @Test
     public void handleCommandDraw() {
-        Game game = GameFixtures.game();
+        Game game = GameFixtures.botGame();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
         phaseHandlerGather.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_DRAW, ""));
@@ -34,7 +32,7 @@ public class PhaseHandlerGatherTest {
     @Test
     public void handleCommandHarvest() {
         Integer ENERGY_HARVESTED = 5;
-        Game game = GameFixtures.game();
+        Game game = GameFixtures.botGame();
         game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
         phaseHandlerGather.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_HARVEST, ""));

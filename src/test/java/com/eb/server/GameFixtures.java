@@ -37,7 +37,7 @@ public class GameFixtures {
         return deck;
     }
 
-    public static Game game() {
+    public static Game botGame() {
         GamePlayer botPlayer = gamePlayer(BOT_ID);
         GamePlayer player = gamePlayer(2L);
         botPlayer.setIsBot(true);
@@ -49,6 +49,7 @@ public class GameFixtures {
         Game game = new Game();
         game.setGamePlayers(gamePlayers);
         game.setTurn(1);
+        game.setGameType(GameType.VS_BOT);
 
         return game;
 

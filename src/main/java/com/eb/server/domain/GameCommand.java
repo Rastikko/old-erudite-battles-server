@@ -4,6 +4,7 @@ import com.eb.server.domain.types.GameCommandType;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 @Entity
 @Data
@@ -15,7 +16,8 @@ public class GameCommand {
     @Enumerated(value = EnumType.STRING)
     private GameCommandType type;
 
+    private Calendar date;
+
     private Long userId;
-    // TODO: make sure payload is always a json object
     private String payload;
 }

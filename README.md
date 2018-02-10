@@ -16,6 +16,8 @@ mvn clean install
  - Preparation phase will give you information about selected questions
  - Add authentication and authorization endpoints
  - Create websocket updates for when the phase is done
+ - Create Bot entity instead of repurposing User
+ - 
  
  ## Standars
  

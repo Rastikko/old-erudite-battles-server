@@ -9,6 +9,7 @@ import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.domain.types.GameType;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public abstract class AbstractPhaseHandler implements PhaseHandler {
@@ -33,6 +34,8 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         if (gameCommand.getType().equals(GameCommandType.COMMAND_END)) {
             this.handleCommandEnd(game, gameCommand);
         }
+        gameCommand.setDate(new GregorianCalendar());
+        game.getGamePhase().getGameCommands().add(gameCommand);
     }
 
     @Override

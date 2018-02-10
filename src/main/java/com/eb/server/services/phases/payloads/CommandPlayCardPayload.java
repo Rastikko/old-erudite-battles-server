@@ -1,4 +1,4 @@
-package com.eb.server.services.phases.domain;
+package com.eb.server.services.phases.payloads;
 
 import lombok.Data;
 

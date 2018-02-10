@@ -14,9 +14,14 @@ public class GamePhase {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<GameCommand> gameCommands = new ArrayList<>();
+
     @Enumerated(value = EnumType.STRING)
     private GamePhaseType type;
 
     @ElementCollection
     private List<Long> endPhaseGamePlayerIds = new ArrayList<>();
+
+    private String payload;
 }
