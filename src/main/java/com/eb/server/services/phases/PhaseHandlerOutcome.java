@@ -10,7 +10,6 @@ public class PhaseHandlerOutcome extends AbstractPhaseHandler {
     public PhaseHandlerOutcome() {
         GAME_PHASE_TYPE = GamePhaseType.PHASE_OUTCOME;
         NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
-
     }
 
     @Override

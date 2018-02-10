@@ -58,7 +58,6 @@ public class VsBotIntegrationTest {
         userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
         questionService = new QuestionServiceImpl(questionRepository);
         gamePhaseService = new GamePhaseServiceImpl(
-                new PhaseHandlerNone(),
                 new PhaseHandlerGather(),
                 new PhaseHandlerPlan(),
                 new PhaseHandlerBattlePreparation(),

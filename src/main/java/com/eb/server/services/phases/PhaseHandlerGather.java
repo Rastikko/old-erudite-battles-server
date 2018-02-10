@@ -54,8 +54,8 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
 
     @Override
     public void handleBotCommands(Game game) {
-        handleCommandDraw(game, createBotCommand(GameCommandType.COMMAND_DRAW, "5"));
-        handleCommandHarvest(game, createBotCommand(GameCommandType.COMMAND_HARVEST, ""));
-        handleCommandEnd(game, createBotCommand(GameCommandType.COMMAND_END, ""));
+        handleCommand(game, createBotCommand(GameCommandType.COMMAND_DRAW, ""));
+        handleCommand(game, createBotCommand(GameCommandType.COMMAND_HARVEST, ""));
+        handleCommand(game, createBotCommand(GameCommandType.COMMAND_END, ""));
     }
 }

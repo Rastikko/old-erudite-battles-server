@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class GamePhaseServiceImpl implements GamePhaseService {
 
-    PhaseHandlerNone phaseHandlerNone;
     PhaseHandlerGather phaseHandlerGather;
     PhaseHandlerPlan phaseHandlerPlan;
     PhaseHandlerBattlePreparation phaseHandlerBattlePreparation;
@@ -18,7 +17,6 @@ public class GamePhaseServiceImpl implements GamePhaseService {
     PhaseHandlerOutcome phaseHandlerOutcome;
 
     public GamePhaseServiceImpl(
-        PhaseHandlerNone phaseHandlerNone,
         PhaseHandlerGather phaseHandlerGather,
         PhaseHandlerPlan phaseHandlerPlan,
         PhaseHandlerBattlePreparation phaseHandlerBattlePreparation,
@@ -26,7 +24,6 @@ public class GamePhaseServiceImpl implements GamePhaseService {
         PhaseHandlerBattleResolution phaseHandlerBattleResolution,
         PhaseHandlerOutcome phaseHandlerOutcome
     ) {
-        this.phaseHandlerNone = phaseHandlerNone;
         this.phaseHandlerGather = phaseHandlerGather;
         this.phaseHandlerPlan = phaseHandlerPlan;
         this.phaseHandlerBattlePreparation = phaseHandlerBattlePreparation;
@@ -65,8 +62,6 @@ public class GamePhaseServiceImpl implements GamePhaseService {
                 return this.phaseHandlerBattleResolution;
             case PHASE_OUTCOME:
                 return this.phaseHandlerOutcome;
-            case PHASE_NONE:
-                return this.phaseHandlerNone;
         }
         return null;
     }
