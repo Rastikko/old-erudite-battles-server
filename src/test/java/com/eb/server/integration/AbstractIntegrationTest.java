@@ -2,6 +2,7 @@ package com.eb.server.integration;
 
 import com.eb.server.api.v1.mapper.GameMapper;
 import com.eb.server.api.v1.mapper.UserMapper;
+import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.repositories.*;
@@ -61,7 +62,15 @@ public abstract class AbstractIntegrationTest {
         gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
     }
 
-    public UserDTO testCreatePlayer(String name) {
+    GameCommandDTO gameCommandDTO(Long userId, String commandType, String payload) {
+        GameCommandDTO command = new GameCommandDTO();
+        command.setUserId(userId);
+        command.setType(commandType);
+        command.setPayload(payload);
+        return command;
+    }
+
+    UserDTO testCreatePlayer(String name) {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(name);
         UserDTO savedUserDTO = userService.createNewUser(userDTO);

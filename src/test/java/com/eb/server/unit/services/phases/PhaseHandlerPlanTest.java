@@ -27,21 +27,6 @@ public class PhaseHandlerPlanTest {
     }
 
     @Test
-    public void playCardCommand() {
-        Long CARD_ID = 1L;
-        Integer ENERGY_LEFT = 1;
-        int PERMANENTS = 3;
-
-        Game game = GameFixtures.botGame();
-        GameCard cardToPlay = game.getGamePlayers().get(1).getDeck().remove(0);
-        cardToPlay.setId(CARD_ID);
-        game.getGamePlayers().get(1).getHand().add(cardToPlay);
-        game.getGamePlayers().get(1).setEnergy(2);
-        GameCommand gameCommand = GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, cardToPlay.getId().toString());
-
-        phaseHandlerPlan.handleCommand(game, gameCommand);
-
-        assertEquals(PERMANENTS, game.getGamePlayers().get(1).getPermanents().size());
-        assertEquals(ENERGY_LEFT, game.getGamePlayers().get(1).getEnergy());
+    public void testMultipleGameRoundsUntilBothPlayersEnd() {
     }
 }

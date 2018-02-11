@@ -41,15 +41,15 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
         assertEquals(Long.valueOf(1L), userWithGameDTO.getGameId());
 
         /* GATHER */
-        GameCommandDTO drawCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_DRAW", "5");
+        GameCommandDTO drawCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_DRAW", "5");
         GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), drawCommandDTO);
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(1).getDeck());
         assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
-        GameCommandDTO harvestCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
+        GameCommandDTO harvestCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
         GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
         assertEquals(Integer.valueOf(5), gatherCommandGame.getGamePlayers().get(1).getEnergy());
-        GameCommandDTO endCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_END", "");
+        GameCommandDTO endCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_END", "");
 
         /* PLAN */
         GameDTO phasePlanGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
@@ -66,7 +66,7 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
         assertEquals(Long.valueOf(1L), phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getId());
         assertNotNull(phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getTitle());
         assertEquals(Long.valueOf(2L), phaseBattleGame.getGamePlayers().get(1).getCurrentGameQuestion().getId());
-        GameCommandDTO answerCommandDTO = GameFixtures.gameCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
+        GameCommandDTO answerCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
         GameDTO answeredBattleGame = gameService.handleCommand(newGame.getId(), answerCommandDTO);
         assertEquals(null, answeredBattleGame.getGamePlayers().get(1).getCurrentGameQuestion());
         assertEquals(Integer.valueOf(0), answeredBattleGame.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
