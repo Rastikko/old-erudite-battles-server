@@ -35,39 +35,29 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testVsGame() {
-        Long USER_ID = 2L;
-        Long OTHER_USER_ID = 3L;
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("Johan1");
-        UserDTO savedUserDTO = userService.createNewUser(userDTO);
-        UserDTO otherUserDTO = new UserDTO();
-        userDTO.setName("Johan2");
-        UserDTO savedOtherUserDTO = userService.createNewUser(otherUserDTO);
-        // check the default deck is created
-        assertEquals(USER_ID, savedUserDTO.getId());
-        assertEquals(OTHER_USER_ID, savedOtherUserDTO.getId());
+        UserDTO userDTO = testCreatePlayer("Johan");
+        UserDTO otherUserDTO = testCreatePlayer("Johan2");
 
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
-        requestGameDTO.setUserId(USER_ID);
+        requestGameDTO.setUserId(userDTO.getId());
         requestGameDTO.setType(GameType.VS_PLAYER);
         GameDTO newGame = gameService.requestNewGame(requestGameDTO);
         assertNull(newGame);
-        User userFindGame = userService.findUserByID(USER_ID);
+        User userFindGame = userService.findUserByID(userDTO.getId());
         assertEquals(UserStateType.SEARCHING_GAME, userFindGame.getState());
 
         /* CREATE GAME */
         RequestGameDTO otherUserRequestGameDTO = new RequestGameDTO();
-        otherUserRequestGameDTO.setUserId(OTHER_USER_ID);
+        otherUserRequestGameDTO.setUserId(otherUserDTO.getId());
         otherUserRequestGameDTO.setType(GameType.VS_PLAYER);
         GameDTO otherUserNewGame = gameService.requestNewGame(otherUserRequestGameDTO);
         assertNotNull(otherUserNewGame);
         assertThat( otherUserNewGame.getGamePlayers(), contains(
-                hasProperty("userId", is(OTHER_USER_ID)),
-                hasProperty("userId", is(USER_ID))
+                hasProperty("userId", is(otherUserDTO.getId())),
+                hasProperty("userId", is(userDTO.getId()))
         ));
-        User foundGameUser = userService.findUserByID(USER_ID);
+        User foundGameUser = userService.findUserByID(userDTO.getId());
         assertEquals(UserStateType.IN_GAME, foundGameUser.getState());
     }
 }

@@ -30,15 +30,12 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
     @Test
     // TODO: discover why we cannot create 2 tests
     public void testBotGame() {
-        /* NEW USER */
         UserDTO bot = userService.findUserDTOById(Bootstrap.BOT_ID);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
         assertEquals(bootstrap.getDefaultDeck().size(), bot.getDeck().size());
-        UserDTO userDTO = new UserDTO();
-        userDTO.setName("Johan");
-        UserDTO savedUserDTO = userService.createNewUser(userDTO);
-        // check the default deck is created
-        assertEquals(30, savedUserDTO.getDeck().size());
+
+        /* NEW USER */
+        UserDTO savedUserDTO = testCreatePlayer("Johan");
 
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
