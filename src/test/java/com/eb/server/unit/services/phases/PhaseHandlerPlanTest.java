@@ -23,11 +23,14 @@ public class PhaseHandlerPlanTest {
     }
 
     @Test
-    public void testMultipleGameRoundsUntilPlayerEnds() {
+    public void testMultipleGameRoundsUntilPlayerEnds() throws Exception {
+        final String PAYLOAD_1 = "{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":true}";
+
         Game game = GameFixtures.botGame();
         phaseHandlerPlan.definePhase(game);
 
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+        assertEquals(PAYLOAD_1, game.getGamePhase().getPayload());
     }
 
     @Test

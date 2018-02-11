@@ -17,9 +17,12 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
     GamePhaseType GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
     GamePhaseType NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
 
-    protected abstract void definePhaseAttributes(Game game);
+    ObjectMapper mapper = new ObjectMapper();
 
-    public void definePhase(Game game) {
+    protected abstract void definePhaseAttributes(Game game) throws Exception;
+    protected abstract void handleBotCommands(Game game) throws Exception;
+
+    public void definePhase(Game game) throws Exception {
         GamePhase gamePhase = new GamePhase();
         gamePhase.setType(this.GAME_PHASE_TYPE);
         game.getGamePhases().add(gamePhase);
@@ -32,7 +35,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
     }
 
     @Override
-    public void handleCommand(Game game, GameCommand gameCommand) {
+    public void handleCommand(Game game, GameCommand gameCommand) throws  Exception{
         if (gameCommand.getType().equals(GameCommandType.COMMAND_END)) {
             this.handleCommandEnd(game, gameCommand);
         }
@@ -53,7 +56,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         return NEXT_GAME_PHASE_TYPE;
     }
 
-    void handleCommandEnd(Game game, GameCommand gameCommand) {
+    void handleCommandEnd(Game game, GameCommand gameCommand) throws Exception {
         game.getGamePhase().getEndPhaseGamePlayerIds().add(gameCommand.getUserId());
     }
 

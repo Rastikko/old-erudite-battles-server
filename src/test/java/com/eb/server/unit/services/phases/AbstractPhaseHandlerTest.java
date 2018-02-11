@@ -14,7 +14,7 @@ public class AbstractPhaseHandlerTest {
 
     static class GenericPhaseHandler extends  AbstractPhaseHandler {
         @Override
-        public void handleBotCommands(Game game) {}
+        protected void handleBotCommands(Game game) throws Exception{}
 
         @Override
         protected void definePhaseAttributes(Game game) {}
@@ -28,7 +28,7 @@ public class AbstractPhaseHandlerTest {
     }
 
     @Test
-    public void shouldSaveHandledCommands() {
+    public void shouldSaveHandledCommands() throws Exception {
         Game game = GameFixtures.botGame();
         phaseHandler.definePhase(game);
         GameCommand gameCommand = GameFixtures.gameCommand(GameFixtures.USER_ID, GameCommandType.COMMAND_END, "");

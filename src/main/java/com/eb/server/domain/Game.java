@@ -32,4 +32,11 @@ public class Game {
         return null;
     }
 
+    public GamePhase getPreviousGamePhase() {
+        if (this.gamePhases.size() > 1) {
+            return this.gamePhases.get(this.gamePhases.size() - 2);
+        }
+        return null;
+    }
+
 }

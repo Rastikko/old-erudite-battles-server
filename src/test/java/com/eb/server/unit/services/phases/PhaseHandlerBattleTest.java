@@ -26,26 +26,27 @@ public class PhaseHandlerBattleTest {
     @Mock
     QuestionService questionService;
 
-
     PhaseHandlerBattle phaseHandlerBattle;
 
+    Game game = GameFixtures.botGame();
+
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         phaseHandlerBattle = new PhaseHandlerBattle(questionService);
 
         when(questionService
                 .getRandomQuestion(Matchers.any(QuestionCategoryType.class), Matchers.any(QuestionSubcategoryType.class), Matchers.anyList()))
                 .thenReturn(GameFixtures.question());
+
+        game = GameFixtures.botGame();
+        phaseHandlerBattle.definePhase(game);
     }
 
     @Test
     @DisplayName("PhaseHandlerBattle::handleCommandAnswer should return if not both players answered")
-    public void handleCommandAnswerReturns() {
-        Game game = GameFixtures.botGame();
+    public void handleCommandAnswerReturns() throws Exception {
 
-        phaseHandlerBattle.definePhase(game);
-        
         phaseHandlerBattle.handleCommand(game, GameFixtures.gameCommand(1L, GameCommandType.COMMAND_ANSWER, ""));
 
         String CORRECT_ANSWER = game.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getCorrectAnswer();
@@ -56,11 +57,7 @@ public class PhaseHandlerBattleTest {
 
     @Test
     @DisplayName("PhaseHandlerBattle::handleCommandAnswer should set the performance and move question")
-    public void handleCommandAnswerPerformance() {
-        Game game = GameFixtures.botGame();
-
-        phaseHandlerBattle.definePhase(game);
-
+    public void handleCommandAnswerPerformance() throws Exception {
         String CORRECT_ANSWER = game.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getCorrectAnswer();
 
         phaseHandlerBattle.handleCommand(game, GameFixtures.gameCommand(1L, GameCommandType.COMMAND_ANSWER, ""));

@@ -33,7 +33,7 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     }
 
     @Override
-    public void handleCommand(Game game, GameCommand gameCommand) {
+    public void handleCommand(Game game, GameCommand gameCommand) throws Exception {
         switch (gameCommand.getType()) {
             case COMMAND_ANSWER:
                 handleCommandAnswer(game, gameCommand);
@@ -42,7 +42,7 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     }
 
     @Override
-    public void handleBotCommands(Game game) {
+    public void handleBotCommands(Game game) throws Exception {
         handleCommand(game, createBotCommand(GameCommandType.COMMAND_ANSWER, ""));
         handleCommand(game, createBotCommand(GameCommandType.COMMAND_END, ""));
 

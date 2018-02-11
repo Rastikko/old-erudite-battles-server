@@ -34,17 +34,25 @@ public class GamePhaseServiceImpl implements GamePhaseService {
 
     @Override
     public void handleNewGame(Game game) {
-        PhaseHandler phaseHandler = getPhaseHandler(GamePhaseType.PHASE_GATHER);
-        phaseHandler.definePhase(game);
+        try {
+            PhaseHandler phaseHandler = getPhaseHandler(GamePhaseType.PHASE_GATHER);
+            phaseHandler.definePhase(game);
+        } catch (Exception e) {
+            // TODO
+        }
     }
 
     @Override
     public void handleCommand(Game game, GameCommand gameCommand) {
-        PhaseHandler phaseHandler = getPhaseHandler(game.getGamePhase().getType());
-        phaseHandler.handleCommand(game, gameCommand);
-        if (phaseHandler.isNextPhaseReady(game)) {
-            PhaseHandler newPhaseHandler = getPhaseHandler(phaseHandler.getNextPhaseType(game));
-            newPhaseHandler.definePhase(game);
+        try {
+            PhaseHandler phaseHandler = getPhaseHandler(game.getGamePhase().getType());
+            phaseHandler.handleCommand(game, gameCommand);
+            if (phaseHandler.isNextPhaseReady(game)) {
+                PhaseHandler newPhaseHandler = getPhaseHandler(phaseHandler.getNextPhaseType(game));
+                newPhaseHandler.definePhase(game);
+            }
+        } catch (Exception e) {
+            // TODO
         }
     }
 

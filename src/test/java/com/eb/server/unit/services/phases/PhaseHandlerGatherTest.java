@@ -20,7 +20,7 @@ public class PhaseHandlerGatherTest {
     }
 
     @Test
-    public void handleCommandDraw() {
+    public void handleCommandDraw() throws Exception {
         Game game = GameFixtures.botGame();
         game.getGamePhases().add(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
@@ -30,7 +30,7 @@ public class PhaseHandlerGatherTest {
     }
 
     @Test
-    public void handleCommandHarvest() {
+    public void handleCommandHarvest() throws Exception {
         Integer ENERGY_HARVESTED = 5;
         Game game = GameFixtures.botGame();
         game.getGamePhases().add((GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER)));
