@@ -17,7 +17,7 @@ mvn clean install
  - Add authentication and authorization endpoints
  - Create websocket updates for when the phase is done
  - Create Bot entity instead of repurposing User
- - 
+ - Standarize test and fixtures IDS for players, cards..
  
  ## Standars
  
