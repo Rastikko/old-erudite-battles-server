@@ -45,7 +45,7 @@ public class Bootstrap implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (cardRepository.count() == 0) {
             loadAttributes();
             loadCards();

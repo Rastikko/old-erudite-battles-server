@@ -22,7 +22,7 @@ public class UserMapperTest {
     UserMapper userMapper = UserMapper.INSTANCE;
 
     @Test
-    public void userToUserDTO() throws Exception {
+    public void userToUserDTO() {
         List<Card> deck =  getTestDeck();
 
         User user = new User();

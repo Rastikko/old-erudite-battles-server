@@ -14,11 +14,11 @@ public class AbstractPhaseHandlerTest {
 
     static class GenericPhaseHandler extends  AbstractPhaseHandler {
         @Override
-        public void definePhaseAttributes(Game game) {}
+        public void handleBotCommands(Game game) {}
 
         @Override
-        public void handleBotCommands(Game game) {}
-    };
+        protected void definePhaseAttributes(Game game) {}
+    }
 
     AbstractPhaseHandler phaseHandler;
 

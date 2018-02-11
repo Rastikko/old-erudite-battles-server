@@ -29,7 +29,6 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
         switch (gameCommand.getType()) {
             case COMMAND_DRAW:
                 handleCommandDraw(game, gameCommand);
-                return;
             case COMMAND_HARVEST:
                 handleCommandHarvest(game, gameCommand);
         }

@@ -97,6 +97,17 @@ public class GameFixtures {
     }
 
     public static GameQuestion gameQuestion() {
+        Question question = question();
+
+        GameQuestion gameQuestion = new GameQuestion();
+        gameQuestion.setTurn(1);
+        gameQuestion.setQuestion(question);
+        gameQuestion.setStartDate(new GregorianCalendar(2018, 1, 1));
+        gameQuestion.setQuestion(question);
+        return  gameQuestion;
+    }
+
+    public static Question question() {
         List<String> answers = new ArrayList<>();
         answers.add("Answer A");
         answers.add("Answer B");
@@ -111,11 +122,6 @@ public class GameFixtures {
         question.setSubcategory(QuestionSubcategoryType.TRIGONOMETRY);
         question.setAverageAnswerTime(20);
 
-        GameQuestion gameQuestion = new GameQuestion();
-        gameQuestion.setTurn(1);
-        gameQuestion.setQuestion(question);
-        gameQuestion.setStartDate(new GregorianCalendar(2018, 1, 1));
-        gameQuestion.setQuestion(question);
-        return  gameQuestion;
+        return question;
     }
 }

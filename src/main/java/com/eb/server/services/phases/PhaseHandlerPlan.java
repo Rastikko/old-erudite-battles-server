@@ -24,7 +24,6 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
         switch (gameCommand.getType()) {
             case COMMAND_PLAY_CARD:
                 handleCommandPlayCard(game, gameCommand);
-                return;
         }
         super.handleCommand(game, gameCommand);
     }

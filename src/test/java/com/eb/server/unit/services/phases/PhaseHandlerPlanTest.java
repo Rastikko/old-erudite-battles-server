@@ -4,7 +4,9 @@ import com.eb.server.GameFixtures;
 import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCard;
 import com.eb.server.domain.GameCommand;
+import com.eb.server.domain.GamePhase;
 import com.eb.server.domain.types.GameCommandType;
+import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.services.phases.PhaseHandlerPlan;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +23,11 @@ public class PhaseHandlerPlanTest {
     }
 
     @Test
-    public void definePhaseShouldSetPlayerPlayCardIfBot() {
-//        Game game = GameFixtures.botGame();
-        // TODO
+    public void testMultipleGameRoundsUntilPlayerEnds() {
+        Game game = GameFixtures.botGame();
+        phaseHandlerPlan.definePhase(game);
+
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
     }
 
     @Test

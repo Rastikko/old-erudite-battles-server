@@ -37,7 +37,6 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
         switch (gameCommand.getType()) {
             case COMMAND_ANSWER:
                 handleCommandAnswer(game, gameCommand);
-                return;
         }
         super.handleCommand(game, gameCommand);
     }

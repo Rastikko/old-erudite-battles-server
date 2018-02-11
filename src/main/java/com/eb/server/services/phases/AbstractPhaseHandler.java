@@ -8,6 +8,7 @@ import com.eb.server.domain.GamePlayer;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.domain.types.GameType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -16,14 +17,15 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
     GamePhaseType GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
     GamePhaseType NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_NONE;
 
-    // TODO: override and call super to define payload
+    protected abstract void definePhaseAttributes(Game game);
+
     public void definePhase(Game game) {
         GamePhase gamePhase = new GamePhase();
         gamePhase.setType(this.GAME_PHASE_TYPE);
-
         game.getGamePhases().add(gamePhase);
 
         definePhaseAttributes(game);
+
         if (game.getGameType().equals(GameType.VS_BOT)) {
             handleBotCommands(game);
         }

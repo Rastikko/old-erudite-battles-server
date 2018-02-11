@@ -6,7 +6,6 @@ import com.eb.server.domain.types.GamePhaseType;
 
 public interface PhaseHandler {
     void definePhase(Game game);
-    void definePhaseAttributes(Game game);
     void handleCommand(Game game, GameCommand gameCommand);
     void handleBotCommands(Game game);
     boolean isNextPhaseReady(Game game);

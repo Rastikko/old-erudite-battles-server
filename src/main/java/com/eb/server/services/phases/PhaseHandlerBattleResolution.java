@@ -15,6 +15,7 @@ public class PhaseHandlerBattleResolution extends AbstractPhaseHandler {
 
     @Override
     public void handleBotCommands(Game game) {
+
         handleCommand(game, createBotCommand(GameCommandType.COMMAND_END, ""));
     }
 
