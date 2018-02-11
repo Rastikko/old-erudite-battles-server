@@ -24,50 +24,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
-public class VsBotIntegrationTest {
-
-    @Autowired
-    GameRepository gameRepository;
-    @Autowired
-    MatchmakingRequestRepository matchmakingRequestRepository;
-    @Autowired
-    AttributeRepository attributeRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    CardRepository cardRepository;
-    @Autowired
-    QuestionRepository questionRepository;
-    @Autowired
-    ResourceLoader resourceLoader;
-
-    Bootstrap bootstrap;
-    UserService userService;
-    GameService gameService;
-    GamePhaseService gamePhaseService;
-    QuestionService questionService;
-
-    @Before
-    @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-    public void setUp() throws Exception {
-        bootstrap = new Bootstrap(resourceLoader, userRepository, attributeRepository, cardRepository, questionRepository);
-        bootstrap.run();
-
-        userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
-        questionService = new QuestionServiceImpl(questionRepository);
-        gamePhaseService = new GamePhaseServiceImpl(
-                new PhaseHandlerGather(),
-                new PhaseHandlerPlan(),
-                new PhaseHandlerBattlePreparation(),
-                new PhaseHandlerBattle(questionService),
-                new PhaseHandlerBattleResolution(),
-                new PhaseHandlerOutcome()
-        );
-
-        gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
-    }
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+public class VsBotIntegrationTest  extends AbstractIntegrationTest{
 
     @Test
     // TODO: discover why we cannot create 2 tests

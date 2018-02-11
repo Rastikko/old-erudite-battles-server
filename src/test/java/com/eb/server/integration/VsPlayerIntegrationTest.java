@@ -31,50 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-public class VsPlayerIntegrationTest {
-    @Autowired
-    GameRepository gameRepository;
-    @Autowired
-    MatchmakingRequestRepository matchmakingRequestRepository;
-    @Autowired
-    AttributeRepository attributeRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    CardRepository cardRepository;
-    @Autowired
-    QuestionRepository questionRepository;
-    @Autowired
-    ResourceLoader resourceLoader;
-
-    Bootstrap bootstrap;
-    UserService userService;
-    GameService gameService;
-    GamePhaseService gamePhaseService;
-    QuestionService questionService;
-
-    @Before
-    public void setUp() throws Exception {
-        bootstrap = new Bootstrap(resourceLoader, userRepository, attributeRepository, cardRepository, questionRepository);
-        bootstrap.run();
-
-        userService = new UserServiceImpl(UserMapper.INSTANCE, userRepository, bootstrap);
-        questionService = new QuestionServiceImpl(questionRepository);
-        gamePhaseService = new GamePhaseServiceImpl(
-                new PhaseHandlerGather(),
-                new PhaseHandlerPlan(),
-                new PhaseHandlerBattlePreparation(),
-                new PhaseHandlerBattle(questionService),
-                new PhaseHandlerBattleResolution(),
-                new PhaseHandlerOutcome()
-        );
-
-        gameService = new GameServiceImpl(GameMapper.INSTANCE, gameRepository, matchmakingRequestRepository, gamePhaseService, userService);
-    }
-
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.ANY)
+public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void testVsGame() {
         Long USER_ID = 2L;
