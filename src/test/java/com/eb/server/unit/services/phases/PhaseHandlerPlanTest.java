@@ -25,12 +25,34 @@ public class PhaseHandlerPlanTest {
     @Test
     public void testMultipleGameRoundsUntilPlayerEnds() throws Exception {
         final String PAYLOAD_1 = "{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":true}";
+        final String PAYLOAD_2 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}";
+        final String PAYLOAD_3 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":1,\"skipPlanTurn\":false}";
 
         Game game = GameFixtures.botGame();
         phaseHandlerPlan.definePhase(game);
 
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals(PAYLOAD_1, game.getGamePhase().getPayload());
+
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));
+        assertEquals(GamePhaseType.PHASE_PLAN, phaseHandlerPlan.getNextPhaseType(game));
+
+        phaseHandlerPlan.definePhase(game);
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+        assertEquals(PAYLOAD_2, game.getGamePhase().getPayload());
+
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, "{\"cardId\":1}"));
+        assertEquals(PAYLOAD_3, game.getGamePhase().getPayload());
+
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));
+        assertEquals(GamePhaseType.PHASE_PLAN, phaseHandlerPlan.getNextPhaseType(game));
+
+        phaseHandlerPlan.definePhase(game);
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+        assertEquals(PAYLOAD_2, game.getGamePhase().getPayload());
+
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));
+        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, phaseHandlerPlan.getNextPhaseType(game));
     }
 
     @Test
