@@ -16,17 +16,19 @@ import static org.junit.Assert.assertEquals;
 
 public class GameMapperTest {
     public static final Long ID = 1L;
-    public static final Long GAME_PLAYER_ID_1 = 11L;
-    public static final Long GAME_PLAYER_ID_2 = 12L;
+    public static final Long GAME_PLAYER_ID_1 = 1L;
+    public static final Long GAME_PLAYER_ID_2 = 2L;
     public static final Long GAME_PHASE_ID = 100L;
     public static final Long GAME_CARD_ID_1 = 1000L;
-    public static final Long GAME_CARD_ID_2 = 2000L;
     public static final Integer GAME_PLAYER_ATTACK = 50;
+    public static final Integer DECK_SIZE = 30;
+    public static final int HAND_SIZE = 2;
+    public static final String POTENTIAL_ANSWER_2 = "Answer C";
 
     GameMapper gameMapper = GameMapper.INSTANCE;
 
     @Test
-    public void gameToGameDTO() throws Exception {
+    public void gameToGameDTO() {
         Game game = new Game();
 
         GamePhase gamePhase = new GamePhase();
@@ -43,15 +45,15 @@ public class GameMapperTest {
         assertEquals(GAME_PLAYER_ID_2, gameDTO.getGamePlayers().get(1).getId());
         assertEquals(GAME_PHASE_ID, gameDTO.getGamePhase().getId());
         assertEquals(GAME_PLAYER_ATTACK, gameDTO.getGamePlayers().get(0).getAttack());
-        assertEquals(Integer.valueOf(2), gameDTO.getGamePlayers().get(0).getDeck());
-        assertEquals(2, gameDTO.getGamePlayers().get(0).getHand().size());
+        assertEquals(DECK_SIZE, gameDTO.getGamePlayers().get(0).getDeck());
+        assertEquals(HAND_SIZE, gameDTO.getGamePlayers().get(0).getHand().size());
 
         assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
-        assertEquals("Answer C", gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(2));
+        assertEquals(POTENTIAL_ANSWER_2, gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(2));
     }
 
     @Test
-    public void cardsToGameCards() throws Exception {
+    public void cardsToGameCards() {
         List<Card> userDeck = GameFixtures.deck();
 
         List<GameCard> playerDeck = gameMapper.cardsToGameCards(userDeck);
@@ -62,7 +64,7 @@ public class GameMapperTest {
     }
 
     @Test
-    public void requestGameCommandDTOToGameCommand() throws Exception {
+    public void requestGameCommandDTOToGameCommand() {
         final Long USER_ID = 5l;
         final String PAYLOAD = "10";
 
@@ -79,54 +81,10 @@ public class GameMapperTest {
 
     private List<GamePlayer> getGamePlayers() {
         List<GamePlayer> gamePlayers = new ArrayList<>();
-        gamePlayers.add(getGamePlayer(1L));
-        gamePlayers.add(getGamePlayer(2L));
+        gamePlayers.add(GameFixtures.gamePlayer(1L));
+        gamePlayers.add(GameFixtures.gamePlayer(2L));
+        gamePlayers.get(0).getGameQuestions().add(GameFixtures.gameQuestion());
+        gamePlayers.get(1).getGameQuestions().add(GameFixtures.gameQuestion());
         return gamePlayers;
-    }
-
-    private GamePlayer getGamePlayer(Long userId) {
-        GamePlayer gp = new GamePlayer();
-        gp.setUserId(userId);
-        gp.setDeck(getGameCards());
-        gp.setHand(getGameCards());
-        gp.setPermanents(getGameCards());
-        gp.setAttack(GAME_PLAYER_ATTACK);
-        gp.setGameQuestions(new ArrayList<>());
-        gp.getGameQuestions().add(getGameQuestion());
-        // we make sure the gamePlayer id is different than the userId
-        gp.setId(10L + userId);
-        return gp;
-    }
-
-    private GameQuestion getGameQuestion() {
-        GameQuestion gameQuestion = new GameQuestion();
-        Question question = new Question();
-        List<String> answers = new ArrayList<>();
-        answers.add("Answer A");
-        answers.add("Answer B");
-        answers.add("Answer C");
-        answers.add("Answer D");
-        question.setCorrectAnswer("Answer A");
-        question.setPotentialAnswers(answers);
-        gameQuestion.setEndDate(Calendar.getInstance());
-        gameQuestion.setStartDate(Calendar.getInstance());
-        gameQuestion.setId(1L);
-        gameQuestion.setSelectedAnswer("Answer B");
-        gameQuestion.setTurn(2);
-        gameQuestion.setQuestion(question);
-        return  gameQuestion;
-    }
-
-    private List<GameCard> getGameCards() {
-        List<GameCard> gameCards = new ArrayList<>();
-        gameCards.add(getGameCard(GAME_CARD_ID_1));
-        gameCards.add(getGameCard(GAME_CARD_ID_2));
-        return gameCards;
-    }
-
-    private GameCard getGameCard(Long cardId) {
-        GameCard gameCard = new GameCard();
-        gameCard.setId(cardId);
-        return gameCard;
     }
 }

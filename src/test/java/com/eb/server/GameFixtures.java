@@ -15,6 +15,9 @@ public class GameFixtures {
     public static Long USER_ID = 2L;
     public static Long BOT_ID = 1L;
 
+    public static final Long GAME_CARD_ID_1 = 1000L;
+    public static final Long GAME_CARD_ID_2 = 2000L;
+
     public static List<Card> deck() {
         List<Card> deck = new ArrayList<>();
 
@@ -49,7 +52,6 @@ public class GameFixtures {
         Game game = new Game();
         game.setGamePlayers(gamePlayers);
         game.setTurn(1);
-        game.setGameType(GameType.VS_BOT);
 
         return game;
 
@@ -78,28 +80,51 @@ public class GameFixtures {
     }
 
     public static GameQuestion gameQuestion() {
+        List<String> answers = new ArrayList<>();
+        answers.add("Answer A");
+        answers.add("Answer B");
+        answers.add("Answer C");
+        answers.add("Answer D");
+
         Question question = new Question();
         question.setTitle("1+1");
-        question.setCorrectAnswer("2");
+        question.setCorrectAnswer("Answer A");
+        question.setPotentialAnswers(answers);
         question.setCategory(QuestionCategoryType.LOGIC);
         question.setSubcategory(QuestionSubcategoryType.TRIGONOMETRY);
         question.setAverageAnswerTime(20);
 
         GameQuestion gameQuestion = new GameQuestion();
-        gameQuestion.setStartDate(new GregorianCalendar(2018, 1, 1));
         gameQuestion.setTurn(1);
         gameQuestion.setQuestion(question);
-
-        return gameQuestion;
+        gameQuestion.setStartDate(new GregorianCalendar(2018, 1, 1));
+        gameQuestion.setQuestion(question);
+        return  gameQuestion;
     }
 
-    static GamePlayer gamePlayer(Long userId) {
+    public static GamePlayer gamePlayer(Long userId) {
         GamePlayer gamePlayer = new GamePlayer();
         List<GameCard> deck = gameMapper.cardsToGameCards(deck());
+        gamePlayer.setId(userId);
         gamePlayer.setUserId(userId);
         gamePlayer.setHealth((int) (userId * 100));
         gamePlayer.setAttack(50);
         gamePlayer.setDeck(deck);
+        gamePlayer.setHand(gameCards());
+        gamePlayer.setPermanents(gameCards());
         return gamePlayer;
+    }
+
+    public static List<GameCard> gameCards() {
+        List<GameCard> gameCards = new ArrayList<>();
+        gameCards.add(gameCard(GAME_CARD_ID_1));
+        gameCards.add(gameCard(GAME_CARD_ID_2));
+        return gameCards;
+    }
+
+    public static GameCard gameCard(Long cardId) {
+        GameCard gameCard = new GameCard();
+        gameCard.setId(cardId);
+        return gameCard;
     }
 }

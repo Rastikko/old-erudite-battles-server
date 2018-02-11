@@ -30,6 +30,8 @@ public class PhaseHandlerPlanTest {
     public void playCardCommand() {
         Long CARD_ID = 1L;
         Integer ENERGY_LEFT = 1;
+        int PERMANENTS = 3;
+
         Game game = GameFixtures.botGame();
         GameCard cardToPlay = game.getGamePlayers().get(1).getDeck().remove(0);
         cardToPlay.setId(CARD_ID);
@@ -39,7 +41,7 @@ public class PhaseHandlerPlanTest {
 
         phaseHandlerPlan.handleCommand(game, gameCommand);
 
-        assertEquals(1, game.getGamePlayers().get(1).getPermanents().size());
+        assertEquals(PERMANENTS, game.getGamePlayers().get(1).getPermanents().size());
         assertEquals(ENERGY_LEFT, game.getGamePlayers().get(1).getEnergy());
     }
 }
