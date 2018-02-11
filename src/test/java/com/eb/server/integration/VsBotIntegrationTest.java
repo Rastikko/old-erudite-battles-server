@@ -1,25 +1,14 @@
 package com.eb.server.integration;
 
 import com.eb.server.GameFixtures;
-import com.eb.server.api.v1.mapper.GameMapper;
-import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.GameCommandDTO;
-import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.GameDTO;
+import com.eb.server.api.v1.model.RequestGameDTO;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.bootstrap.Bootstrap;
 import com.eb.server.domain.types.GamePhaseType;
-import com.eb.server.repositories.*;
-import com.eb.server.services.*;
-import com.eb.server.services.phases.*;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
