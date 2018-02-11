@@ -34,7 +34,7 @@ public class GameMapperTest {
 
         game.setId(ID);
         game.setGamePlayers(getGamePlayers());
-        game.setGamePhase(gamePhase);
+        game.getGamePhases().add(gamePhase);
 
         GameDTO gameDTO = gameMapper.gameToGameDTO(game);
 

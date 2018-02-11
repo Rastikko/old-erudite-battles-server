@@ -22,7 +22,7 @@ public class PhaseHandlerGatherTest {
     @Test
     public void handleCommandDraw() {
         Game game = GameFixtures.botGame();
-        game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
+        game.getGamePhases().add(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
 
         phaseHandlerGather.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_DRAW, ""));
 
@@ -33,7 +33,7 @@ public class PhaseHandlerGatherTest {
     public void handleCommandHarvest() {
         Integer ENERGY_HARVESTED = 5;
         Game game = GameFixtures.botGame();
-        game.setGamePhase(GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER));
+        game.getGamePhases().add((GameFixtures.gamePhase(GamePhaseType.PHASE_GATHER)));
 
         phaseHandlerGather.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_HARVEST, ""));
 

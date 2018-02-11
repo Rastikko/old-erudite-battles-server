@@ -21,7 +21,7 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         GamePhase gamePhase = new GamePhase();
         gamePhase.setType(this.GAME_PHASE_TYPE);
 
-        game.setGamePhase(gamePhase);
+        game.getGamePhases().add(gamePhase);
 
         definePhaseAttributes(game);
         if (game.getGameType().equals(GameType.VS_BOT)) {
