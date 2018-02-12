@@ -18,6 +18,7 @@ mvn clean install
  - Create websocket updates for when the phase is done
  - Create Bot entity instead of repurposing User
  - Standarize test and fixtures IDS for players, cards..
+ - Automatically build and run into alienware
  
  ## Standars
  
