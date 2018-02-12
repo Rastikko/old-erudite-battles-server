@@ -18,7 +18,6 @@ public class GameFixtures {
 
     public static Long BOT_ID = 1L;
     public static Long USER_ID = 2L;
-    public static Long OTHER_USER_ID = 3L;
 
     public static Integer BASE_ATTACK = 50;
     public static Integer BASE_HEALTH = 100;
@@ -28,6 +27,7 @@ public class GameFixtures {
     public static final Integer GAME_CARD_COST_1 = 1;
 
     public static final Integer DECK_SIZE = 30;
+    public static final int HAND_SIZE = 2;
 
     public static final AttributeType CARD_ATTRIBUTE_TYPE_1 = AttributeType.ALIGN_LOGIC;
     public static final Integer CARD_ATTRIBUTE_VALUE_1 = 10;

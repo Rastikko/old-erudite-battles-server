@@ -1,5 +1,6 @@
 package com.eb.server.unit.api.v1.mapper;
 
+import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.mapper.UserMapper;
 import com.eb.server.api.v1.model.UserDTO;
 import com.eb.server.domain.Card;
@@ -23,7 +24,7 @@ public class UserMapperTest {
 
     @Test
     public void userToUserDTO() {
-        List<Card> deck =  getTestDeck();
+        List<Card> deck =  GameFixtures.deck();
 
         User user = new User();
         user.setGameId(GAME_ID);
@@ -42,7 +43,7 @@ public class UserMapperTest {
 
     @Test
     public void userDTOToUser() {
-        List<Long> deck = getTestDeck().stream().map(Card::getId).collect(Collectors.toList());
+        List<Long> deck = GameFixtures.deck().stream().map(Card::getId).collect(Collectors.toList());
         UserDTO userDTO = new UserDTO();
         userDTO.setId(ID);
         userDTO.setName(NAME);
@@ -52,17 +53,5 @@ public class UserMapperTest {
 
         assertEquals(NAME, user.getName());
         assertTrue(user.getDeck().isEmpty());
-    }
-
-    private List<Card> getTestDeck() {
-        Card card = new Card();
-        List<Card> deck = new ArrayList<>();
-
-        card.setName("Johan's Card");
-        card.setId(1L);
-
-        deck.add(card);
-
-        return deck;
     }
 }
