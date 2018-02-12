@@ -32,7 +32,6 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
         requestGameDTO.setUserId(userDTO.getId());
-
         game = gameService.requestNewGame(requestGameDTO);
         assertEquals(Long.valueOf(1L), game.getId());
 
@@ -51,16 +50,13 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(1).getDeck());
         assertNotNull(game.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
-        GameCommandDTO harvestCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_HARVEST", "");
-        game = gameService.handleCommand(game.getId(), harvestCommandDTO);
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_HARVEST", ""));
         assertEquals(Integer.valueOf(5), game.getGamePlayers().get(1).getEnergy());
 
         /* PLAN */
         game = gameService.handleCommand(game.getId(), endCommandDTO);
-        // TODO: test play a card
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
-        GameCommandDTO playCardCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", "{\"cardId\":1}");
-        game = gameService.handleCommand(game.getId(), playCardCommandDTO);
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", "{\"cardId\":1}"));
         game = gameService.handleCommand(game.getId(), endCommandDTO);
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
 
@@ -74,8 +70,7 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
         assertEquals(Long.valueOf(1L), game.getGamePlayers().get(0).getCurrentGameQuestion().getId());
         assertNotNull(game.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getTitle());
         assertEquals(Long.valueOf(2L), game.getGamePlayers().get(1).getCurrentGameQuestion().getId());
-        GameCommandDTO answerCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_ANSWER", "");
-        game = gameService.handleCommand(game.getId(), answerCommandDTO);
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_ANSWER", ""));
         assertEquals(null, game.getGamePlayers().get(1).getCurrentGameQuestion());
         assertEquals(Integer.valueOf(0), game.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
 
