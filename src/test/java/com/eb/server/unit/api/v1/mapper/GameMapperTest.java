@@ -22,8 +22,10 @@ public class GameMapperTest {
 
     @Test
     public void gameToGameDTO() {
+        String PAYLOAD = "{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":false}";
         Game game = GameFixtures.botGame();
         game.getGamePhases().add(GameFixtures.gamePhase(GamePhaseType.PHASE_NONE));
+        game.getGamePhase().setPayload(PAYLOAD);
         game.getGamePlayers().get(0).getGameQuestions().add(GameFixtures.gameQuestion());
 
         GameDTO gameDTO = gameMapper.gameToGameDTO(game);
@@ -38,6 +40,7 @@ public class GameMapperTest {
 
         assertEquals(GameFixtures.GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
         assertEquals(GameFixtures.QUESTION_ANSWER_2, gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(1));
+        assertEquals(PAYLOAD, gameDTO.getGamePhase().getPayload());
     }
 
     @Test

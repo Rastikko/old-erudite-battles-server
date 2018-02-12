@@ -7,4 +7,5 @@ import lombok.Data;
 public class GamePhaseDTO {
     private Long id;
     private GamePhaseType type;
+    private String payload;
 }

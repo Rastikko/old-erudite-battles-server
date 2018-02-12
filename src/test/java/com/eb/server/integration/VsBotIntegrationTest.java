@@ -45,8 +45,7 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
         assertEquals(Long.valueOf(1L), userWithGameDTO.getGameId());
 
         /* GATHER */
-        GameCommandDTO drawCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_DRAW", "5");
-        game = gameService.handleCommand(game.getId(), drawCommandDTO);
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_DRAW", "5"));
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(1).getDeck());
         assertNotNull(game.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
