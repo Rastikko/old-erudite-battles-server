@@ -19,61 +19,69 @@ public class VsBotIntegrationTest  extends AbstractIntegrationTest{
     @Test
     // TODO: discover why we cannot create 2 tests
     public void testBotGame() {
+        GameDTO game;
+
         UserDTO bot = userService.findUserDTOById(Bootstrap.BOT_ID);
         assertEquals(Bootstrap.BOT_NAME, bot.getName());
         assertEquals(bootstrap.getDefaultDeck().size(), bot.getDeck().size());
 
         /* NEW USER */
-        UserDTO savedUserDTO = testCreatePlayer("Johan");
+        UserDTO userDTO = testCreatePlayer("Johan");
+        GameCommandDTO endCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_END", "");
 
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
-        requestGameDTO.setUserId(savedUserDTO.getId());
-        GameDTO newGame = gameService.requestNewGame(requestGameDTO);
-        assertEquals(Long.valueOf(1L), newGame.getId());
+        requestGameDTO.setUserId(userDTO.getId());
 
-        GameDTO retrievedNewGame = gameService.findGameDTOById(newGame.getId());
-        assertEquals(GamePhaseType.PHASE_GATHER, retrievedNewGame.getGamePhase().getType());
-        assertEquals(2, retrievedNewGame.getGamePlayers().size());
-        assertEquals(5, retrievedNewGame.getGamePlayers().get(0).getHand().size());
-        assertEquals(1, retrievedNewGame.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
-        UserDTO userWithGameDTO = userService.findUserDTOById(savedUserDTO.getId());
+        game = gameService.requestNewGame(requestGameDTO);
+        assertEquals(Long.valueOf(1L), game.getId());
+
+        /* GET GAME */
+        game = gameService.findGameDTOById(game.getId());
+        assertEquals(GamePhaseType.PHASE_GATHER, game.getGamePhase().getType());
+        assertEquals(2, game.getGamePlayers().size());
+        assertEquals(5, game.getGamePlayers().get(0).getHand().size());
+        assertEquals(1, game.getGamePlayers().get(0).getHand().get(0).getAttributes().size());
+        UserDTO userWithGameDTO = userService.findUserDTOById(userDTO.getId());
         assertEquals(Long.valueOf(1L), userWithGameDTO.getGameId());
 
         /* GATHER */
-        GameCommandDTO drawCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_DRAW", "5");
-        GameDTO drawCommandGame = gameService.handleCommand(newGame.getId(), drawCommandDTO);
-        assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(0).getDeck());
-        assertEquals(Integer.valueOf(25), drawCommandGame.getGamePlayers().get(1).getDeck());
-        assertNotNull(drawCommandGame.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
-        GameCommandDTO harvestCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_HARVEST", "");
-        GameDTO gatherCommandGame = gameService.handleCommand(newGame.getId(), harvestCommandDTO);
-        assertEquals(Integer.valueOf(5), gatherCommandGame.getGamePlayers().get(1).getEnergy());
-        GameCommandDTO endCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_END", "");
+        GameCommandDTO drawCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_DRAW", "5");
+        game = gameService.handleCommand(game.getId(), drawCommandDTO);
+        assertEquals(Integer.valueOf(25), game.getGamePlayers().get(0).getDeck());
+        assertEquals(Integer.valueOf(25), game.getGamePlayers().get(1).getDeck());
+        assertNotNull(game.getGamePlayers().get(1).getHand().get(0).getAttributes().get(0).getType());
+        GameCommandDTO harvestCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_HARVEST", "");
+        game = gameService.handleCommand(game.getId(), harvestCommandDTO);
+        assertEquals(Integer.valueOf(5), game.getGamePlayers().get(1).getEnergy());
 
         /* PLAN */
-//        GameDTO phasePlanGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
-//        // TODO: test play a card
-//        assertEquals(GamePhaseType.PHASE_PLAN, phasePlanGame.getGamePhase().getType());
-//
-//        /* BATTLE_PREPARATION */
-//        GameDTO phaseBattlePreparationGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
-//        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, phaseBattlePreparationGame.getGamePhase().getType());
-//
-//        /* BATTLE */
-//        GameDTO phaseBattleGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
-//        assertEquals(GamePhaseType.PHASE_BATTLE, phaseBattleGame.getGamePhase().getType());
-//        assertEquals(Long.valueOf(1L), phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getId());
-//        assertNotNull(phaseBattleGame.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getTitle());
-//        assertEquals(Long.valueOf(2L), phaseBattleGame.getGamePlayers().get(1).getCurrentGameQuestion().getId());
-//        GameCommandDTO answerCommandDTO = gameCommandDTO(savedUserDTO.getId(), "COMMAND_ANSWER", "");
-//        GameDTO answeredBattleGame = gameService.handleCommand(newGame.getId(), answerCommandDTO);
-//        assertEquals(null, answeredBattleGame.getGamePlayers().get(1).getCurrentGameQuestion());
-//        assertEquals(Integer.valueOf(0), answeredBattleGame.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
-//
-//        /* BATTLE_RESOLUTION */
-//        GameDTO phaseBattleResolutionGame = gameService.handleCommand(newGame.getId(), endCommandDTO);
-//        assertEquals(Integer.valueOf(150), phaseBattleResolutionGame.getGamePlayers().get(0).getHealth());
-//        assertEquals(Integer.valueOf(120), phaseBattleResolutionGame.getGamePlayers().get(1).getHealth());
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        // TODO: test play a card
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+        GameCommandDTO playCardCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", "{\"cardId\":1}");
+        game = gameService.handleCommand(game.getId(), playCardCommandDTO);
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+
+        /* BATTLE_PREPARATION */
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getType());
+
+        /* BATTLE */
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        assertEquals(GamePhaseType.PHASE_BATTLE, game.getGamePhase().getType());
+        assertEquals(Long.valueOf(1L), game.getGamePlayers().get(0).getCurrentGameQuestion().getId());
+        assertNotNull(game.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getTitle());
+        assertEquals(Long.valueOf(2L), game.getGamePlayers().get(1).getCurrentGameQuestion().getId());
+        GameCommandDTO answerCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_ANSWER", "");
+        game = gameService.handleCommand(game.getId(), answerCommandDTO);
+        assertEquals(null, game.getGamePlayers().get(1).getCurrentGameQuestion());
+        assertEquals(Integer.valueOf(0), game.getGamePlayers().get(1).getGameQuestions().get(0).getPerformance());
+
+        /* BATTLE_RESOLUTION */
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        assertEquals(Integer.valueOf(150), game.getGamePlayers().get(0).getHealth());
+        assertEquals(Integer.valueOf(120), game.getGamePlayers().get(1).getHealth());
     }
 }
