@@ -18,6 +18,7 @@ public class GameFixtures {
 
     public static Long BOT_ID = 1L;
     public static Long USER_ID = 2L;
+    public static Long OTHER_USER_ID = 3L;
 
     public static Integer BASE_ATTACK = 50;
     public static Integer BASE_HEALTH = 100;
@@ -42,6 +43,8 @@ public class GameFixtures {
     public static final String QUESTION_ANSWER_2 = "Answer B";
     public static final String QUESTION_CORRECT_ANSWER = "Answer A";
 
+    public static final String COMMAND_PLAY_CARD_PAYLOAD = "{\"cardId\":1}";
+
     public static Game botGame() {
         GamePlayer botPlayer = gamePlayer(BOT_ID);
         GamePlayer player = gamePlayer(USER_ID);
@@ -55,6 +58,23 @@ public class GameFixtures {
         game.setId(GAME_ID);
         game.setGamePlayers(gamePlayers);
         game.setTurn(START_TURN);
+
+        return game;
+    }
+
+    public static Game playerGame() {
+        GamePlayer player = gamePlayer(USER_ID);
+        GamePlayer otherPlayer = gamePlayer(OTHER_USER_ID);
+
+        List<GamePlayer> gamePlayers = new ArrayList<>();
+        gamePlayers.add(player);
+        gamePlayers.add(otherPlayer);
+
+        Game game = new Game();
+        game.setId(GAME_ID);
+        game.setGamePlayers(gamePlayers);
+        game.setTurn(START_TURN);
+        game.setGameType(GameType.VS_PLAYER);
 
         return game;
     }

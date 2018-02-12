@@ -1,5 +1,6 @@
 package com.eb.server.integration;
 
+import com.eb.server.GameFixtures;
 import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.RequestGameDTO;
@@ -31,22 +32,23 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
 
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
-        requestGameDTO.setUserId(userDTO.getId());
+        requestGameDTO.setUserId(otherUserDTO.getId());
         requestGameDTO.setType(GameType.VS_PLAYER);
         game = gameService.requestNewGame(requestGameDTO);
         assertNull(game);
-        User userFindGame = userService.findUserByID(userDTO.getId());
+        User userFindGame = userService.findUserByID(otherUserDTO.getId());
         assertEquals(UserStateType.SEARCHING_GAME, userFindGame.getState());
-        RequestGameDTO otherUserRequestGameDTO = new RequestGameDTO();
-        otherUserRequestGameDTO.setUserId(otherUserDTO.getId());
-        otherUserRequestGameDTO.setType(GameType.VS_PLAYER);
 
         /* CREATE GAME */
+        RequestGameDTO otherUserRequestGameDTO = new RequestGameDTO();
+        otherUserRequestGameDTO.setUserId(userDTO.getId());
+        otherUserRequestGameDTO.setType(GameType.VS_PLAYER);
+
         game = gameService.requestNewGame(otherUserRequestGameDTO);
         assertNotNull(game);
         assertThat( game.getGamePlayers(), contains(
-                hasProperty("userId", is(otherUserDTO.getId())),
-                hasProperty("userId", is(userDTO.getId()))
+                hasProperty("userId", is(userDTO.getId())),
+                hasProperty("userId", is(otherUserDTO.getId()))
         ));
         User foundGameUser = userService.findUserByID(userDTO.getId());
         assertEquals(UserStateType.IN_GAME, foundGameUser.getState());
@@ -66,27 +68,34 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
-        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", "{\"cardId\":1}"));
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", GameFixtures.COMMAND_PLAY_CARD_PAYLOAD));
         assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":1,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
 
         /* PLAN 2 */
-        // TODO: fixme
-//        game = gameService.handleCommand(game.getId(), endCommandDTO);
-//        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
-//        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
-//        assertEquals("", game.getGamePhase().getPayload());
-//        game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_PLAY_CARD", "{\"cardId\":1}"));
-//
-//        /* PLAN 3 */
-//        game = gameService.handleCommand(game.getId(), endCommandDTO);
-//        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
-//        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
-//        assertEquals("", game.getGamePhase().getPayload());
-//
-//        /* BATTLE PREPARATION */
-//        game = gameService.handleCommand(game.getId(), endCommandDTO);
-//        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
-//        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getType());
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+        assertEquals("{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_PLAY_CARD", GameFixtures.COMMAND_PLAY_CARD_PAYLOAD));
+        assertEquals("{\"planTurnGamePlayerId\":2,\"playedCardId\":1,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+
+        /* PLAN 3 */
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
+        assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
+        assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+
+        /* PLAN 4 */
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":true}", game.getGamePhase().getPayload());
+        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
+        assertEquals("{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+
+        /* BATTLE PREPARATION */
+        game = gameService.handleCommand(game.getId(), endCommandDTO);
+        game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
+
+        assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getType());
 
     }
 }

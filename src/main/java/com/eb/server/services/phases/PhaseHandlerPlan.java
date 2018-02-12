@@ -88,7 +88,10 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
 
     PhasePlanPayload getNextPayload(Game game) throws Exception {
         // if there are no skips then get the other player from previous turn
-        Long skippedPlayer = getSkippedPlayers(game).stream().findFirst().get();
+        Long skippedPlayer = null;
+        if (getSkippedPlayers(game).size() != 0) {
+            skippedPlayer = getSkippedPlayers(game).stream().findFirst().get();
+        }
         PhasePlanPayload payload = new PhasePlanPayload();
         if (skippedPlayer != null) {
             payload.setPlanTurnGamePlayerId(findOtherGamePlayerByGamePlayerId(game, skippedPlayer).getId());
