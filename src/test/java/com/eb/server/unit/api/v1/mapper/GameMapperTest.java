@@ -6,6 +6,7 @@ import com.eb.server.api.v1.model.GameDTO;
 import com.eb.server.api.v1.model.GameCommandDTO;
 import com.eb.server.domain.*;
 import com.eb.server.domain.types.GameCommandType;
+import com.eb.server.domain.types.GamePhaseType;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,41 +16,28 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class GameMapperTest {
-    public static final Long ID = 1L;
-    public static final Long GAME_PLAYER_ID_1 = 1L;
-    public static final Long GAME_PLAYER_ID_2 = 2L;
-    public static final Long GAME_PHASE_ID = 100L;
-    public static final Long GAME_CARD_ID_1 = 1000L;
-    public static final Integer GAME_PLAYER_ATTACK = 50;
-    public static final Integer DECK_SIZE = 30;
     public static final int HAND_SIZE = 2;
-    public static final String POTENTIAL_ANSWER_2 = "Answer C";
 
     GameMapper gameMapper = GameMapper.INSTANCE;
 
     @Test
     public void gameToGameDTO() {
-        Game game = new Game();
-
-        GamePhase gamePhase = new GamePhase();
-        gamePhase.setId(GAME_PHASE_ID);
-
-        game.setId(ID);
-        game.setGamePlayers(getGamePlayers());
-        game.getGamePhases().add(gamePhase);
+        Game game = GameFixtures.botGame();
+        game.getGamePhases().add(GameFixtures.gamePhase(GamePhaseType.PHASE_NONE));
+        game.getGamePlayers().get(0).getGameQuestions().add(GameFixtures.gameQuestion());
 
         GameDTO gameDTO = gameMapper.gameToGameDTO(game);
 
-        assertEquals(ID, gameDTO.getId());
-        assertEquals(GAME_PLAYER_ID_1, gameDTO.getGamePlayers().get(0).getId());
-        assertEquals(GAME_PLAYER_ID_2, gameDTO.getGamePlayers().get(1).getId());
-        assertEquals(GAME_PHASE_ID, gameDTO.getGamePhase().getId());
-        assertEquals(GAME_PLAYER_ATTACK, gameDTO.getGamePlayers().get(0).getAttack());
-        assertEquals(DECK_SIZE, gameDTO.getGamePlayers().get(0).getDeck());
+        assertEquals(GameFixtures.GAME_ID, gameDTO.getId());
+        assertEquals(GameFixtures.BOT_ID, gameDTO.getGamePlayers().get(0).getId());
+        assertEquals(GameFixtures.USER_ID, gameDTO.getGamePlayers().get(1).getId());
+        assertEquals(GameFixtures.GAME_PHASE_ID, gameDTO.getGamePhase().getId());
+        assertEquals(GameFixtures.BASE_ATTACK, gameDTO.getGamePlayers().get(0).getAttack());
+        assertEquals(GameFixtures.DECK_SIZE, gameDTO.getGamePlayers().get(0).getDeck());
         assertEquals(HAND_SIZE, gameDTO.getGamePlayers().get(0).getHand().size());
 
-        assertEquals(GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
-        assertEquals(POTENTIAL_ANSWER_2, gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(2));
+        assertEquals(GameFixtures.GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
+        assertEquals(GameFixtures.QUESTION_ANSWER_2, gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(1));
     }
 
     @Test
@@ -77,14 +65,5 @@ public class GameMapperTest {
         assertEquals(USER_ID, gameCommand.getUserId());
         assertEquals(PAYLOAD, gameCommand.getPayload());
         assertEquals(GameCommandType.COMMAND_END, gameCommand.getType());
-    }
-
-    private List<GamePlayer> getGamePlayers() {
-        List<GamePlayer> gamePlayers = new ArrayList<>();
-        gamePlayers.add(GameFixtures.gamePlayer(1L));
-        gamePlayers.add(GameFixtures.gamePlayer(2L));
-        gamePlayers.get(0).getGameQuestions().add(GameFixtures.gameQuestion());
-        gamePlayers.get(1).getGameQuestions().add(GameFixtures.gameQuestion());
-        return gamePlayers;
     }
 }
