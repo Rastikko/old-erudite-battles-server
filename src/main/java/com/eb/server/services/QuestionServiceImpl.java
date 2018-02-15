@@ -18,7 +18,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-        public Question getRandomQuestion(QuestionCategoryType category, QuestionSubcategoryType subcategory, List<Long> excluded) {
+    public Question getRandomQuestionFromCategory(QuestionCategoryType category, List<Long> excluded) {
         List<Question> questions = questionRepository.findByCategory(category);
         Random r = new Random();
         return questions.get(r.nextInt(questions.size()));

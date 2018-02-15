@@ -37,7 +37,7 @@ public class QuestionServiceImplTest {
 
     @Test
     public void getRandomQuestion() {
-        Question question = questionService.getRandomQuestion(QuestionCategoryType.LOGIC, QuestionSubcategoryType.TRIGONOMETRY, new ArrayList<>());
+        Question question = questionService.getRandomQuestionFromCategory(QuestionCategoryType.LOGIC, new ArrayList<>());
         assertNotNull(question.getId());
     }
 

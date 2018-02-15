@@ -3,7 +3,6 @@ package com.eb.server.unit.services.phases;
 import com.eb.server.GameFixtures;
 import com.eb.server.domain.Game;
 import com.eb.server.domain.GameQuestion;
-import com.eb.server.domain.Question;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.QuestionCategoryType;
 import com.eb.server.domain.types.QuestionSubcategoryType;
@@ -15,8 +14,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -36,7 +33,7 @@ public class PhaseHandlerBattleTest {
         phaseHandlerBattle = new PhaseHandlerBattle(questionService);
 
         when(questionService
-                .getRandomQuestion(Matchers.any(QuestionCategoryType.class), Matchers.any(QuestionSubcategoryType.class), Matchers.anyList()))
+                .getRandomQuestionFromCategory(Matchers.any(QuestionCategoryType.class), Matchers.anyList()))
                 .thenReturn(GameFixtures.question());
 
         game = GameFixtures.botGame();

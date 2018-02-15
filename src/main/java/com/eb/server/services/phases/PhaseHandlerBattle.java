@@ -121,9 +121,8 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
         // HACK: JPA NotIn requires at least 1 element
         excludedIds.add(-1L);
         QuestionCategoryType category = QuestionCategoryType.LOGIC;
-        QuestionSubcategoryType subcategory = QuestionSubcategoryType.TRIGONOMETRY;
 
-        return questionService.getRandomQuestion(category, subcategory, excludedIds);
+        return questionService.getRandomQuestionFromCategory(category, excludedIds);
     }
 
     GameQuestion getNextGameQuestion(Game game, Question question) {
