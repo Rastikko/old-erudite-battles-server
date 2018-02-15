@@ -17,8 +17,4 @@ public class GameAlignment {
     Integer logicAlignment = 0;
     Integer cultureAlignment = 0;
     Integer scienceAlignment = 0;
-
-    Integer logicLevel = 0;
-    Integer cultureLevel = 0;
-    Integer scienceLevel = 0;
 }

@@ -148,16 +148,17 @@ public class GameServiceImpl implements GameService {
         gamePlayer.setUserId(user.getId());
 
         // TODO: derive these from user attributes
+        // TODO: use a builder
         gamePlayer.setAttack(50);
         gamePlayer.setHealth(200);
 
-        gamePlayer.setDeck(shuffleDeck(user.getDeck(), gamePlayer));
+        gamePlayer.setDeck(shuffleDeck(user.getDeck()));
         gamePlayer.setHand(new ArrayList<>());
 
         return gamePlayer;
     }
 
-    private List<GameCard> shuffleDeck(List<Card> userDeck, GamePlayer gamePlayer) {
+    private List<GameCard> shuffleDeck(List<Card> userDeck) {
         // TODO: shuffle
         List<GameCard> deck = gameMapper.cardsToGameCards(userDeck);
         return deck;
