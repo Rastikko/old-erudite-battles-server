@@ -24,9 +24,21 @@ mvn clean install
  
   - Payload must always be a json object that can be deserialized in a phasePayloadObject.
   
-  
- ## Configurations
+ ## DB Configurations
+
+```sh
+docker run --name mysqldb -p 3306:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes -d mysql
+```
+
+Run in the database:
+```sql
+CREATE DATABASE eb_dev;
+```
+
+In Edit Configuration -> Spring Boot -> Active Profile: `dev`
  
- Grab from https://github.com/Rastikko/erudite-battles-server/blob/master/src/main/resources/application-dev.yml
+
+ ### Reference:
+
  https://github.com/springframeworkguru/spring5-mysql-recipe-app/blob/mysql-scripts/src/main/scripts/configure-mysql.sql
-  
+ https://github.com/springframeworkguru/spring-boot-mysql-example/blob/master/src/main/resources/application.properties
