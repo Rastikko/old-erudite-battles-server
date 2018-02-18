@@ -13,6 +13,9 @@ mvn clean install
 ### Features
 
   - Shuffle cemetery into deck
+  - Implement align logic battle mechanic
+  - Add cards to expend align
+  - Create diverse default deck with options for 3 categories
 
 ### Refactors
 
