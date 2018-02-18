@@ -36,7 +36,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
     }
 
     void handleCommandDraw(Game game, GameCommand gameCommand) {
-        GamePlayer gamePlayer = findGamePlayerByUserId(game, gameCommand.getUserId());
+        GamePlayer gamePlayer = game.getGamePlayerByUserId(gameCommand.getUserId());
         Integer nCards = DEFAULT_DRAW_CARDS;
 
         for(int i = 0; i < nCards; i++) {
@@ -47,7 +47,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
     }
 
     void handleCommandHarvest(Game game, GameCommand gameCommand) {
-        GamePlayer gamePlayer = findGamePlayerByUserId(game, gameCommand.getUserId());
+        GamePlayer gamePlayer = game.getGamePlayerByUserId(gameCommand.getUserId());
         gamePlayer.setEnergy(DEFAULT_ENERGY);
     }
 

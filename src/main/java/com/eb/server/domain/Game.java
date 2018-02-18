@@ -1,5 +1,6 @@
 package com.eb.server.domain;
 
+import com.eb.server.domain.interfaces.Attributer;
 import com.eb.server.domain.types.GameType;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Game {
+public class Game extends Attributer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +25,35 @@ public class Game {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<GamePhase> gamePhases = new ArrayList<>();
+
+    public void playCard(Long gamePlayerId, Long cardId) {
+//        setAttribute(this.getGamePlayerByUserId(gamePlayerId, ));
+    }
+
+    public GameCard getGameCard(Long gamePlayerId, Long cardId) {
+        return null;
+    }
+
+    public GamePlayer getGamePlayerByUserId(Long userId) {
+        return this.getGamePlayers().stream()
+                .filter(gamePlayer -> gamePlayer.getUserId() == userId)
+                .findFirst()
+                .get();
+    }
+
+    public GamePlayer getOtherGamePlayerByUserId(Long userId) {
+        return this.getGamePlayers().stream()
+                .filter(gamePlayer -> gamePlayer.getUserId() != userId)
+                .findFirst()
+                .get();
+    }
+
+    public GamePlayer getOtherGamePlayerByGamePlayerId(Long gamePlayerId) {
+        return this.getGamePlayers().stream()
+                .filter(gamePlayer -> gamePlayer.getId() != gamePlayerId)
+                .findFirst()
+                .get();
+    }
 
     public GamePhase getGamePhase() {
         if (this.gamePhases.size() > 0) {

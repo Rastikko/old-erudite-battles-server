@@ -67,25 +67,4 @@ public abstract class AbstractPhaseHandler implements PhaseHandler {
         command.setPayload(payload);
         return command;
     }
-
-    GamePlayer findGamePlayerByUserId(Game game, Long userId) {
-        return game.getGamePlayers().stream()
-                .filter(gamePlayer -> gamePlayer.getUserId() == userId)
-                .findFirst()
-                .get();
-    }
-
-    GamePlayer findOtherGamePlayerByUserId(Game game, Long userId) {
-        return game.getGamePlayers().stream()
-                .filter(gamePlayer -> gamePlayer.getUserId() != userId)
-                .findFirst()
-                .get();
-    }
-
-    GamePlayer findOtherGamePlayerByGamePlayerId(Game game, Long gamePlayerId) {
-        return game.getGamePlayers().stream()
-                .filter(gamePlayer -> gamePlayer.getId() != gamePlayerId)
-                .findFirst()
-                .get();
-    }
 }

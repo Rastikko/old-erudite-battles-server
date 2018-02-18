@@ -42,6 +42,11 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
     }
 
     @Override
+    public void handleBotCommands(Game game) throws Exception {
+        handleCommand(game, createBotCommand(GameCommandType.COMMAND_END, ""));
+    }
+
+    @Override
     public void handleCommand(Game game, GameCommand gameCommand) throws Exception {
         switch (gameCommand.getType()) {
             case COMMAND_PLAY_CARD:
@@ -53,7 +58,7 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
     @Override
     void handleCommandEnd(Game game, GameCommand gameCommand) throws Exception {
         PhasePlanPayload payload = mapper.readValue(game.getGamePhase().getPayload(), PhasePlanPayload.class);
-        GamePlayer commandGamePlayer = findGamePlayerByUserId(game, gameCommand.getUserId());
+        GamePlayer commandGamePlayer = game.getGamePlayerByUserId(gameCommand.getUserId());
         boolean hasPlayerPlayedCard = payload.getPlayedCardId() != 0;
         boolean isCommanderTurnToPlay = commandGamePlayer.getId() == payload.getPlanTurnGamePlayerId();
 
@@ -64,11 +69,6 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
 
         game.getGamePhase().setPayload(mapper.writeValueAsString(payload));
         super.handleCommandEnd(game, gameCommand);
-    }
-
-    @Override
-    public void handleBotCommands(Game game) throws Exception {
-        handleCommand(game, createBotCommand(GameCommandType.COMMAND_END, ""));
     }
 
     void handleCommandPlayCard(Game game, GameCommand gameCommand) throws Exception{
@@ -94,10 +94,10 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
         }
         PhasePlanPayload payload = new PhasePlanPayload();
         if (skippedPlayer != null) {
-            payload.setPlanTurnGamePlayerId(findOtherGamePlayerByGamePlayerId(game, skippedPlayer).getId());
+            payload.setPlanTurnGamePlayerId(game.getOtherGamePlayerByGamePlayerId(skippedPlayer).getId());
         } else {
             PhasePlanPayload previousPayload = mapper.readValue(game.getPreviousGamePhase().getPayload(), PhasePlanPayload.class);
-            payload.setPlanTurnGamePlayerId(findOtherGamePlayerByGamePlayerId(game, previousPayload.getPlanTurnGamePlayerId()).getId());
+            payload.setPlanTurnGamePlayerId(game.getOtherGamePlayerByGamePlayerId(previousPayload.getPlanTurnGamePlayerId()).getId());
         }
         // if there is a skip return the other player
         return payload;

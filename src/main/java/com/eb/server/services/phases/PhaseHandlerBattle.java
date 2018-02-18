@@ -49,8 +49,8 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
     }
 
     void handleCommandAnswer(Game game, GameCommand gameCommand) {
-        GamePlayer gamePlayer = findGamePlayerByUserId(game, gameCommand.getUserId());
-        GamePlayer otherGamePlayer = findOtherGamePlayerByUserId(game, gameCommand.getUserId());
+        GamePlayer gamePlayer = game.getGamePlayerByUserId(gameCommand.getUserId());
+        GamePlayer otherGamePlayer = game.getOtherGamePlayerByUserId(gameCommand.getUserId());
 
         GameQuestion gameQuestion = gamePlayer.getCurrentGameQuestion();
 
