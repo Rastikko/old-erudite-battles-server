@@ -38,7 +38,6 @@ public class GameMapperTest {
         assertEquals(GameFixtures.DECK_SIZE, gameDTO.getGamePlayers().get(0).getDeck());
         assertEquals(GameFixtures.HAND_SIZE, gameDTO.getGamePlayers().get(0).getHand().size());
 
-        assertEquals(GameFixtures.GAME_CARD_ID_1, gameDTO.getGamePlayers().get(0).getPermanents().get(0).getId());
         assertEquals(GameFixtures.QUESTION_ANSWER_2, gameDTO.getGamePlayers().get(0).getGameQuestions().get(0).getQuestion().getPotentialAnswers().get(1));
         assertEquals(PAYLOAD, gameDTO.getGamePhase().getPayload());
     }

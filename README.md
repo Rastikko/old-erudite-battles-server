@@ -10,15 +10,13 @@ mvn clean install
 
 ## TODO
 
- - Create plan base on turn system where each player can play 1 card at a time.
- - Aligment system, each card you play will drag you towards S, C or L.
- - Question system where you might answer multiple questions
- - Preparation phase will give you information about selected questions
- - Add authentication and authorization endpoints
- - Create websocket updates for when the phase is done
- - Create Bot entity instead of repurposing User
- - Standarize test and fixtures IDS for players, cards..
- - Automatically build and run into alienware
+### Features
+
+  - Shuffle cemetery into deck
+
+### Refactors
+
+  - Avoid game model to interface with userId
  
  ## Standars
  

@@ -14,8 +14,8 @@ public class GamePlayer {
     private Long id;
 
     private Integer energy = 0;
-    private Integer attack;
-    private Integer health;
+    private Integer attack = 0;
+    private Integer health = 0;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameCard> deck = new ArrayList<>();
@@ -24,13 +24,13 @@ public class GamePlayer {
     private List<GameCard> hand = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<GameCard> permanents = new ArrayList<>(); // TODO: use gamePermanents
+    private List<GameCard> cemetery = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private GameQuestion currentGameQuestion;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private GameAlignment gameAlignment;
+    private GameAlignment gameAlignment = new GameAlignment();
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameQuestion> gameQuestions = new ArrayList<>();
@@ -38,4 +38,17 @@ public class GamePlayer {
     private Long userId;
 
     private Boolean isBot = false;
+
+    GameCard getHandGameCard(Long gameCardId) {
+        return this.getHand().stream()
+                .filter(gameCard -> gameCard.getId().equals(gameCardId))
+                .findFirst()
+                .get();
+    }
+
+    public void discardHandGameCard(Long gameCardId) {
+        GameCard gameCard = getHandGameCard(gameCardId);
+        this.hand.remove(gameCard);
+        this.cemetery.add(gameCard);
+    }
 }

@@ -43,7 +43,7 @@ public class GameFixtures {
     public static final String QUESTION_ANSWER_2 = "Answer B";
     public static final String QUESTION_CORRECT_ANSWER = "Answer A";
 
-    public static final String COMMAND_PLAY_CARD_PAYLOAD = "{\"cardId\":1}";
+    public static final String  COMMAND_PLAY_CARD_PAYLOAD = "{\"cardId\":1}";
 
     public static Game botGame() {
         GamePlayer botPlayer = gamePlayer(BOT_ID);
@@ -103,7 +103,6 @@ public class GameFixtures {
         gamePlayer.setAttack(BASE_ATTACK);
         gamePlayer.setDeck(deck);
         gamePlayer.setHand(gameCards());
-        gamePlayer.setPermanents(gameCards());
         return gamePlayer;
     }
 
@@ -171,5 +170,9 @@ public class GameFixtures {
         question.setAverageAnswerTime(20);
 
         return question;
+    }
+
+    public static String payloadPlayCard(Long gameCardId) {
+        return String.format("{\"cardId\":%d}", gameCardId);
     }
 }

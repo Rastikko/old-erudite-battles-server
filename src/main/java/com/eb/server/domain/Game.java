@@ -26,17 +26,28 @@ public class Game extends Attributer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<GamePhase> gamePhases = new ArrayList<>();
 
-    public void playCard(Long gamePlayerId, Long cardId) {
-//        setAttribute(this.getGamePlayerByUserId(gamePlayerId, ));
+    public void playCard(Long gamePlayerId, Long gameCardId) {
+        GameCard gameCard = getHandGameCard(gamePlayerId, gameCardId);
+        GamePlayer gamePlayer = getGamePlayerByGamePlayerId(gamePlayerId);
+        setAttribute(gamePlayer, gameCard.getAttributes().get(0));
+        gamePlayer.discardHandGameCard(gameCardId);
     }
 
-    public GameCard getGameCard(Long gamePlayerId, Long cardId) {
-        return null;
+    public GameCard getHandGameCard(Long gamePlayerId, Long gameCardId) {
+        GamePlayer gamePlayer = getGamePlayerByGamePlayerId(gamePlayerId);
+        return gamePlayer.getHandGameCard(gameCardId);
     }
 
     public GamePlayer getGamePlayerByUserId(Long userId) {
         return this.getGamePlayers().stream()
                 .filter(gamePlayer -> gamePlayer.getUserId() == userId)
+                .findFirst()
+                .get();
+    }
+
+    public GamePlayer getGamePlayerByGamePlayerId(Long gamePlayerId) {
+        return this.getGamePlayers().stream()
+                .filter(gamePlayer -> gamePlayer.getId() == gamePlayerId)
                 .findFirst()
                 .get();
     }

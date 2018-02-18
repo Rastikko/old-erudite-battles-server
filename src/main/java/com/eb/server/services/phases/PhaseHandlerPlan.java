@@ -72,11 +72,12 @@ public class PhaseHandlerPlan extends AbstractPhaseHandler {
     }
 
     void handleCommandPlayCard(Game game, GameCommand gameCommand) throws Exception{
-        PhasePlanPayload payload = mapper.readValue(game.getGamePhase().getPayload(), PhasePlanPayload.class);
         CommandPlayCardPayload commandPayload = mapper.readValue(gameCommand.getPayload(), CommandPlayCardPayload.class);
+        GamePlayer gamePlayer = game.getGamePlayerByUserId(gameCommand.getUserId());
+        game.playCard(gamePlayer.getId(), commandPayload.getCardId());
 
+        PhasePlanPayload payload = mapper.readValue(game.getGamePhase().getPayload(), PhasePlanPayload.class);
         payload.setPlayedCardId(commandPayload.getCardId());
-
         game.getGamePhase().setPayload(mapper.writeValueAsString(payload));
     }
 

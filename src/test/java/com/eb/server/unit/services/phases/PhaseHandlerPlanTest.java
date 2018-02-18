@@ -23,10 +23,24 @@ public class PhaseHandlerPlanTest {
     }
 
     @Test
+    public void testPlayAlignCard() throws Exception {
+        Game game = GameFixtures.botGame();
+        phaseHandlerPlan.definePhase(game);
+
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(1000L)));
+
+        assertEquals(Integer.valueOf(10), game.getGamePlayers().get(1).getGameAlignment().getLogicAlignment());
+        assertEquals(1, game.getGamePlayers().get(1).getHand().size());
+        assertEquals(1, game.getGamePlayers().get(1).getCemetery().size());
+
+    }
+
+    @Test
     public void testMultipleGameRoundsUntilPlayerEnds() throws Exception {
         final String PAYLOAD_1 = "{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":true}";
         final String PAYLOAD_2 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}";
-        final String PAYLOAD_3 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":1,\"skipPlanTurn\":false}";
+        final String PAYLOAD_3 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":1000,\"skipPlanTurn\":false}";
 
         Game game = GameFixtures.botGame();
         phaseHandlerPlan.definePhase(game);
@@ -41,7 +55,7 @@ public class PhaseHandlerPlanTest {
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals(PAYLOAD_2, game.getGamePhase().getPayload());
 
-        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, "{\"cardId\":1}"));
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(1000L)));
         assertEquals(PAYLOAD_3, game.getGamePhase().getPayload());
 
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));
@@ -58,9 +72,9 @@ public class PhaseHandlerPlanTest {
     @Test
     public void testMultipleGameRoundsUntilBothPlayersEnd() throws Exception {
         final String PAYLOAD_1 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}";
-        final String PAYLOAD_2 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":1,\"skipPlanTurn\":false}";
+        final String PAYLOAD_2 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":1000,\"skipPlanTurn\":false}";
         final String PAYLOAD_3 = "{\"planTurnGamePlayerId\":3,\"playedCardId\":0,\"skipPlanTurn\":false}";
-        final String PAYLOAD_4 = "{\"planTurnGamePlayerId\":3,\"playedCardId\":1,\"skipPlanTurn\":false}";
+        final String PAYLOAD_4 = "{\"planTurnGamePlayerId\":3,\"playedCardId\":1000,\"skipPlanTurn\":false}";
         final String PAYLOAD_5 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}";
         final String PAYLOAD_6 = "{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":true}";
         final String PAYLOAD_7 = "{\"planTurnGamePlayerId\":3,\"playedCardId\":0,\"skipPlanTurn\":false}";
@@ -73,14 +87,14 @@ public class PhaseHandlerPlanTest {
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals(PAYLOAD_1, game.getGamePhase().getPayload());
 
-        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.USER_ID, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.COMMAND_PLAY_CARD_PAYLOAD));
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.USER_ID, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(1000L)));
         assertEquals(PAYLOAD_2, game.getGamePhase().getPayload());
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.USER_ID, GameCommandType.COMMAND_END, ""));
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.OTHER_USER_ID, GameCommandType.COMMAND_END, ""));
 
         phaseHandlerPlan.definePhase(game);
         assertEquals(PAYLOAD_3, game.getGamePhase().getPayload());
-        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.OTHER_USER_ID, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.COMMAND_PLAY_CARD_PAYLOAD));
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.OTHER_USER_ID, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(1000L)));
         assertEquals(PAYLOAD_4, game.getGamePhase().getPayload());
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.USER_ID, GameCommandType.COMMAND_END, ""));
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(GameFixtures.OTHER_USER_ID, GameCommandType.COMMAND_END, ""));

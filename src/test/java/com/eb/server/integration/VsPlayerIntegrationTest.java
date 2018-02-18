@@ -1,10 +1,8 @@
 package com.eb.server.integration;
 
 import com.eb.server.GameFixtures;
-import com.eb.server.api.v1.model.GameCommandDTO;
-import com.eb.server.api.v1.model.GameDTO;
-import com.eb.server.api.v1.model.RequestGameDTO;
-import com.eb.server.api.v1.model.UserDTO;
+import com.eb.server.api.v1.model.*;
+import com.eb.server.domain.GameCard;
 import com.eb.server.domain.User;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.domain.types.GameType;
@@ -68,16 +66,14 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
-        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", GameFixtures.COMMAND_PLAY_CARD_PAYLOAD));
-        assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":1,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+        game = playCard(game, userDTO);
 
         /* PLAN 2 */
         game = gameService.handleCommand(game.getId(), endCommandDTO);
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals("{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
-        game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_PLAY_CARD", GameFixtures.COMMAND_PLAY_CARD_PAYLOAD));
-        assertEquals("{\"planTurnGamePlayerId\":2,\"playedCardId\":1,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+        game = playCard(game, otherUserDTO);
 
         /* PLAN 3 */
         game = gameService.handleCommand(game.getId(), endCommandDTO);
@@ -97,5 +93,14 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
 
         assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getType());
 
+    }
+
+    GameDTO playCard(GameDTO game, UserDTO userDTO) {
+        GamePlayerDTO gamePlayerDTO = game.getGamePlayers().stream().filter(gamePlayer -> gamePlayer.getUserId().equals(userDTO.getId())).findFirst().get();
+        GameCardDTO gameCardDTO = gamePlayerDTO.getHand().get(0);
+        GameDTO after = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_PLAY_CARD", GameFixtures.payloadPlayCard(gameCardDTO.getId())));
+        String EXPECTED = String.format("{\"planTurnGamePlayerId\":%d,\"playedCardId\":%d,\"skipPlanTurn\":false}", gamePlayerDTO.getId(), gameCardDTO.getId());
+        assertEquals(EXPECTED, after.getGamePhase().getPayload());
+        return after;
     }
 }

@@ -14,7 +14,7 @@ public class GamePlayerDTO {
 
     private Integer deck;
     private List<GameCardDTO> hand;
-    private List<GameCardDTO> permanents;
+    private List<GameCardDTO> cemetery;
     private GameAlignmentDTO gameAlignment;
 
     // TODO: we need to filter the answer for this question
