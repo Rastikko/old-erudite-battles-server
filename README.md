@@ -14,7 +14,11 @@ mvn clean install
 
   - Shuffle cemetery into deck
   - Implement align logic battle mechanic
-  - Add cards to expend align
+    - Implement inner game alignment
+    - On preparation choose a random question type and delete that aligment.
+    - Both players answer same questions, first to answer correctly wins.
+    - Damage: base attack + (alignment of question's attacker - 0.5 * defender's resistance alignment)
+  - Add cards to transfer alignment to the alternative.
   - Create diverse default deck with options for 3 categories
 
 ### Refactors

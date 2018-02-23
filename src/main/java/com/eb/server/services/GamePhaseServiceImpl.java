@@ -4,10 +4,14 @@ import com.eb.server.domain.Game;
 import com.eb.server.domain.GameCommand;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.services.phases.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GamePhaseServiceImpl implements GamePhaseService {
+
+    private static final Logger logger = LogManager.getLogger(GamePhaseServiceImpl.class);
 
     PhaseHandlerGather phaseHandlerGather;
     PhaseHandlerPlan phaseHandlerPlan;
@@ -38,7 +42,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
             PhaseHandler phaseHandler = getPhaseHandler(GamePhaseType.PHASE_GATHER);
             phaseHandler.definePhase(game);
         } catch (Exception e) {
-            // TODO
+            logger.error("handleNewGame: " + e);
         }
     }
 
@@ -52,7 +56,7 @@ public class GamePhaseServiceImpl implements GamePhaseService {
                 newPhaseHandler.definePhase(game);
             }
         } catch (Exception e) {
-            // TODO
+            logger.error("handleCommand: " + e);
         }
     }
 
