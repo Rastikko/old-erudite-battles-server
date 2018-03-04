@@ -19,14 +19,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.ANY)
 public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
+    GameDTO game;
+    UserDTO userDTO;
+    UserDTO otherUserDTO;
+    GameCommandDTO endCommandDTO;
+    GameCommandDTO otherEndCommandDTO;
+
+
     @Test
     public void testVsGame() {
-        GameDTO game;
+        startGame();
 
-        UserDTO userDTO = testCreatePlayer("Johan");
-        UserDTO otherUserDTO = testCreatePlayer("Johan2");
-        GameCommandDTO endCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_END", "");
-        GameCommandDTO otherEndCommandDTO = gameCommandDTO(otherUserDTO.getId(), "COMMAND_END", "");
+        gather();
+        plan();
+        battlePreparation();
+
+    }
+
+    void startGame() {
+        userDTO = testCreatePlayer("Johan");
+        otherUserDTO = testCreatePlayer("Johan2");
+        endCommandDTO = gameCommandDTO(userDTO.getId(), "COMMAND_END", "");
+        otherEndCommandDTO = gameCommandDTO(otherUserDTO.getId(), "COMMAND_END", "");
 
         /* FIND GAME */
         RequestGameDTO requestGameDTO = new RequestGameDTO();
@@ -50,8 +64,9 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
         ));
         User foundGameUser = userService.findUserByID(userDTO.getId());
         assertEquals(UserStateType.IN_GAME, foundGameUser.getState());
+    }
 
-        /* PHASE GATHER */
+    void gather() {
         game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_DRAW", "5"));
         game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_DRAW", "5"));
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(0).getDeck());
@@ -60,7 +75,9 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
         game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_HARVEST", ""));
         assertEquals(Integer.valueOf(5), game.getGamePlayers().get(0).getEnergy());
         assertEquals(Integer.valueOf(5), game.getGamePlayers().get(1).getEnergy());
+    }
 
+    void plan() {
         /* PLAN 1 */
         game = gameService.handleCommand(game.getId(), endCommandDTO);
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
@@ -86,13 +103,14 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
         assertEquals("{\"planTurnGamePlayerId\":1,\"playedCardId\":0,\"skipPlanTurn\":true}", game.getGamePhase().getPayload());
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
         assertEquals("{\"planTurnGamePlayerId\":2,\"playedCardId\":0,\"skipPlanTurn\":false}", game.getGamePhase().getPayload());
+    }
 
+    void battlePreparation() {
         /* BATTLE PREPARATION */
         game = gameService.handleCommand(game.getId(), endCommandDTO);
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
 
         assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getType());
-
     }
 
     GameDTO playCard(GameDTO game, UserDTO userDTO) {

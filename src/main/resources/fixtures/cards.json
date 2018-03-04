@@ -18,5 +18,15 @@
         "id": 1
       }
     ]
+  },
+  {
+    "id": 2,
+    "name": "The Art of Computer Programming",
+    "cost": 1,
+    "attributes": [
+      {
+        "id": 2
+      }
+    ]
   }
 ]
