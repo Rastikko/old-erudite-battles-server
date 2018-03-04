@@ -67,8 +67,8 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
     }
 
     void gather() {
-        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_DRAW", "5"));
-        game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_DRAW", "5"));
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_DRAW", ""));
+        game = gameService.handleCommand(game.getId(), gameCommandDTO(otherUserDTO.getId(), "COMMAND_DRAW", ""));
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(0).getDeck());
         assertEquals(Integer.valueOf(25), game.getGamePlayers().get(1).getDeck());
         game = gameService.handleCommand(game.getId(), gameCommandDTO(userDTO.getId(), "COMMAND_HARVEST", ""));
@@ -111,6 +111,12 @@ public class VsPlayerIntegrationTest extends AbstractIntegrationTest {
         game = gameService.handleCommand(game.getId(), otherEndCommandDTO);
 
         assertEquals(GamePhaseType.PHASE_BATTLE_PREPARATION, game.getGamePhase().getType());
+    }
+
+    void battle() {
+        GameCommandDTO answer = gameCommandDTO(userDTO.getId(), "COMMAND_ANSWER", "5");
+
+//        game = gameService.handleCommand()
     }
 
     GameDTO playCard(GameDTO game, UserDTO userDTO) {

@@ -1,5 +1,6 @@
 package com.eb.server.api.v1.model;
 
+import com.eb.server.domain.GameAlignment;
 import lombok.Data;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public class GameDTO {
     private Integer turn;
     private List<GamePlayerDTO> gamePlayers;
     private GamePhaseDTO gamePhase;
+    private GameAlignment gameAlignment;
 }

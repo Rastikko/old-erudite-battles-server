@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PhaseHandlerBattlePreparation extends AbstractPhaseHandler {
 
+    // TODO: this should be defined by profiles
+    public boolean RANDOM_DEFAULT_CATEGORY = true;
+
     public PhaseHandlerBattlePreparation() {
         GAME_PHASE_TYPE = GamePhaseType.PHASE_BATTLE_PREPARATION;
         NEXT_GAME_PHASE_TYPE = GamePhaseType.PHASE_BATTLE;

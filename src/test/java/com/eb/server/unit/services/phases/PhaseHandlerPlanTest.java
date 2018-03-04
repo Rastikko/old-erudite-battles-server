@@ -2,9 +2,6 @@ package com.eb.server.unit.services.phases;
 
 import com.eb.server.GameFixtures;
 import com.eb.server.domain.Game;
-import com.eb.server.domain.GameCard;
-import com.eb.server.domain.GameCommand;
-import com.eb.server.domain.GamePhase;
 import com.eb.server.domain.types.GameCommandType;
 import com.eb.server.domain.types.GamePhaseType;
 import com.eb.server.services.phases.PhaseHandlerPlan;
@@ -28,9 +25,10 @@ public class PhaseHandlerPlanTest {
         phaseHandlerPlan.definePhase(game);
 
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));
-        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(1000L)));
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(GameFixtures.GAME_CARD_ID_1)));
 
-        assertEquals(Integer.valueOf(10), game.getGamePlayers().get(1).getGameAlignment().getLogicAlignment());
+        assertEquals(Integer.valueOf(10), game.getGamePlayers().get(1).getPlayerAlignment().getLogicAlignment());
+        assertEquals(Integer.valueOf(10), game.getGameAlignment().getLogicAlignment());
         assertEquals(1, game.getGamePlayers().get(1).getHand().size());
         assertEquals(1, game.getGamePlayers().get(1).getCemetery().size());
 
@@ -55,7 +53,7 @@ public class PhaseHandlerPlanTest {
         assertEquals(GamePhaseType.PHASE_PLAN, game.getGamePhase().getType());
         assertEquals(PAYLOAD_2, game.getGamePhase().getPayload());
 
-        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(1000L)));
+        phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_PLAY_CARD, GameFixtures.payloadPlayCard(GameFixtures.GAME_CARD_ID_1)));
         assertEquals(PAYLOAD_3, game.getGamePhase().getPayload());
 
         phaseHandlerPlan.handleCommand(game, GameFixtures.gameCommand(2L, GameCommandType.COMMAND_END, ""));

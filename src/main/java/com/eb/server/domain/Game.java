@@ -26,10 +26,14 @@ public class Game extends Attributer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<GamePhase> gamePhases = new ArrayList<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private GameAlignment gameAlignment = new GameAlignment();
+
     public void playCard(Long gamePlayerId, Long gameCardId) {
         GameCard gameCard = getHandGameCard(gamePlayerId, gameCardId);
         GamePlayer gamePlayer = getGamePlayerByGamePlayerId(gamePlayerId);
         setAttribute(gamePlayer, gameCard.getAttributes().get(0));
+        setAttribute(this, gameCard.getAttributes().get(0));
         gamePlayer.discardHandGameCard(gameCardId);
     }
 
