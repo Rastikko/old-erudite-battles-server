@@ -23,7 +23,7 @@ mvn clean install
 
 ### Refactors
 
-  - Avoid game model to interface with userId
+  - Avoid game model to interface with userId.
  
  ## Standars
  

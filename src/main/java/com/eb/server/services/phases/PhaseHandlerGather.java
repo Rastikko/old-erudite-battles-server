@@ -40,6 +40,7 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
         Integer nCards = DEFAULT_DRAW_CARDS;
 
         for(int i = 0; i < nCards; i++) {
+            ensureDeckHaveCards(gamePlayer);
             GameCard gameCard = gamePlayer.getDeck().remove(0);
             gamePlayer.getHand().add(gameCard);
         }
@@ -49,6 +50,13 @@ public class PhaseHandlerGather extends AbstractPhaseHandler {
     void handleCommandHarvest(Game game, GameCommand gameCommand) {
         GamePlayer gamePlayer = game.getGamePlayerByUserId(gameCommand.getUserId());
         gamePlayer.setEnergy(DEFAULT_ENERGY);
+    }
+
+    void ensureDeckHaveCards(GamePlayer gamePlayer) {
+        if (gamePlayer.getDeck().size() == 0) {
+            gamePlayer.getDeck().addAll(gamePlayer.getCemetery());
+            gamePlayer.getCemetery().clear();
+        }
     }
 
     @Override
