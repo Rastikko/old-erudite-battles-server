@@ -3,7 +3,7 @@
     "category": "LOGIC",
     "subcategory": "TRIGONOMETRY",
     "type": "INPUT",
-    "title": "QUESTION_SIN_OF_90_GRADES",
+    "title": "What's the Sin of 90 Grades?",
     "correctAnswer": "1",
     "averageAnswerTime": 20
   },
@@ -11,8 +11,8 @@
     "category": "LOGIC",
     "subcategory": "ALGEBRA",
     "type": "INPUT",
-    "title": "QUESTION_FACTOR_POLYNOMIAL_1_// 12x^3 + 9x^2",
-    "correctAnswer": "3x^2(4x + 3)",
+    "title": "What's the maximum common factor of 12x^3 + 9x^2",
+    "correctAnswer": "3x^2",
     "averageAnswerTime": 20
   }
 ]

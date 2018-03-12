@@ -27,7 +27,7 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
 
     @Override
     public void definePhaseAttributes(Game game) {
-        Question question = getNextQuestion(/*game*/);
+        Question question = getNextQuestion(game);
         game.getGamePlayers().get(0).setCurrentGameQuestion(getNextGameQuestion(game,question));
         game.getGamePlayers().get(1).setCurrentGameQuestion(getNextGameQuestion(game,question));
     }
@@ -71,8 +71,6 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
 
         // check both game players questions, if both are correct then use time to tiebreak
         setCurrentQuestionOutcome(game);
-
-        // TODO: check some sort of question stack to see if there is another question in this turn
     }
 
     void setCurrentQuestionOutcome(Game game) {
@@ -115,14 +113,31 @@ public class PhaseHandlerBattle extends AbstractPhaseHandler {
         }
     }
 
-    Question getNextQuestion(/*Game game*/) {
+    Question getNextQuestion(Game game) {
         // TODO: calculate next category and subcategory
         List<Long> excludedIds = new ArrayList<>();
         // HACK: JPA NotIn requires at least 1 element
         excludedIds.add(-1L);
-        QuestionCategoryType category = QuestionCategoryType.LOGIC;
+        QuestionCategoryType category = getMostAlignCategory(game);
 
         return questionService.getRandomQuestionFromCategory(category, excludedIds);
+    }
+
+    QuestionCategoryType getMostAlignCategory(Game game) {
+        GameAlignment alignment = game.getGameAlignment();
+
+        if (alignment.getLogicAlignment() > alignment.getCultureAlignment() && alignment.getLogicAlignment() > alignment.getScienceAlignment()) {
+            return QuestionCategoryType.LOGIC;
+        } else if (alignment.getCultureAlignment() > alignment.getScienceAlignment()) {
+            return QuestionCategoryType.CULTURE;
+        } else if (alignment.getScienceAlignment() > alignment.getCultureAlignment() ){
+            return QuestionCategoryType.SCIENCE;
+        }
+        return getRandomCategory();
+    }
+
+    QuestionCategoryType getRandomCategory() {
+        return QuestionCategoryType.LOGIC;
     }
 
     GameQuestion getNextGameQuestion(Game game, Question question) {

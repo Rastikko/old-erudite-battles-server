@@ -11,11 +11,13 @@ import com.eb.server.services.phases.PhaseHandlerBattle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PhaseHandlerBattleTest {
@@ -25,24 +27,35 @@ public class PhaseHandlerBattleTest {
 
     PhaseHandlerBattle phaseHandlerBattle;
 
-    Game game = GameFixtures.botGame();
-
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         phaseHandlerBattle = new PhaseHandlerBattle(questionService);
 
         when(questionService
                 .getRandomQuestionFromCategory(Matchers.any(QuestionCategoryType.class), Matchers.anyList()))
                 .thenReturn(GameFixtures.question());
+    }
 
-        game = GameFixtures.botGame();
+    @Test
+    @DisplayName("PhaseHandlerBattle::definePhase should use game alignment")
+    public void handleDefinePhase() throws Exception {
+        Game game = GameFixtures.botGame();
+
+        game.getGameAlignment().setCultureAlignment(100);
         phaseHandlerBattle.definePhase(game);
+
+        ArgumentCaptor<QuestionCategoryType> questionCategoryCaptor = ArgumentCaptor.forClass(QuestionCategoryType.class);
+        verify(questionService).getRandomQuestionFromCategory(questionCategoryCaptor.capture(), Matchers.anyList());
+
+        assertEquals(QuestionCategoryType.CULTURE, questionCategoryCaptor.getValue());
     }
 
     @Test
     @DisplayName("PhaseHandlerBattle::handleCommandAnswer should return if not both players answered")
     public void handleCommandAnswerReturns() throws Exception {
+        Game game = GameFixtures.botGame();
+        phaseHandlerBattle.definePhase(game);
 
         phaseHandlerBattle.handleCommand(game, GameFixtures.gameCommand(1L, GameCommandType.COMMAND_ANSWER, ""));
 
@@ -55,6 +68,9 @@ public class PhaseHandlerBattleTest {
     @Test
     @DisplayName("PhaseHandlerBattle::handleCommandAnswer should set the performance and move question")
     public void handleCommandAnswerPerformance() throws Exception {
+        Game game = GameFixtures.botGame();
+        phaseHandlerBattle.definePhase(game);
+
         String CORRECT_ANSWER = game.getGamePlayers().get(0).getCurrentGameQuestion().getQuestion().getCorrectAnswer();
 
         phaseHandlerBattle.handleCommand(game, GameFixtures.gameCommand(1L, GameCommandType.COMMAND_ANSWER, ""));
