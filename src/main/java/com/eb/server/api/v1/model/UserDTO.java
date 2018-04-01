@@ -17,6 +17,7 @@ public class UserDTO {
     @ApiModelProperty(required = true)
     private String name;
     @Enumerated(value = EnumType.STRING)
+    @ApiModelProperty(hidden = true)
     private UserStateType state;
     @ApiModelProperty(hidden = true)
     private List<Long> deck;
