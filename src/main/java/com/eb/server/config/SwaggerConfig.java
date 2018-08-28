@@ -29,8 +29,7 @@ public class SwaggerConfig { //} extends WebMvcConfigurationSupport {
 
     private ApiInfo metaData(){
 
-        Contact contact = new Contact("Johan", "https://eruditebattles.com",
-                "rastikko@gmail.com");
+        Contact contact = new Contact("Mister", "https://eruditebattles.com", "xxx@gmail.com");
 
         return new ApiInfo(
                 "Erudite Battles Server",
